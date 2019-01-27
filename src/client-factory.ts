@@ -1,51 +1,33 @@
-import AWS, { DynamoDB } from 'aws-sdk'
+import AWS from 'aws-sdk'
 import memoize from 'lodash/memoize'
+import transform from 'lodash/transform'
 import stableStringify from 'json-stable-stringify'
-import { validateRegion } from './regions'
+import { validateRegion } from './utils'
 import { CreateClientsFactoryOpts } from './types'
-import { services } from './service-ctors'
-import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
-import { DocumentClient } from 'aws-sdk/clients/dynamodb'
-import { APIVersions } from 'aws-sdk/lib/config'
 
-type AnyFn = (...args: any[]) => any
-type Wrap<T> = <T extends AnyFn>(func: T) => T
-
-function getClient(serviceName: 'S3', opts?: AWS.S3.Types.ClientConfiguration): AWS.S3
-function getClient(serviceName: 'DynamoDB', opts?: DynamoDB.Types.ClientConfiguration): AWS.DynamoDB
-function getClient(
-  serviceName: 'DynamoDB',
-  opts?: DocumentClient.DocumentClientOptions & DynamoDB.Types.ClientConfiguration
-): AWS.DynamoDB.DocumentClient
-function getClient(serviceName: 'DynamoStreams', opts?: DynamoDB.Types.ClientConfiguration): AWS.DynamoDBStreams
-function getClient(serviceName: 'IAM', opts?: AWS.IAM.Types.ClientConfiguration): AWS.IAM
-function getClient(serviceName: 'Iot', opts?: AWS.Iot.Types.ClientConfiguration): AWS.Iot
-function getClient(serviceName: 'STS', opts?: AWS.STS.Types.ClientConfiguration): AWS.STS
-function getClient(serviceName: 'SNS', opts?: AWS.SNS.Types.ClientConfiguration): AWS.SNS
-function getClient(serviceName: 'SQS', opts?: AWS.SQS.Types.ClientConfiguration): AWS.SQS
-function getClient(serviceName: 'SES', opts?: AWS.SES.Types.ClientConfiguration): AWS.SES
-function getClient(serviceName: 'KMS', opts?: AWS.KMS.Types.ClientConfiguration): AWS.KMS
-function getClient(serviceName: 'Lambda', opts?: AWS.Lambda.Types.ClientConfiguration): AWS.Lambda
-function getClient(serviceName: 'IotData', opts?: AWS.IotData.Types.ClientConfiguration): AWS.IotData
-function getClient(serviceName: 'XRay', opts?: AWS.XRay.Types.ClientConfiguration): AWS.XRay
-function getClient(serviceName: 'APIGateway', opts?: AWS.APIGateway.Types.ClientConfiguration): AWS.APIGateway
-function getClient(serviceName: 'CloudWatch', opts?: AWS.CloudWatch.Types.ClientConfiguration): AWS.CloudWatch
-function getClient(
-  serviceName: 'CloudWatchLogs',
-  opts?: AWS.CloudWatchLogs.Types.ClientConfiguration
-): AWS.CloudWatchLogs
-function getClient(serviceName: 'SSM', opts?: AWS.SSM.Types.ClientConfiguration): AWS.SSM
-function getClient(
-  serviceName: 'CloudFormation',
-  opts?: AWS.CloudFormation.Types.ClientConfiguration
-): AWS.CloudFormation
-
-function getClient(serviceName: string, opts: ServiceConfigurationOptions & APIVersions = {}) {
-  const Clazz = services[serviceName]
-  return new Clazz(opts)
+const factories = {
+  s3: (opts: AWS.S3.Types.ClientConfiguration = {}) => new AWS.S3(opts),
+  dynamodb: (opts: AWS.DynamoDB.Types.ClientConfiguration = {}) => new AWS.DynamoDB(opts),
+  documentclient: (opts: AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration) =>
+    new AWS.DynamoDB.DocumentClient(opts),
+  dynamodbstreams: (opts: AWS.DynamoDBStreams.Types.ClientConfiguration = {}) => new AWS.DynamoDBStreams(opts),
+  iam: (opts: AWS.IAM.Types.ClientConfiguration = {}) => new AWS.IAM(opts),
+  iot: (opts: AWS.Iot.Types.ClientConfiguration = {}) => new AWS.Iot(opts),
+  sts: (opts: AWS.STS.Types.ClientConfiguration = {}) => new AWS.STS(opts),
+  sns: (opts: AWS.SNS.Types.ClientConfiguration = {}) => new AWS.SNS(opts),
+  sqs: (opts: AWS.SQS.Types.ClientConfiguration = {}) => new AWS.SQS(opts),
+  ses: (opts: AWS.SES.Types.ClientConfiguration = {}) => new AWS.SES(opts),
+  kms: (opts: AWS.KMS.Types.ClientConfiguration = {}) => new AWS.KMS(opts),
+  lambda: (opts: AWS.Lambda.Types.ClientConfiguration = {}) => new AWS.Lambda(opts),
+  iotdata: (opts: AWS.IotData.Types.ClientConfiguration = {}) => new AWS.IotData(opts),
+  xray: (opts: AWS.XRay.Types.ClientConfiguration = {}) => new AWS.XRay(opts),
+  apigateway: (opts: AWS.APIGateway.Types.ClientConfiguration = {}) => new AWS.APIGateway(opts),
+  cloudwatch: (opts: AWS.CloudWatch.Types.ClientConfiguration = {}) => new AWS.CloudWatch(opts),
+  cloudwatchlogs: (opts: AWS.CloudWatchLogs.Types.ClientConfiguration = {}) => new AWS.CloudWatchLogs(opts),
+  cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts)
 }
 
-export type ClientFactory = typeof getClient
+export type ClientFactory = typeof factories
 
 export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
   const { defaults } = clientsOpts
@@ -54,18 +36,23 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
   validateRegion(region)
   AWS.config.update(defaults)
 
-  // @ts-ignore
-  const memoized = memoize(
-    (serviceName, opts) => {
-      const client = getClient(serviceName, { ...defaults, ...opts })
-      if (clientsOpts.useGlobalConfigClock) {
-        useGlobalConfigClock(client)
-      }
+  const memoized = transform(
+    factories,
+    (memFactories, value, serviceName) => {
+      memFactories[serviceName] = memoize(
+        opts => {
+          const client = factories[serviceName]({ ...defaults, ...opts })
+          if (clientsOpts.useGlobalConfigClock) {
+            useGlobalConfigClock(client)
+          }
 
-      return client
+          return client
+        },
+        opts => stableStringify(opts)
+      )
     },
-    (serviceName, opts) => stableStringify({ serviceName, opts })
-  ) as ClientFactory
+    {}
+  ) as typeof factories
 
   return memoized
 }

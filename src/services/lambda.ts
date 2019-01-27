@@ -1,26 +1,22 @@
 import AWS from 'aws-sdk'
 import * as Errors from '../errors'
 import { Lambda, ClientFactory } from '../types'
-import { genStatementId } from '../utils/gen'
+import { randomStatementId } from '../utils/gen'
+import { SERVICE_PRINCIPALS } from '../constants'
+import { getRegionFromArn } from 'src/utils'
+import { SNSClient } from './sns'
 
 class LambdaClient {
-  private getClient: ClientFactory
+  private clients: ClientFactory
   private lambda: AWS.Lambda
   // private logger: Logger
-  constructor({ getClient }: Lambda.ClientOpts) {
-    this.getClient = getClient
-    this.lambda = getClient('Lambda')
+  constructor({ clients }: Lambda.ClientOpts) {
+    this.clients = clients
+    this.lambda = clients.lambda()
   }
 
-  public invoke = async (opts: {
-    name: string
-    arg?: any
-    sync?: boolean
-    log?: boolean
-    qualifier?: string
-  }): Promise<any> => {
-    let { name, arg = {}, sync = true, log, qualifier } = opts
-
+  public invoke = async (opts: Lambda.InvokeOpts): Promise<any> => {
+    const { name, arg = {}, sync = true, log, qualifier } = opts
     const params: AWS.Lambda.Types.InvocationRequest = {
       InvocationType: sync ? 'RequestResponse' : 'Event',
       FunctionName: name,
@@ -60,7 +56,14 @@ class LambdaClient {
     return await this.lambda.addPermission(params).promise()
   }
 
-  public canSNSInvoke = async (lambda: string): Promise<boolean> => {
+  public canSNSInvokeLambda = async (lambda: string): Promise<boolean> => {
+    return this.canServiceInvokeLambda({
+      service: SERVICE_PRINCIPALS.sns,
+      lambda
+    })
+  }
+
+  public canServiceInvokeLambda = async ({ lambda, service }: Lambda.CanInvokeOpts) => {
     let policy
     try {
       policy = await this.getPolicy(lambda)
@@ -69,24 +72,35 @@ class LambdaClient {
     }
 
     if (policy) {
-      return policy.Statement.some(({ Principal }) => {
-        return Principal.Service === 'sns.amazonaws.com'
-      })
+      return policy.Statement.some(s => s.Principal.Service === service)
     }
 
     return false
   }
 
   public allowSNSToInvoke = async (lambda: string) => {
+    if (await this.canSNSInvokeLambda(lambda)) {
+      return
+    }
+
     // this.logger.debug('adding permission for sns to invoke lambda', { lambda })
     const params: AWS.Lambda.AddPermissionRequest = {
       FunctionName: lambda,
       Action: 'lambda:InvokeFunction',
       Principal: 'sns.amazonaws.com',
-      StatementId: genStatementId('allowSNSToInvokeLambda')
+      StatementId: randomStatementId('allowSNSToInvokeLambda')
     }
 
     await this.addPermission(params)
+  }
+
+  public subscribeToTopic = async ({ topic, lambda, snsClient }: Lambda.SubscribeToTopicOpts) => {
+    await this.allowSNSToInvoke(lambda)
+    await snsClient.subscribe({
+      protocol: 'lambda',
+      topic,
+      target: lambda
+    })
   }
 }
 

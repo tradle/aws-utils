@@ -1,12 +1,17 @@
 import acceptAll from 'lodash/stubTrue'
 import isMatch from 'lodash/isMatch'
-import { parseE164, getAWSRegionByCallingCode } from '../utils/geo'
-import { parseArn, getArnRegion } from '../utils/parse-arn'
-import { pickNonNull } from '../utils/props'
-import { genStatementId } from '../utils/gen'
-import { ClientFactory } from 'src/client-factory'
-import { SNS } from 'src/types'
-import { validateRegion } from 'src/regions'
+import getPropAtPath from 'lodash/get'
+import isEqual from 'lodash/isEqual'
+import {
+  parseE164,
+  pickNonNull,
+  getRegionFromArn,
+  getAWSRegionByCallingCode,
+  randomStatementId,
+  validateRegion
+} from '../utils'
+import { ClientFactory } from '../client-factory'
+import { SNS } from '../types'
 
 const MESSAGE_ATTRIBUTES = {
   smsType: 'AWS.SNS.SMS.SMSType',
@@ -16,6 +21,20 @@ const MESSAGE_ATTRIBUTES = {
 const SMS_PRIORITY = {
   high: 'Transactional',
   low: 'Promotional'
+}
+
+interface Policy {
+  Statement: []
+}
+
+interface PolicyStatement {
+  Sid?: string
+  Effect: 'Allow' | 'Deny'
+  Principal: {
+    AWS?: string | string[]
+  }
+  Action: string | string[]
+  Resource: string | string[]
 }
 
 export const parseTargetProtocol = (target: string): SNS.DeliveryProtocol => {
@@ -32,9 +51,9 @@ export const parseTargetProtocol = (target: string): SNS.DeliveryProtocol => {
 }
 
 export class SNSClient {
-  private getClient: ClientFactory
+  private clients: ClientFactory
   constructor({ clients }: SNS.ClientOpts) {
-    this.getClient = clients
+    this.clients = clients
   }
 
   public createTopic = async ({ name, region }: SNS.CreateTopicOpts) => {
@@ -58,7 +77,7 @@ export class SNSClient {
   }
 
   public getTopicAttributes = async (topic: string) => {
-    return await this._client(getArnRegion(topic))
+    return await this._client(getRegionFromArn(topic))
       .getTopicAttributes({ TopicArn: topic })
       .promise()
   }
@@ -114,7 +133,7 @@ export class SNSClient {
   public subscribeIfNotSubscribed = async ({ topic, protocol, target }: SNS.SubscribeOpts) => {
     const existing = await this.listSubscriptions({
       topic,
-      filter: sub => isMatch(sub, { Protocol: protocol, Endpoint: target })
+      filter: subscription => isMatch(subscription, { Protocol: protocol, Endpoint: target })
     })
 
     let sub: string
@@ -173,10 +192,34 @@ export class SNSClient {
     await client.publish(params).promise()
   }
 
+  public allowCrossAccountPublish = async (topic: string, accounts: string[]) => {
+    const { Attributes } = await this.getTopicAttributes(topic)
+    const policy = JSON.parse(Attributes.Policy) as Policy
+    // remove old statements
+    const statements: PolicyStatement[] = policy.Statement.filter(statement => {
+      const current = getPropAtPath(statement, 'Principal.AWS')
+      // coerce to array
+      const allowed = [].concat(current || [])
+      return !isEqual(allowed, accounts)
+    })
+
+    statements.push(genCrossAccountPublishPermission(topic, accounts))
+    const params: AWS.SNS.SetTopicAttributesInput = {
+      TopicArn: topic,
+      AttributeName: 'Policy',
+      AttributeValue: JSON.stringify({
+        ...policy,
+        Statement: statements
+      })
+    }
+
+    await this.setTopicAttributes(params)
+  }
+
   private _client = (arnOrRegion: string) => {
-    const region = arnOrRegion.startsWith('arn:aws') ? getArnRegion(arnOrRegion) : arnOrRegion
+    const region = arnOrRegion.startsWith('arn:aws') ? getRegionFromArn(arnOrRegion) : arnOrRegion
     validateRegion(region, regions)
-    return this.getClient('SNS', { region })
+    return this.clients.sns({ region })
   }
 }
 
@@ -186,8 +229,8 @@ export const genSetDeliveryPolicyParams = (TopicArn: string, policy: any): AWS.S
   AttributeValue: JSON.stringify(policy)
 })
 
-export const genCrossAccountPublishPermission = (topic: string, accounts: string[]) => ({
-  Sid: genStatementId('allowCrossAccountPublish'),
+export const genCrossAccountPublishPermission = (topic: string, accounts: string[]): PolicyStatement => ({
+  Sid: randomStatementId('allowCrossAccountPublish'),
   Effect: 'Allow',
   Principal: {
     AWS: accounts

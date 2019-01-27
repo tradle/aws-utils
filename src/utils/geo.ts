@@ -48,7 +48,7 @@ export const getAWSRegionByCallingCode = (callingCode: string) => {
 export const parseE164 = (phoneNumber: string) => {
   const digits = phoneNumber.match(E164_REGEX)[1]
   const callingCodeCandidates = [digits.slice(0, 3), digits.slice(0, 2), digits.slice(0, 1)]
-  const callingCode = callingCodeCandidates.find(callingCode => !!getCountryByCallingCode(callingCode))
+  const callingCode = callingCodeCandidates.find(code => !!getCountryByCallingCode(code))
   if (!callingCode) {
     throw new Errors.InvalidOption(`calling code for number: ${phoneNumber}`)
   }

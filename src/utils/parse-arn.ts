@@ -13,4 +13,4 @@ export const parseArn = (arn: string) => {
   }
 }
 
-export const getArnRegion = (arn: string) => parseArn(arn).region
+export const getRegionFromArn = (arn: string) => parseArn(arn).region

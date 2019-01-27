@@ -59,7 +59,7 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
         stack: getCurrentCallStack(3)
       })
 
-      const onFinished = (error?, result?) => {
+      const onFinished = (error?, opResult?) => {
         const endParams: any = {
           duration: Date.now() - start
         }
@@ -73,13 +73,13 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
         }
 
         end(endParams)
-        if (callback) return callback(error, result)
+        if (callback) return callback(error, opResult)
         if (error) throw error
-        return result
+        return opResult
       }
 
-      const onSuccess = result => onFinished(null, result)
-      let lastArg = args[args.length - 1]
+      const onSuccess = opResult => onFinished(null, opResult)
+      const lastArg = args[args.length - 1]
       let callback
       if (typeof lastArg === 'function') {
         callback = lastArg

@@ -1,8 +1,9 @@
 {
-  "name": "tradle-aws",
+  "name": "@tradle/aws-utils",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "various helpers for the AWS SDK",
+  "main": "lib/index.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -w"
@@ -16,6 +17,7 @@
     "@types/node": "~10.12.18",
     "aws-sdk": "~2.395.0",
     "tslint": "~5.12.1",
+    "tslint-config-prettier": "~1.17.0",
     "typescript": "~3.2.4"
   },
   "dependencies": {

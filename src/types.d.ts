@@ -1,4 +1,6 @@
 import { ClientFactory } from './client-factory'
+import { SNSClient } from './services/sns'
+import { LambdaClient } from './services/lambda'
 
 // export interface Logger {
 // 	debug: (...args: any[]) => void
@@ -25,7 +27,7 @@ export interface CreateClientsFactoryOpts {
 }
 
 export interface AWSClientOpts {
-  getClient: ClientFactory
+  clients: ClientFactory
 }
 
 export interface Country {
@@ -74,6 +76,8 @@ declare namespace SNS {
     target: string
     protocol?: DeliveryProtocol
   }
+
+  export { SNSClient as Client }
 }
 
 export { SNS }
@@ -81,7 +85,27 @@ export { SNS }
 // Lambda
 
 declare namespace Lambda {
-  interface ClientOpts extends AWSClientOpts {}
+  export interface ClientOpts extends AWSClientOpts {}
+  export { LambdaClient as Client }
+
+  export interface CanInvokeOpts {
+    lambda: string
+    service: string
+  }
+
+  export interface InvokeOpts {
+    name: string
+    arg?: any
+    sync?: boolean
+    log?: boolean
+    qualifier?: string
+  }
+
+  export interface SubscribeToTopicOpts {
+    topic: string
+    lambda: string
+    snsClient: SNS.Client
+  }
 }
 
 export { Lambda }

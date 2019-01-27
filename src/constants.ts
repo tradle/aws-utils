@@ -1,5 +1,8 @@
-import * as Errors from './errors'
-export const regions = [
+export const SERVICE_PRINCIPALS = {
+  sns: 'sns.amazonaws.com'
+}
+
+export const REGIONS = [
   'us-east-1',
   'us-east-2',
   'us-west-2',
@@ -20,9 +23,3 @@ export const regions = [
   'cn-north-1',
   'cn-northwest-1'
 ]
-
-export const validateRegion = (region: string, againstRegions: string[] = regions) => {
-  if (!againstRegions.includes(region)) {
-    throw new Errors.InvalidOption(`region is not supported: ${region}`)
-  }
-}
