@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "aws-client-factory" },
+    { "path": "aws-common-utils" },
+    { "path": "aws-sns-client" },
+    { "path": "aws-lambda-client" }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@tradle/aws-client-factory",
+  "version": "1.0.0",
+  "description": "caching layer over AWS SDK constructors",
+  "keywords": [
+    "aws",
+    "aws-sdk",
+    "cache"
+  ],
+  "author": "Mark Vayngrib <mvayngrib@gmail.com>",
+  "homepage": "https://github.com/mvayngrib/aws-utils#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mvayngrib/aws-utils.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/mvayngrib/aws-utils/issues"
+  },
+  "dependencies": {
+    "json-stable-stringify": "~1.0.1",
+    "lodash": "~4.17.11"
+  },
+  "devDependencies": {
+    "@types/json-stable-stringify": "~1.0.32",
+    "@types/lodash": "~4.14.120",
+    "@types/node": "~10.12.18",
+    "aws-sdk": "^2.395.0",
+    "tslint": "~5.12.1",
+    "tslint-config-prettier": "~1.17.0",
+    "typescript": "~3.2.4"
+  }
+}
