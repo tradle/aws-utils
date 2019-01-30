@@ -33,6 +33,7 @@
     "@tradle/aws-sns-client": "~1.0.0",
     "@tradle/aws-s3-client": "~1.0.0",
     "@tradle/aws-iam-client": "~1.0.0",
+    "@tradle/aws-cloudformation-client": "~1.0.0",
     "@tradle/errors": "~1.2.0"
   },
   "devDependencies": {

@@ -71,7 +71,7 @@ export class SNSClient {
     await Promise.all(subs.map(sub => this.unsubscribe(sub.SubscriptionArn)))
   }
 
-  public getTopicAttributes = async (topic: string) => {
+  public getTopicAttributes = async (topic: string): Promise<AWS.SNS.GetTopicAttributesResponse> => {
     return await this._client(getRegionFromArn(topic))
       .getTopicAttributes({ TopicArn: topic })
       .promise()

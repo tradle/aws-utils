@@ -15,3 +15,9 @@ export interface InvokeOpts {
   log?: boolean
   qualifier?: string
 }
+
+export interface UpdateEnvOpts {
+  functionName: string
+  current?: any
+  update: any
+}

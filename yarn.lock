@@ -620,15 +620,6 @@
     inherits "~2.0.3"
     lodash "^4.17.4"
 
-"@tradle/errors@~1.0.0":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@tradle/errors/-/errors-1.0.1.tgz#68fc2aeec32a7a3e915bddd018226fc72f1d53cf"
-  integrity sha1-aPwq7sMqej6RW93QGCJvxy8dU88=
-  dependencies:
-    error-ex "^1.3.1"
-    lodash "^4.17.4"
-    typeforce "^1.12.0"
-
 "@tradle/promise-utils@^1.3.0":
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/@tradle/promise-utils/-/promise-utils-1.3.0.tgz#f6a73fb40b2af3c2fa3e9abde1dea96ed8cb43a7"
@@ -2777,7 +2768,7 @@ lodash.templatesettings@^4.0.0:
   dependencies:
     lodash._reinterpolate "~3.0.0"
 
-lodash@^4.17.10, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@~4.17.11:
+lodash@^4.17.10, lodash@^4.17.11, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1, lodash@~4.17.11:
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
   integrity sha512-cQKh8igo5QUhZ7lg38DYWAxMvjSAKG0A8wGSVimP07SIUEK2UO+arSRKbRZWtelMtN5V0Hkwh5ryOto/SshYIg==
@@ -4436,11 +4427,6 @@ typedarray@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
-
-typeforce@^1.12.0:
-  version "1.18.0"
-  resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
-  integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
 
 typescript@~3.2.4:
   version "3.2.4"

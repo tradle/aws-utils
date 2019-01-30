@@ -5,11 +5,9 @@ import { randomStatementId, constants } from '@tradle/aws-common-utils'
 import * as Types from './types'
 
 export class LambdaClient {
-  private clients: ClientFactory
   private lambda: AWS.Lambda
   // private logger: Logger
   constructor({ clients }: Types.ClientOpts) {
-    this.clients = clients
     this.lambda = clients.lambda()
   }
 
@@ -90,6 +88,60 @@ export class LambdaClient {
     }
 
     await this.addPermission(params)
+  }
+
+  public updateEnvironment = async (opts: Types.UpdateEnvOpts) => {
+    const { update, functionName } = opts
+    let { current } = opts
+    if (!current) {
+      current = await this.getConfiguration(functionName)
+    }
+
+    const updated = {}
+    const { Variables } = current.Environment
+    for (const key in update) {
+      // allow null == undefined
+      // tslint:disable-next-line:triple-equals
+      if (Variables[key] != update[key]) {
+        updated[key] = update[key]
+      }
+    }
+
+    if (!Object.keys(updated).length) {
+      return false
+    }
+
+    for (const key in updated) {
+      const val = updated[key]
+      if (val == null) {
+        delete Variables[key]
+      } else {
+        Variables[key] = val
+      }
+    }
+
+    await this.lambda
+      .updateFunctionConfiguration({
+        FunctionName: functionName,
+        Environment: { Variables }
+      })
+      .promise()
+
+    return true
+  }
+
+  public listFunctions = async (): Promise<AWS.Lambda.Types.FunctionConfiguration[]> => {
+    let all = []
+    const opts: AWS.Lambda.Types.ListFunctionsRequest = {}
+    while (true) {
+      const { NextMarker, Functions } = await this.lambda.listFunctions(opts).promise()
+      all = all.concat(Functions)
+      if (!NextMarker) break
+
+      opts.Marker = NextMarker
+    }
+
+    return all
   }
 }
 

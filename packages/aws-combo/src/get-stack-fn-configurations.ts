@@ -1,0 +1,17 @@
+import { CloudFormationClient } from '@tradle/aws-cloudformation-client'
+import { LambdaClient } from '@tradle/aws-lambda-client'
+
+interface GetStackFunctionConfigurationsOpts {
+  stackName: string
+  cloudformation: CloudFormationClient
+  lambda: LambdaClient
+}
+
+export const getStackFunctionConfigurations = async ({
+  cloudformation,
+  lambda,
+  stackName
+}: GetStackFunctionConfigurationsOpts): Promise<AWS.Lambda.Types.FunctionConfiguration[]> => {
+  const [names, configs] = await Promise.all([cloudformation.listStackFunctions(stackName), lambda.listFunctions()])
+  return configs.filter(({ FunctionName }) => names.includes(FunctionName))
+}

@@ -14,4 +14,6 @@ export const services = {
   iam
 }
 
+export * from './get-stack-fn-configurations'
+export * from './update-environments'
 export type AWSServices = typeof services

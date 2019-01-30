@@ -9,7 +9,7 @@ export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientCon
 
 export interface CreateClientsFactoryOpts {
   defaults: CreateClientFactoryDefaults
-  useGlobalConfigClock: boolean
+  useGlobalConfigClock?: boolean
 }
 
 export interface AWSClientOpts {
@@ -19,8 +19,9 @@ export interface AWSClientOpts {
 const factories = {
   s3: (opts: AWS.S3.Types.ClientConfiguration = {}) => new AWS.S3(opts),
   dynamodb: (opts: AWS.DynamoDB.Types.ClientConfiguration = {}) => new AWS.DynamoDB(opts),
-  documentclient: (opts: AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration) =>
-    new AWS.DynamoDB.DocumentClient(opts),
+  documentclient: (
+    opts: AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration = {}
+  ) => new AWS.DynamoDB.DocumentClient(opts),
   dynamodbstreams: (opts: AWS.DynamoDBStreams.Types.ClientConfiguration = {}) => new AWS.DynamoDBStreams(opts),
   iam: (opts: AWS.IAM.Types.ClientConfiguration = {}) => new AWS.IAM(opts),
   iot: (opts: AWS.Iot.Types.ClientConfiguration = {}) => new AWS.Iot(opts),

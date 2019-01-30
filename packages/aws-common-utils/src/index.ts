@@ -1,6 +1,7 @@
 import * as constants from './constants'
+import * as Errors from './errors'
 
-export { constants }
+export { constants, Errors }
 export * from './url'
 export * from './props'
 export * from './errors'
