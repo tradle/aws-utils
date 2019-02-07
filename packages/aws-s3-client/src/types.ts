@@ -1,10 +1,30 @@
-export interface ForEachItemInBucketOpts {
+import { S3 } from 'aws-sdk'
+import { IAMStatement } from '@tradle/aws-iam-client'
+import { Omit, OmitFromFirstArg } from '@tradle/aws-common-utils'
+import { S3Client } from './client'
+
+export interface BucketOpts {
   bucket: string
-  getBody?: boolean
-  map: (item: any, index: number) => any
-  [x: string]: any
+  client?: S3Client
+  prefix?: string
+  cache?: any
 }
 
+export type ListOptsMinusBucket = Omit<AWS.S3.ListObjectsV2Request, 'Bucket'>
+
+export interface ForEachItemInBucketOpts extends BaseBucketOpts {
+  map: (item: any, index: number) => any
+  getBody?: boolean
+  listOpts?: ListOptsMinusBucket
+  // [x: string]: any
+}
+
+export interface ForEachItemInBucketWithPrefixOpts extends BaseBucketOpts {
+  prefix: string
+  getBody?: boolean
+  listOpts?: ListOptsMinusBucket
+}
+export type ListbucketOpts = OmitFromFirstArg<ForEachItemInBucketOpts, 'map'>
 export interface GetCacheableOpts {
   key: string
   bucket: string
@@ -21,8 +41,7 @@ export interface BaseObjectOpts extends BaseBucketOpts {
   key: string
 }
 
-export interface EnableEncryptionOpts {
-  bucket: string
+export interface EnableEncryptionOpts extends BaseBucketOpts {
   kmsKeyId?: string
 }
 
@@ -55,4 +74,19 @@ export interface PutOpts extends BaseObjectOpts {
 
 export interface GetOpts extends BaseObjectOpts {
   [x: string]: any
+}
+
+export interface BucketPolicy {
+  Statement: IAMStatement[]
+}
+
+export interface S3ObjWithBody extends S3.Object {
+  Body: S3.Body
+}
+
+export interface CopyFilesToOpts {
+  bucket: string
+  keys?: string[]
+  prefix?: string
+  acl?: AWS.S3.ObjectCannedACL
 }

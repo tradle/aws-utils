@@ -1,4 +1,4 @@
-import Errors from '@tradle/errors'
+import { Errors } from '@tradle/aws-common-utils'
 import { CloudFormationClient } from '@tradle/aws-cloudformation-client'
 import { LambdaClient } from '@tradle/aws-lambda-client'
 import { updateLambdaEnvironments, updateLambdaEnvironment } from './update-environments'
@@ -32,8 +32,11 @@ export const reinitializeContainers = async (opts: ReinitializeContainersOpts) =
   const failed = results.filter(r => r.error)
   if (!failed.length) return
 
-  const err = new Errors.BatchOpError('failed to update some or all lambda environment variables')
-  err.errors = failed.map(r => r.error)
+  const err = new Errors.BatchOpError(
+    'failed to update some or all lambda environment variables',
+    failed.map(r => r.error)
+  )
+
   throw err
 
   // this.logger.error('failed to update some containers', {

@@ -2,6 +2,8 @@ import { createClient as sns } from '@tradle/aws-sns-client'
 import { createClient as lambda } from '@tradle/aws-lambda-client'
 import { createClient as s3 } from '@tradle/aws-s3-client'
 import { createClient as iam } from '@tradle/aws-iam-client'
+import { createClient as cloudwatch } from '@tradle/aws-cloudwatch-client'
+import { createClient as cloudformation } from '@tradle/aws-cloudformation-client'
 import * as utils from '@tradle/aws-common-utils'
 
 export { createClientFactory } from '@tradle/aws-client-factory'
@@ -11,7 +13,9 @@ export const services = {
   sns,
   lambda,
   s3,
-  iam
+  iam,
+  cloudwatch,
+  cloudformation
 }
 
 export * from './get-stack-fn-configurations'

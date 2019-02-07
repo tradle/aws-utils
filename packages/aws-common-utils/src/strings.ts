@@ -11,3 +11,12 @@ export const toStringOrBuf = value => {
 
   return JSON.stringify(value)
 }
+
+export const parseS3Path = (path: string) => {
+  const idx = path.indexOf('/')
+  const key = path.slice(idx + 1)
+  return {
+    bucket: path.slice(0, idx),
+    key: key || undefined
+  }
+}

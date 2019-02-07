@@ -5,6 +5,7 @@
     { "path": "aws-common-utils" },
     { "path": "aws-sns-client" },
     { "path": "aws-lambda-client" },
+    { "path": "aws-iam-client" },
     { "path": "aws-s3-client" },
     { "path": "aws-cloudwatch-client" },
     { "path": "aws-cloudformation-client" },

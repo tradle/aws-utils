@@ -1,14 +1,15 @@
 import * as constants from './constants'
-import * as Errors from './errors'
+import Errors from './errors'
 
 export { constants, Errors }
 export * from './url'
 export * from './props'
-export * from './errors'
 export * from './arn'
 export * from './crypto'
 export * from './strings'
 export * from './gen'
+export * from './logger'
+export * from './types'
 // interface BatchProcessOpts {
 //   data: any[]
 //   batchSize: number

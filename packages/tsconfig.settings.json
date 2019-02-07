@@ -16,7 +16,7 @@
       "*": ["node_modules", "../"]
     }
   },
-  "types": ["node", "aws-sdk", "pino", "tape", "sinon", "lodash"],
+  "types": ["node", "aws-sdk", "pino", "tape", "sinon", "lodash", "@tradle/errors"],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
   "compileOnSave": true

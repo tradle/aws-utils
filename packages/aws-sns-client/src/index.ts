@@ -5,7 +5,7 @@ import getPropAtPath from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { parseE164, getAWSRegionByCallingCode } from './geo'
 import { ClientFactory } from '@tradle/aws-client-factory'
-import { pickNonNull, getRegionFromArn, randomStatementId } from '@tradle/aws-common-utils'
+import { pickNonNull, getRegionFromArn, randomStatementId, parseArn } from '@tradle/aws-common-utils'
 import * as SNS from './types'
 
 const MESSAGE_ATTRIBUTES = {
@@ -257,3 +257,11 @@ export const regions = [
   'us-gov-east-1',
   'us-gov-west-1'
 ]
+
+export const parseTopicArn = (arn: string) => {
+  const parts = parseArn(arn)
+  return {
+    ...parts,
+    name: parts.relativeId
+  }
+}
