@@ -9,6 +9,7 @@ export * from './crypto'
 export * from './strings'
 export * from './gen'
 export * from './logger'
+export * from './cachify'
 export * from './types'
 // interface BatchProcessOpts {
 //   data: any[]

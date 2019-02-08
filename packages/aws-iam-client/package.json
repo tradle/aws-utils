@@ -29,7 +29,7 @@
   "dependencies": {
     "@tradle/aws-client-factory": "~1.0.0",
     "@tradle/aws-common-utils": "~1.0.0",
-    "@tradle/errors": "~1.2.0"
+    "@tradle/errors": "~2.0.0"
   },
   "devDependencies": {
     "@types/node": "~10.12.18",

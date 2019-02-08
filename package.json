@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@tradle/countries": "github:tradle/countries",
-    "@tradle/errors": "~1.2.0",
+    "@tradle/errors": "~2.0.0",
     "json-stable-stringify": "~1.0.1",
     "lodash": "~4.17.11"
   },

@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { Errors, OmitFirstArg } from '@tradle/aws-common-utils'
+import { Errors, OmitFromFirstArg } from '@tradle/aws-common-utils'
 // import { cachify } from './utils'
 import {
   PutOpts,
@@ -20,10 +20,9 @@ export class Bucket {
   }
   public bucket: string
   public prefix: string
-  public cache?: any
   public client: S3Client
   constructor(private opts: BucketOpts) {
-    const { bucket, client, cache, prefix = '' } = opts
+    const { bucket, client, prefix = '' } = opts
     if (typeof bucket !== 'string') {
       throw new Error('expected string "bucket"')
     }
@@ -31,21 +30,6 @@ export class Bucket {
     this.bucket = bucket
     this.client = client
     this.prefix = prefix
-    // if (cache) {
-    //   this.cache = cache
-    //   const cachified = cachify({
-    //     get: this.getJSON,
-    //     put: this.put,
-    //     del: this.del,
-    //     logger: this.logger,
-    //     cache,
-    //     cloneOnGet: true
-    //   })
-
-    //   this.getJSON = cachified.get
-    //   this.putJSON = cachified.put
-    //   this.del = cachified.del
-    // }
   }
 
   public folder = (prefix: string): Bucket => {
@@ -73,9 +57,9 @@ export class Bucket {
   public getJSON = (key: string) => this.get(key).then(({ Body }) => JSON.parse(Body.toString()))
   public maybeGetJSON = (key: string) => this.getJSON(key).catch(Errors.ignoreNotFound)
 
-  public list = (opts: OmitFirstArg<ListBucketOpts, 'bucket'>) =>
+  public list = (opts: OmitFromFirstArg<ListBucketOpts, 'bucket'>) =>
     this.client.listBucket({ bucket: this.bucket, ...opts })
-  public listObjects = (opts: OmitFirstArg<ListBucketOpts, 'bucket'>) =>
+  public listObjects = (opts: OmitFromFirstArg<ListBucketOpts, 'bucket'>) =>
     this.client.listObjects({ bucket: this.bucket, ...opts })
   public listWithPrefix = (prefix: string, listOpts?: ListOptsMinusBucket) => {
     this.client.listBucketWithPrefix({
@@ -132,7 +116,7 @@ export class Bucket {
     })
 
   public forEach = opts => this.client.forEachItemInBucket({ bucket: this.bucket, ...opts })
-  public enableEncryption = (opts: OmitFirstArg<EnableEncryptionOpts, 'bucket'>) =>
+  public enableEncryption = (opts: OmitFromFirstArg<EnableEncryptionOpts, 'bucket'>) =>
     this.client.enableEncryption({ bucket: this.bucket, ...opts })
   public disableEncryption = () => this.client.disableEncryption({ bucket: this.bucket })
   public getEncryption = () => this.client.getEncryption({ bucket: this.bucket })
@@ -181,3 +165,5 @@ const getFolderPath = (parent: string, folder: string): string => {
   const fPath = path.join(parent, folder)
   return fPath.replace(/[/]+$/, '') + '/'
 }
+
+export const createBucket = (opts: BucketOpts) => createBucket(opts)
