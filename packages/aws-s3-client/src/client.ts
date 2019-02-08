@@ -7,9 +7,8 @@ import _parseS3Url from 'amazon-s3-uri'
 import emptyBucket from 'empty-aws-bucket'
 import caseless from 'caseless'
 import { ClientFactory } from '@tradle/aws-client-factory'
-import { toStringOrBuf, isLocalHost, isLocalUrl } from '@tradle/aws-common-utils'
+import { Errors, toStringOrBuf, isLocalHost, isLocalUrl } from '@tradle/aws-common-utils'
 import { IAMStatement } from '@tradle/aws-iam-client'
-import Errors from '@tradle/errors'
 import { isPromise, batchProcess } from '@tradle/promise-utils'
 import { S3 } from 'aws-sdk'
 import * as Types from './types'
@@ -72,10 +71,14 @@ export const mapHeadersToS3PutOptions = (headers: any): Partial<S3.PutObjectRequ
   return putOpts
 }
 
+export interface S3ClientOpts {
+  clients: ClientFactory
+}
+
 export class S3Client {
   private clients: ClientFactory
   private s3: AWS.S3
-  constructor({ clients }: { clients: ClientFactory }) {
+  constructor({ clients }: S3ClientOpts) {
     this.s3 = clients.s3()
   }
 
@@ -106,11 +109,11 @@ export class S3Client {
     })
   }
 
-  public get = async ({ key, bucket, ...opts }: Types.GetOpts): Promise<S3.Types.GetObjectOutput> => {
+  public get = async ({ key, bucket, s3Opts }: Types.GetOpts): Promise<S3.Types.GetObjectOutput> => {
     const params: S3.Types.GetObjectRequest = {
       Bucket: bucket,
       Key: key,
-      ...opts
+      ...s3Opts
     }
 
     try {
@@ -142,10 +145,10 @@ export class S3Client {
     return await this.get(props)
   }
 
-  public forEachItemInBucket = async ({ bucket, getBody, map, listOpts }: Types.ForEachItemInBucketOpts) => {
+  public forEachItemInBucket = async ({ bucket, getBody, map, s3Opts }: Types.ForEachItemInBucketOpts) => {
     const params: S3.Types.ListObjectsV2Request = {
       Bucket: bucket,
-      ...listOpts
+      ...s3Opts
     }
 
     while (true) {
@@ -175,7 +178,7 @@ export class S3Client {
     }
   }
 
-  public listObjects = async (opts: Types.ListbucketOpts): Promise<Types.S3ObjWithBody[]> => {
+  public listObjects = async (opts: Types.ListBucketOpts): Promise<Types.S3ObjWithBody[]> => {
     return (await this.listBucket({ ...opts, getBody: true })) as Types.S3ObjWithBody[]
   }
 
@@ -185,10 +188,10 @@ export class S3Client {
     return (await this.listBucketWithPrefix({ ...opts, getBody: true })) as Types.S3ObjWithBody[]
   }
 
-  public listBucket = async ({ bucket, listOpts }: Types.ListbucketOpts): Promise<S3.Object[]> => {
+  public listBucket = async ({ bucket, s3Opts }: Types.ListBucketOpts): Promise<S3.Object[]> => {
     const all = []
     await this.forEachItemInBucket({
-      listOpts,
+      s3Opts,
       bucket,
       map: item => all.push(item)
     })
@@ -306,7 +309,7 @@ export class S3Client {
         .promise()
     } catch (err) {
       if (err.code === 'NoSuchKey' || err.code === 'NotFound') {
-        Errors.rethrowAs(err, new Errors.NotFound(`${bucket}/${key}`))
+        throw new Errors.NotFound(`${bucket}/${key}`)
       }
 
       throw err
@@ -503,8 +506,8 @@ export class S3Client {
     return emptyBucket({ s3, bucket })
   }
 
-  public listBucketWithPrefix = async ({ bucket, prefix, listOpts }: Types.ForEachItemInBucketWithPrefixOpts) => {
-    return await this.listBucket({ bucket, listOpts: { ...listOpts, Prefix: prefix } })
+  public listBucketWithPrefix = async ({ bucket, prefix, s3Opts: s3Opts }: Types.ForEachItemInBucketWithPrefixOpts) => {
+    return await this.listBucket({ bucket, s3Opts: { ...s3Opts, Prefix: prefix } })
   }
 
   public copyFilesBetweenBuckets = async ({ source, target, keys, prefix, acl }: Types.BucketCopyOpts) => {
@@ -575,7 +578,7 @@ export const parseS3Url = (url: string) => {
   throw new Errors.InvalidInput(`invalid s3 url: ${url}`)
 }
 
-export const createClient = opts => new S3Client(opts)
+export const createClient = (opts: S3ClientOpts) => new S3Client(opts)
 
 const toEncryptionParams = ({ bucket, kmsKeyId }): S3.PutBucketEncryptionRequest => {
   const ApplyServerSideEncryptionByDefault: S3.ServerSideEncryptionByDefault = {

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "various helpers for the AWS SDK",
   "main": "lib/index.js",
-  "types": "src/types.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -b packages -w",

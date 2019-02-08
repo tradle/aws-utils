@@ -6,7 +6,7 @@ import {
   PutOpts,
   BucketOpts,
   CopyFilesToOpts,
-  ListbucketOpts as ListBucketOpts,
+  ListBucketOpts,
   ListOptsMinusBucket,
   EnableEncryptionOpts
 } from './types'
@@ -65,7 +65,7 @@ export class Bucket {
     this.client.listBucketWithPrefix({
       bucket: this.bucket,
       prefix: this._getKey(prefix),
-      listOpts
+      s3Opts: listOpts
     })
   }
 
@@ -73,7 +73,7 @@ export class Bucket {
     this.client.listObjectsWithKeyPrefix({
       bucket: this.bucket,
       prefix: this._getKey(prefix),
-      listOpts
+      s3Opts: listOpts
     })
 
   public put = async (key: string, value, opts?: Partial<PutOpts>) => {
