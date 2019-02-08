@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk'
-import Errors from '@tradle/errors'
-import { ClientFactory } from '@tradle/aws-client-factory'
+import { Errors } from '@tradle/aws-common-utils'
 import { randomStatementId, constants } from '@tradle/aws-common-utils'
 import * as Types from './types'
 

@@ -1,4 +1,4 @@
-import { Lambda, CloudFormation } from 'aws-sdk'
+import { CloudFormation } from 'aws-sdk'
 import { ClientFactory } from '@tradle/aws-client-factory'
 import { CFTemplate } from './types'
 import * as utils from './utils'
@@ -67,13 +67,6 @@ export class CloudFormationClient {
 
     return lambdaNames
   }
-
-  // public getStackFunctionConfigurations = async (StackName?:string)
-  //   :Promise<Lambda.Types.FunctionConfiguration[]> => {
-  //   const names = await this.listStackFunctions()
-  //   return Promise.all(names.map(name => this.getConfiguration(name)))
-  // }
-
   public getStackTemplate = async (stackArn: string) => {
     const { TemplateBody } = await this.client.getTemplate({ StackName: stackArn }).promise()
     return JSON.parse(TemplateBody)

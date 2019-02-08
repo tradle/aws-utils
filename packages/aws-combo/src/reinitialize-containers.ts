@@ -9,6 +9,7 @@ interface CommonOpts {
 }
 interface ReinitializeContainersOpts extends CommonOpts {
   functions?: string[]
+  stackName?: string
 }
 
 interface ReinitializeContainerOpts extends CommonOpts {
@@ -16,9 +17,16 @@ interface ReinitializeContainerOpts extends CommonOpts {
 }
 
 export const reinitializeContainers = async (opts: ReinitializeContainersOpts) => {
-  const { functions, ...updateEnvironmentsOpts } = opts
+  const { cloudformation, lambda, stackName } = opts
+  let { functions } = opts
+  if (!functions) {
+    functions = await opts.cloudformation.listStackFunctions(stackName)
+  }
+
   const results = await updateLambdaEnvironments({
-    ...updateEnvironmentsOpts,
+    cloudformation,
+    lambda,
+    functions,
     map: ({ FunctionName }) => {
       if (!functions || functions.includes(FunctionName)) {
         // this.logger.debug(`reinitializing container for lambda: ${FunctionName}`)

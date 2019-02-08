@@ -10,6 +10,7 @@ interface CommonOpts {
 
 export interface UpdateLambdaEnvironmentsOpts extends CommonOpts {
   map: TransformFunctionConfig
+  functions: string[]
 }
 
 export interface UpdateLambdaEnvironmentOpts extends CommonOpts {
@@ -17,21 +18,41 @@ export interface UpdateLambdaEnvironmentOpts extends CommonOpts {
   current?: Lambda.FunctionConfiguration
   update: any
 }
+
+export interface UpdateLambdaEnvironmentsForStackOpts extends UpdateLambdaEnvironmentsOpts {
+  stackName: string
+}
 export interface UpdateEnvResult {
   functionName: string
   result?: any
   error?: Error
 }
 
+export const updateLambdaEnvironmentsForStack = async ({
+  cloudformation,
+  lambda,
+  stackName,
+  map
+}: UpdateLambdaEnvironmentsForStackOpts) => {
+  return updateLambdaEnvironments({
+    cloudformation,
+    lambda,
+    functions: await cloudformation.listStackFunctions(stackName),
+    map
+  })
+}
+
 export const updateLambdaEnvironments = async ({
   cloudformation,
   lambda,
+  functions,
   map
 }: UpdateLambdaEnvironmentsOpts): Promise<UpdateEnvResult[]> => {
-  const functions = await cloudformation.getStackFunctionConfigurations()
-  if (!functions) return
+  const fConfs: Lambda.Types.FunctionConfiguration[] = await Promise.all(
+    functions.map(name => lambda.getConfiguration(name))
+  )
 
-  const writes: Array<Promise<UpdateEnvResult>> = functions
+  const writes: Array<Promise<UpdateEnvResult>> = fConfs
     .map(current => {
       const update = map(current)
       if (!update) return
