@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk'
 import { S3 } from 'aws-sdk'
 import { IAMStatement } from '@tradle/aws-iam-client'
 import { Omit, OmitFromFirstArg } from '@tradle/aws-common-utils'

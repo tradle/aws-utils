@@ -178,6 +178,8 @@ export class S3Client {
     }
   }
 
+  public listBuckets = async () => this.s3.listBuckets().promise()
+
   public listObjects = async (opts: Types.ListBucketOpts): Promise<Types.S3ObjWithBody[]> => {
     return (await this.listBucket({ ...opts, getBody: true })) as Types.S3ObjWithBody[]
   }

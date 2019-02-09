@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "various helpers for the AWS SDK",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -b packages -w",
@@ -20,7 +19,7 @@
     "lerna": "^3.10.7",
     "tslint": "~5.12.1",
     "tslint-config-prettier": "~1.17.0",
-    "typescript": "~3.2.4"
+    "typescript": "~3.3.3"
   },
   "dependencies": {
     "@tradle/countries": "github:tradle/countries",
