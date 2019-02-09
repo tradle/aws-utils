@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-sns-client",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.10",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/mvayngrib/aws-utils#readme",
@@ -25,8 +25,8 @@
     "url": "https://github.com/mvayngrib/aws-utils/issues"
   },
   "dependencies": {
-    "@tradle/aws-client-factory": "*",
-    "@tradle/aws-common-utils": "*",
+    "@tradle/aws-client-factory": "^1.0.1-alpha.10",
+    "@tradle/aws-common-utils": "^1.0.1-alpha.10",
     "@tradle/countries": "github:tradle/countries",
     "@tradle/errors": "~2.0.0",
     "lodash": "~4.17.11"

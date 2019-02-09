@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-combo",
-  "version": "1.0.0",
+  "version": "1.0.1-alpha.10",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/mvayngrib/aws-utils#readme",
@@ -28,14 +28,14 @@
     "url": "https://github.com/mvayngrib/aws-utils/issues"
   },
   "dependencies": {
-    "@tradle/aws-client-factory": "*",
-    "@tradle/aws-common-utils": "*",
-    "@tradle/aws-lambda-client": "*",
-    "@tradle/aws-sns-client": "*",
-    "@tradle/aws-s3-client": "*",
-    "@tradle/aws-iam-client": "*",
-    "@tradle/aws-cloudformation-client": "*",
-    "@tradle/aws-cloudwatch-client": "*",
+    "@tradle/aws-client-factory": "^1.0.1-alpha.10",
+    "@tradle/aws-cloudformation-client": "^1.0.1-alpha.10",
+    "@tradle/aws-cloudwatch-client": "^1.0.1-alpha.10",
+    "@tradle/aws-common-utils": "^1.0.1-alpha.10",
+    "@tradle/aws-iam-client": "^1.0.1-alpha.10",
+    "@tradle/aws-lambda-client": "^1.0.1-alpha.10",
+    "@tradle/aws-s3-client": "^1.0.1-alpha.10",
+    "@tradle/aws-sns-client": "^1.0.1-alpha.10",
     "@tradle/errors": "~2.0.0"
   },
   "devDependencies": {
