@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { Errors, OmitFromFirstArg } from '@tradle/aws-common-utils'
+import { Errors, OmitFromFirstArg, GetPutDel } from '@tradle/aws-common-utils'
 // import { cachify } from './utils'
 import {
   PutOpts,
@@ -14,7 +14,7 @@ import { S3Client } from './client'
 
 // type ArgumentsType<T> = T extends (...args: infer A) => any ? A : never
 
-export class Bucket {
+export class Bucket implements GetPutDel {
   public get id() {
     return this.bucket // alias
   }

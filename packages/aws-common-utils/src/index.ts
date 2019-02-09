@@ -10,6 +10,8 @@ export * from './strings'
 export * from './gen'
 export * from './logger'
 export * from './cachify'
+export * from './target-localstack'
+export * from './localstack'
 export * from './types'
 // interface BatchProcessOpts {
 //   data: any[]

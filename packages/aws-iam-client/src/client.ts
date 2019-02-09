@@ -6,7 +6,7 @@ import { alphabetical, sha256Hex } from '@tradle/aws-common-utils'
 const CRR_NAME = 'cross-region-replication-role'
 const CRR_POLICY = 'cross-region-replication-policy'
 
-interface CreateS3ReplicationRoleOpts {
+export interface CreateS3ReplicationRoleOpts {
   source: string
   targets: string[]
 }

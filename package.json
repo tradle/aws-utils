@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -b packages -w",
+    "tsbuild": "tsc -b packages",
     "publish:local": "lerna publish --registry http://localhost:4873"
   },
   "keywords": [],
@@ -15,7 +16,7 @@
     "@types/json-stable-stringify": "~1.0.32",
     "@types/lodash": "~4.14.120",
     "@types/node": "~10.12.18",
-    "aws-sdk": "~2.395.0",
+    "aws-sdk": "~2.382.0",
     "lerna": "^3.10.7",
     "tslint": "~5.12.1",
     "tslint-config-prettier": "~1.17.0",

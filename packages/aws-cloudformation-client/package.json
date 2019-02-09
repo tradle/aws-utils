@@ -28,14 +28,14 @@
     "url": "https://github.com/mvayngrib/aws-utils/issues"
   },
   "dependencies": {
-    "@tradle/aws-client-factory": "~1.0.0",
-    "@tradle/aws-common-utils": "~1.0.0",
+    "@tradle/aws-client-factory": "*",
+    "@tradle/aws-common-utils": "*",
     "@tradle/errors": "~2.0.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {
     "@types/node": "~10.12.18",
-    "aws-sdk": "^2.395.0",
+    "aws-sdk": "~2.382.0",
     "tslint": "~5.12.1",
     "tslint-config-prettier": "~1.17.0",
     "typescript": "~3.2.4"

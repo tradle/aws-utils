@@ -3,13 +3,21 @@ import isEqual from 'lodash/isEqual'
 import stableStringify from 'json-stable-stringify'
 import { isPromise } from '@tradle/promise-utils'
 import { Logger } from './logger'
+
 export interface GetPutDel {
   get: (key: any) => Promise<any>
   put: (key: any, value: any, ...opts: any[]) => Promise<any | void>
   del: (key: any) => Promise<any | void>
 }
+
+export interface Cache {
+  get: (key: any) => any
+  set: (key: any, value: any) => void
+  del: (key: any) => void
+}
+
 export interface CachifyOpts extends GetPutDel {
-  cache: any
+  cache: Cache
   logger?: Logger
   cloneOnGet?: boolean
 }
