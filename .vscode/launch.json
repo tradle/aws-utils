@@ -9,9 +9,22 @@
       "request": "launch",
       "name": "Launch Program",
       "program": "${workspaceFolder}/lib/index.js",
-      "outFiles": [
-        "${workspaceFolder}/**/*.js"
-      ]
+      "outFiles": ["${workspaceFolder}/**/*.js"]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch current file w/ ts-node",
+      "protocol": "inspector",
+      "args": ["${relativeFile}"],
+      // "cwd": "${workspaceRoot}",
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "internalConsoleOptions": "openOnSessionStart",
+      "sourceMaps": true,
+      "env": {
+        "NODE_ENV": "development",
+        "IS_OFFLINE": "1"
+      }
     }
   ]
 }

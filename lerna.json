@@ -2,5 +2,8 @@
   "packages": ["packages/*"],
   "npmClient": "npm",
   "useWorkspaces": true,
-  "version": "independent"
+  "version": "independent",
+  "bootstrap": {
+    "ignore": "aws-sdk"
+  }
 }

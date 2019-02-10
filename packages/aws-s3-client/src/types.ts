@@ -3,10 +3,11 @@ import { S3 } from 'aws-sdk'
 import { IAMStatement } from '@tradle/aws-iam-client'
 import { Omit, OmitFromFirstArg } from '@tradle/aws-common-utils'
 import { S3Client } from './client'
+import { Bucket } from './bucket'
 
 export interface BucketOpts {
   bucket: string
-  client?: S3Client
+  client: S3Client
   prefix?: string
   cache?: any
 }
@@ -88,3 +89,5 @@ export interface CopyFilesToOpts {
   prefix?: string
   acl?: AWS.S3.ObjectCannedACL
 }
+
+export type Folder = Bucket

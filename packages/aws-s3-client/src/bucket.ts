@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { Errors, OmitFromFirstArg, GetPutDel } from '@tradle/aws-common-utils'
+import { Errors, OmitFromFirstArg, KeyValueStoreWithHas } from '@tradle/aws-common-utils'
 // import { cachify } from './utils'
 import {
   PutOpts,
@@ -14,7 +14,7 @@ import { S3Client } from './client'
 
 // type ArgumentsType<T> = T extends (...args: infer A) => any ? A : never
 
-export class Bucket implements GetPutDel {
+export class Bucket implements KeyValueStoreWithHas {
   public get id() {
     return this.bucket // alias
   }
@@ -97,6 +97,7 @@ export class Bucket implements GetPutDel {
 
   public head = (key: string) => this.client.head({ key: this._getKey(key), bucket: this.bucket })
   public exists = (key: string) => this.client.exists({ key: this._getKey(key), bucket: this.bucket })
+  public has = this.exists
   public del = (key: string) => this.client.del({ key: this._getKey(key), bucket: this.bucket })
   public getCacheable = opts =>
     this.client.getCacheable({
@@ -166,4 +167,4 @@ const getFolderPath = (parent: string, folder: string): string => {
   return fPath.replace(/[/]+$/, '') + '/'
 }
 
-export const createBucket = (opts: BucketOpts) => createBucket(opts)
+export const createBucket = (opts: BucketOpts) => new Bucket(opts)

@@ -328,8 +328,8 @@ export class S3Client {
     }
   }
 
-  public del = ({ key, bucket }: Types.BaseObjectOpts) => {
-    return this.s3
+  public del = async ({ key, bucket }: Types.BaseObjectOpts) => {
+    await this.s3
       .deleteObject({
         Bucket: bucket,
         Key: key
@@ -540,7 +540,7 @@ export class S3Client {
           await this.s3.copyObject(params).promise()
         } catch (err) {
           Errors.ignoreNotFound(err)
-          Errors.rethrowAs(err, new Errors.NotFound(`bucket: "${target}", key: "${key}"`))
+          throw new Errors.NotFound(`bucket: "${target}", key: "${key}"`)
         }
       })
     )

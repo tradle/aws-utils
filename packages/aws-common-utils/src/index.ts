@@ -12,6 +12,7 @@ export * from './logger'
 export * from './cachify'
 export * from './target-localstack'
 export * from './localstack'
+export * from './init-test'
 export * from './types'
 // interface BatchProcessOpts {
 //   data: any[]

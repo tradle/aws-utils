@@ -2,22 +2,20 @@ import AWS from 'aws-sdk'
 import getLocalIP from 'localip'
 import { localstack } from './localstack'
 
-export const targetLocalstack = () => {
-  const localIP = getLocalIP()
+const localIP = getLocalIP()
+const getLocalstackEndpointWithLocalIP = (service: string) => localstack[service].replace(/localhost/, localIP)
 
+type FirstArgument<T> = T extends (arg1: infer U, ...args: any[]) => any ? U : any
+
+export const targetLocalstack = () => {
+  const config: FirstArgument<AWS.Config['update']> = {}
   for (const service in localstack) {
     const lowercase = service.toLowerCase()
-    AWS.config.update({
-      [lowercase]: {
-        endpoint: localstack[service].replace(/localhost/, localIP)
-      }
-    })
+    config[lowercase] = {
+      endpoint: getLocalstackEndpointWithLocalIP(service)
+    }
   }
 
-  AWS.config.update({
-    s3: {
-      s3ForcePathStyle: true,
-      endpoint: localstack.S3
-    }
-  })
+  config.s3.s3ForcePathStyle = true
+  AWS.config.update(config)
 }
