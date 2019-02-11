@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { Errors, OmitFromFirstArg, KeyValueStoreWithHas } from '@tradle/aws-common-utils'
+import { Errors, OmitFromFirstArg, KeyValueStoreExtended } from '@tradle/aws-common-utils'
 // import { cachify } from './utils'
 import {
   PutOpts,
@@ -14,8 +14,11 @@ import { S3Client } from './client'
 
 // type ArgumentsType<T> = T extends (...args: infer A) => any ? A : never
 
-export class Bucket implements KeyValueStoreWithHas {
+export class Bucket implements KeyValueStoreExtended {
   public get id() {
+    return this.bucket // alias
+  }
+  public get name() {
     return this.bucket // alias
   }
   public bucket: string
@@ -36,6 +39,13 @@ export class Bucket implements KeyValueStoreWithHas {
     return new Bucket({
       ...this.opts,
       prefix: getFolderPath(this.prefix, prefix)
+    })
+  }
+
+  public sub = (prefix: string): Bucket => {
+    return new Bucket({
+      ...this.opts,
+      prefix: this._getKey(prefix)
     })
   }
 

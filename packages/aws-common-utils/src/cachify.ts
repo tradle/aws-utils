@@ -3,31 +3,7 @@ import isEqual from 'lodash/isEqual'
 import stableStringify from 'json-stable-stringify'
 import { isPromise } from '@tradle/promise-utils'
 import { Logger } from './logger'
-import { KeyValue } from 'aws-sdk/clients/iot'
-
-export interface KeyValueStore {
-  get: (key: string, opts?: any) => Promise<any>
-  put: (key: string, value: any, opts?: any) => Promise<void | any>
-  del: (key: string, opts?: any) => Promise<void>
-}
-
-export interface KeyValueStoreWithHas extends KeyValueStore {
-  has: (key: string) => Promise<boolean>
-}
-
-export interface Cache {
-  has: (key: any) => boolean
-  get: (key: any) => any
-  set: (key: any, value: any) => void
-  del: (key: any) => void
-}
-
-export interface CachifyOpts extends KeyValueStore {
-  cache: Cache
-  logger?: Logger
-  cloneOnGet?: boolean
-}
-
+import { KeyValueStore, CachifyOpts } from './types'
 export const cachify = ({ get, put, del, logger, cache, cloneOnGet }: CachifyOpts) => {
   const maybeClone = cloneOnGet ? cloneDeep : obj => obj
   const cachified = {} as KeyValueStore

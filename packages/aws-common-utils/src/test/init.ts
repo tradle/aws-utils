@@ -1,4 +1,4 @@
-import { targetLocalstack } from './target-localstack'
+import { targetLocalstack } from '../target-localstack'
 
 export const initTest = () => {
   if (process.env.NODE_ENV !== 'test') {

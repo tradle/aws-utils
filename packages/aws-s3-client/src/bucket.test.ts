@@ -2,8 +2,10 @@ import test from 'blue-tape'
 import sinon from 'sinon'
 import Cache from 'lru-cache'
 import { createClientFactory } from '@tradle/aws-client-factory'
-import { initTest, randomString } from '@tradle/aws-common-utils'
+import { initTest, testKV } from '@tradle/aws-common-utils/lib/test'
+import { randomString } from '@tradle/aws-common-utils'
 import { createBucket, createMemoizedBucket, createClient } from './'
+import { createKVStore } from './kv'
 
 initTest()
 
@@ -156,3 +158,16 @@ test('Bucket with cache', async t => {
   await bucket.destroy()
   sandbox.restore()
 })
+;(async () => {
+  const bucket = createBucket({
+    bucket: `test-${randomString(10)}`,
+    client
+  })
+
+  await bucket.create()
+  testKV({
+    name: 's3 kv',
+    create: () => createKVStore({ folder: bucket }),
+    done: () => bucket.destroy()
+  })
+})()

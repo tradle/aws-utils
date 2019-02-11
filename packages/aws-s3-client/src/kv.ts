@@ -1,15 +1,31 @@
-import { KeyValueStoreWithHas } from '@tradle/aws-common-utils'
+import { KeyValueStoreExtended } from '@tradle/aws-common-utils'
 import { Folder } from './types'
 
 export interface CreateGzippedStoreOpts {
   folder: Folder
 }
-export const createGzippedStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreWithHas => {
+export const createKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
   return {
     has: folder.has.bind(folder),
-    get: folder.get.bind(folder),
+    get: folder.getJSON.bind(folder),
     del: folder.del.bind(folder),
-    put: folder.gzipAndPut.bind(folder)
+    put: folder.put.bind(folder),
+    sub: (prefix: string) =>
+      createKVStore({
+        folder: folder.sub(prefix)
+      })
+  }
+}
+export const createGzippedKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
+  return {
+    has: folder.has.bind(folder),
+    get: folder.getJSON.bind(folder),
+    del: folder.del.bind(folder),
+    put: folder.gzipAndPut.bind(folder),
+    sub: (prefix: string) =>
+      createGzippedKVStore({
+        folder: folder.sub(prefix)
+      })
   }
 }
 

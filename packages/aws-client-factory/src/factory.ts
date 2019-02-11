@@ -39,8 +39,29 @@ const factories = {
   cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts)
 }
 
-export type ClientFactory = typeof factories
+export interface ClientCache {
+  s3: AWS.S3
+  dynamodb: AWS.DynamoDB
+  documentclient: AWS.DynamoDB.DocumentClient
+  dynamodbstreams: AWS.DynamoDBStreams
+  iam: AWS.IAM
+  iot: AWS.Iot
+  sts: AWS.STS
+  sns: AWS.SNS
+  sqs: AWS.SQS
+  ses: AWS.SES
+  kms: AWS.KMS
+  lambda: AWS.Lambda
+  iotdata: AWS.IotData
+  xray: AWS.XRay
+  apigateway: AWS.APIGateway
+  cloudwatch: AWS.CloudWatch
+  cloudwatchlogs: AWS.CloudWatchLogs
+  cloudformation: AWS.CloudFormation
+}
 
+export type ClientFactory = typeof factories
+type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any
 export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
   const { defaults } = clientsOpts
   const { region } = defaults
@@ -66,6 +87,20 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
   ) as typeof factories
 
   return memoized
+}
+
+export const createClientCache = (clientOpts: CreateClientsFactoryOpts) => {
+  const factory = createClientFactory(clientOpts)
+  const cache = {} as ClientCache
+  Object.keys(factory).forEach(method =>
+    Object.defineProperty(cache, method, {
+      get() {
+        return factory[method](clientOpts)
+      }
+    })
+  )
+
+  return cache
 }
 
 export const useGlobalConfigClock = (service: AWS.Service) => {
