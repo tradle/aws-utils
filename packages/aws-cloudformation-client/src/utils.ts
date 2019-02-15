@@ -21,3 +21,20 @@ export const lockParametersToDefaults = (template: CFTemplate) => {
     }
   })
 }
+
+export const getResourcesByType = (template: CFTemplate, type: string) => {
+  return getResourceNamesByType(template, type).map(name => template.Resources[name])
+}
+
+export const getResourceNamesByType = (template: CFTemplate, type: string) => {
+  const { Resources } = template
+  return Object.keys(Resources).filter(name => Resources[name].Type === type)
+}
+
+export const getLambdaS3Keys = (template: CFTemplate) => {
+  const { Resources } = template
+  return getResourceNamesByType(template, 'AWS::Lambda::Function').map(name => ({
+    path: `Resources['${name}'].Properties.Code.S3Key`,
+    value: Resources[name].Properties.Code.S3Key
+  }))
+}

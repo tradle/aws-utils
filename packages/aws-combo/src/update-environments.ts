@@ -19,7 +19,8 @@ export interface UpdateLambdaEnvironmentOpts extends CommonOpts {
   update: any
 }
 
-export interface UpdateLambdaEnvironmentsForStackOpts extends UpdateLambdaEnvironmentsOpts {
+export interface UpdateLambdaEnvironmentsForStackOpts extends CommonOpts {
+  map: TransformFunctionConfig
   stackName: string
 }
 export interface UpdateEnvResult {

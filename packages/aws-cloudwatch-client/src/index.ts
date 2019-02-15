@@ -7,7 +7,7 @@ import { metrics as METRICS } from './metrics'
 
 export type AlarmTransform = (alarm: AWS.CloudWatch.PutMetricAlarmInput) => AWS.CloudWatch.PutMetricAlarmInput
 export interface CloudWatchClientOpts {
-  clients: ClientFactory
+  client: AWS.CloudWatch
 }
 
 export interface BaseDynamoDBOpOpts {
@@ -25,8 +25,8 @@ export interface ListDynamoDBConsumptionAlarmsOpts extends BaseDynamoDBOpOpts {}
 
 export class CloudWatchClient {
   private client: AWS.CloudWatch
-  constructor(private opts: CloudWatchClientOpts) {
-    this.client = opts.clients.cloudwatch()
+  constructor({ client }: CloudWatchClientOpts) {
+    this.client = client
   }
 
   // public getMetricAlarmWithName = async (alarmName: string) => {

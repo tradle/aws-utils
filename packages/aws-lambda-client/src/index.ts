@@ -1,13 +1,12 @@
 import AWS from 'aws-sdk'
-import { Errors } from '@tradle/aws-common-utils'
-import { randomStatementId, constants } from '@tradle/aws-common-utils'
+import { Errors, randomStatementId, constants } from '@tradle/aws-common-utils'
 import * as Types from './types'
 
 export class LambdaClient {
-  private lambda: AWS.Lambda
+  private client: AWS.Lambda
   // private logger: Logger
-  constructor({ clients }: Types.ClientOpts) {
-    this.lambda = clients.lambda()
+  constructor({ client }: Types.ClientOpts) {
+    this.client = client
   }
 
   public invoke = async (opts: Types.InvokeOpts): Promise<any> => {
@@ -21,7 +20,7 @@ export class LambdaClient {
     if (log) params.LogType = 'Tail'
     if (qualifier) params.Qualifier = qualifier
 
-    const { StatusCode, Payload, FunctionError } = await this.lambda.invoke(params).promise()
+    const { StatusCode, Payload, FunctionError } = await this.client.invoke(params).promise()
     if (FunctionError || (StatusCode && StatusCode >= 300)) {
       const message = Payload || `experienced ${FunctionError} error invoking lambda: ${name}`
       throw new Error(message.toString())
@@ -34,12 +33,12 @@ export class LambdaClient {
 
   public getConfiguration = (FunctionName: string): Promise<AWS.Lambda.Types.FunctionConfiguration> => {
     // this.logger.debug(`looking up configuration for ${FunctionName}`)
-    return this.lambda.getFunctionConfiguration({ FunctionName }).promise()
+    return this.client.getFunctionConfiguration({ FunctionName }).promise()
   }
 
   public getPolicy = async (lambda: string) => {
     try {
-      const { Policy } = await this.lambda.getPolicy({ FunctionName: lambda }).promise()
+      const { Policy } = await this.client.getPolicy({ FunctionName: lambda }).promise()
       return JSON.parse(Policy)
     } catch (err) {
       Errors.ignoreNotFound(err)
@@ -48,7 +47,7 @@ export class LambdaClient {
   }
 
   public addPermission = async (params: AWS.Lambda.AddPermissionRequest) => {
-    return await this.lambda.addPermission(params).promise()
+    return await this.client.addPermission(params).promise()
   }
 
   public canSNSInvokeLambda = async (lambda: string): Promise<boolean> => {
@@ -119,7 +118,7 @@ export class LambdaClient {
       }
     }
 
-    await this.lambda
+    await this.client
       .updateFunctionConfiguration({
         FunctionName: functionName,
         Environment: { Variables }
@@ -133,7 +132,7 @@ export class LambdaClient {
     let all = []
     const opts: AWS.Lambda.Types.ListFunctionsRequest = {}
     while (true) {
-      const { NextMarker, Functions } = await this.lambda.listFunctions(opts).promise()
+      const { NextMarker, Functions } = await this.client.listFunctions(opts).promise()
       all = all.concat(Functions)
       if (!NextMarker) break
 

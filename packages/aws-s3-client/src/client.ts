@@ -72,14 +72,13 @@ export const mapHeadersToS3PutOptions = (headers: any): Partial<S3.PutObjectRequ
 }
 
 export interface S3ClientOpts {
-  clients: ClientFactory
+  client: AWS.S3
 }
 
 export class S3Client {
-  private clients: ClientFactory
   private s3: AWS.S3
-  constructor({ clients }: S3ClientOpts) {
-    this.s3 = clients.s3()
+  constructor({ client }: S3ClientOpts) {
+    this.s3 = client
   }
 
   public put = async ({ key, value, bucket, headers = {}, acl }: Types.PutOpts) => {

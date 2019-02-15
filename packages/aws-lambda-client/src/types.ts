@@ -1,6 +1,6 @@
-import { ClientFactory } from '@tradle/aws-client-factory'
+import AWS from 'aws-sdk'
 export interface ClientOpts {
-  clients: ClientFactory
+  client: AWS.Lambda
 }
 
 export interface CanInvokeOpts {

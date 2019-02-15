@@ -11,6 +11,7 @@ import {
   EnableEncryptionOpts
 } from './types'
 import { S3Client } from './client'
+import { createKVStore, createGzippedKVStore } from './kv'
 
 // type ArgumentsType<T> = T extends (...args: infer A) => any ? A : never
 
@@ -167,6 +168,9 @@ export class Bucket implements KeyValueStoreExtended {
       key: this._getKey(key),
       bucket: this.bucket
     })
+
+  public kv = () => createKVStore({ folder: this })
+  public kvWithGzip = () => createGzippedKVStore({ folder: this })
 
   // public grantReadAccess = async (opts) => this.client.grantReadAccess({ bucket: this.name, ...opts })
   private _getKey = (key: string) => this.prefix + key

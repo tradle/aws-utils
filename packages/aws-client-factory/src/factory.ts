@@ -8,12 +8,8 @@ export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientCon
 }
 
 export interface CreateClientsFactoryOpts {
-  defaults: CreateClientFactoryDefaults
+  defaults?: CreateClientFactoryDefaults
   useGlobalConfigClock?: boolean
-}
-
-export interface AWSClientOpts {
-  clients: ClientFactory
 }
 
 const factories = {
@@ -58,13 +54,19 @@ export interface ClientCache {
   cloudwatch: AWS.CloudWatch
   cloudwatchlogs: AWS.CloudWatchLogs
   cloudformation: AWS.CloudFormation
+  factory: ClientFactory
+  instantiated: Partial<ClientCache>
 }
 
 export type ClientFactory = typeof factories
 type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any
-export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
-  const { defaults } = clientsOpts
-  const { region } = defaults
+
+const FACTORY_DEFAULTS = {
+  region: process.env.AWS_REGION
+}
+
+export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) => {
+  const { defaults = FACTORY_DEFAULTS } = clientsOpts
 
   AWS.config.update(defaults)
 
@@ -89,17 +91,20 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
   return memoized
 }
 
-export const createClientCache = (clientOpts: CreateClientsFactoryOpts) => {
+export const createClientCache = (clientOpts: CreateClientsFactoryOpts = {}) => {
   const factory = createClientFactory(clientOpts)
   const cache = {} as ClientCache
+  const instantiated = {} as Partial<ClientCache>
   Object.keys(factory).forEach(method =>
     Object.defineProperty(cache, method, {
       get() {
-        return factory[method](clientOpts)
+        return (instantiated[method] = factory[method]())
       }
     })
   )
 
+  cache.factory = factory
+  cache.instantiated = instantiated
   return cache
 }
 

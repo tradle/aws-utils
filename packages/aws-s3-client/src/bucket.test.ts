@@ -14,7 +14,7 @@ const clients = createClientFactory({
 })
 
 const s3 = clients.s3()
-const client = createClient({ clients })
+const client = createClient({ client: s3 })
 
 test('getCacheable', async t => {
   const sandbox = sinon.createSandbox()

@@ -11,10 +11,14 @@ export interface CreateS3ReplicationRoleOpts {
   targets: string[]
 }
 
+export interface IAMClientOpts {
+  client: AWS.IAM
+}
+
 export class IAMClient {
   private iam: AWS.IAM
-  constructor(private clients: ClientFactory) {
-    this.iam = clients.iam()
+  constructor({ client }: IAMClientOpts) {
+    this.iam = client
   }
   public createRole = async (opts: AWS.IAM.CreateRoleRequest) => {
     const { Role } = await this.iam.createRole(opts).promise()
@@ -110,4 +114,4 @@ const createS3ReplicationPermissionPolicy = ({ source, targets }: CreateS3Replic
   )
 })
 
-export const createClient = (opts: ClientFactory) => new IAMClient(opts)
+export const createClient = (opts: IAMClientOpts) => new IAMClient(opts)

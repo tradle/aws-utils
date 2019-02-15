@@ -21,4 +21,5 @@ export const services = {
 
 export * from './get-stack-fn-configurations'
 export * from './update-environments'
+export * from './reinitialize-containers'
 export type AWSServices = typeof services
