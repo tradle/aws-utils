@@ -13,6 +13,7 @@ export * from './cachify'
 export * from './target-localstack'
 export * from './localstack'
 export * from './types'
+export * from './config'
 // interface BatchProcessOpts {
 //   data: any[]
 //   batchSize: number

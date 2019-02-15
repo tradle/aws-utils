@@ -2,6 +2,7 @@ import AWS from 'aws-sdk'
 import memoize from 'lodash/memoize'
 import transform from 'lodash/transform'
 import stableStringify from 'json-stable-stringify'
+import { mergeIntoAWSConfig } from '@tradle/aws-common-utils'
 
 export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientConfiguration {
   region: string
@@ -68,14 +69,15 @@ const FACTORY_DEFAULTS = {
 export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) => {
   const { defaults = FACTORY_DEFAULTS } = clientsOpts
 
-  AWS.config.update(defaults)
+  mergeIntoAWSConfig(defaults)
 
   const memoized = transform(
     factories,
     (memFactories, value, serviceName) => {
       memFactories[serviceName] = memoize(
         opts => {
-          const client = factories[serviceName]({ ...defaults, ...opts })
+          const serviceDefaults = defaults[serviceName] || {}
+          const client = factories[serviceName]({ ...serviceDefaults, ...opts })
           if (clientsOpts.useGlobalConfigClock) {
             useGlobalConfigClock(client)
           }

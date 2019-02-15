@@ -5,7 +5,7 @@ import { createClientFactory } from '@tradle/aws-client-factory'
 import { initTest, testKV } from '@tradle/aws-common-utils/lib/test'
 import { randomString } from '@tradle/aws-common-utils'
 import { createBucket, createMemoizedBucket, createClient } from './'
-import { createKVStore } from './kv'
+import { createJsonKVStore } from './kv'
 
 initTest()
 
@@ -167,7 +167,7 @@ test('Bucket with cache', async t => {
   await bucket.create()
   testKV({
     name: 's3 kv',
-    create: () => createKVStore({ folder: bucket }),
+    create: () => createJsonKVStore({ folder: bucket }),
     done: () => bucket.destroy()
   })
 })()

@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk'
 import getLocalIP from 'localip'
 import { localstack } from './localstack'
+import { mergeIntoAWSConfig } from './config'
 
 const localIP = getLocalIP()
 const getLocalstackEndpointWithLocalIP = (service: string) => localstack[service].replace(/localhost/, localIP)
@@ -16,6 +17,6 @@ export const targetLocalstack = () => {
     }
   }
 
-  config.s3.s3ForcePathStyle = true
-  AWS.config.update(config)
+  config.s3ForcePathStyle = config.s3.s3ForcePathStyle = true
+  mergeIntoAWSConfig(config)
 }

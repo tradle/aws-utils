@@ -4,26 +4,26 @@ import { Folder } from './types'
 export interface CreateGzippedStoreOpts {
   folder: Folder
 }
-export const createKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
+export const createJsonKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
   return {
     has: folder.has.bind(folder),
     get: folder.getJSON.bind(folder),
     del: folder.del.bind(folder),
     put: folder.put.bind(folder),
     sub: (prefix: string) =>
-      createKVStore({
+      createJsonKVStore({
         folder: folder.sub(prefix)
       })
   }
 }
-export const createGzippedKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
+export const createGzippedJsonKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
   return {
     has: folder.has.bind(folder),
     get: folder.getJSON.bind(folder),
     del: folder.del.bind(folder),
     put: folder.gzipAndPut.bind(folder),
     sub: (prefix: string) =>
-      createGzippedKVStore({
+      createGzippedJsonKVStore({
         folder: folder.sub(prefix)
       })
   }
