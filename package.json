@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -b packages -w",
     "tsbuild": "tsc -b packages",
-    "publish:local": "lerna publish --registry http://localhost:4873"
+    "publish:local": "lerna publish --registry http://localhost:4873",
+    "bootstrap": "lerna bootstrap",
+    "postbootstrap": "npm run link",
+    "link": "./scripts/link.sh",
+    "postlink": "npm run dedupe",
+    "dedupe": "./scripts/dedupe.sh"
   },
   "keywords": [],
   "author": "",

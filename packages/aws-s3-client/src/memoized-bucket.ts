@@ -1,6 +1,6 @@
 import { cachify, Logger } from '@tradle/aws-common-utils'
 import { BucketOpts } from './types'
-import { createBucket as createBaseBucket, Bucket } from './bucket'
+import { Bucket } from './bucket'
 
 export interface MemoizedBucketOpts extends BucketOpts {
   cache: any // lru-cache
@@ -27,4 +27,4 @@ export class MemoizedBucket extends Bucket {
   }
 }
 
-export const createMemoizedBucket = (opts: MemoizedBucketOpts) => new MemoizedBucket(opts)
+export const wrapBucketMemoized = (opts: MemoizedBucketOpts) => new MemoizedBucket(opts)

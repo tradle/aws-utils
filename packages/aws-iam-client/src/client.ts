@@ -1,6 +1,5 @@
 import AWS from 'aws-sdk'
 import Errors from '@tradle/errors'
-import { ClientFactory } from '@tradle/aws-client-factory'
 import { alphabetical, sha256Hex } from '@tradle/aws-common-utils'
 
 const CRR_NAME = 'cross-region-replication-role'

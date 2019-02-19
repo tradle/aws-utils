@@ -1,7 +1,6 @@
 {
   "packages": ["packages/*"],
   "npmClient": "npm",
-  "useWorkspaces": true,
   "version": "independent",
   "bootstrap": {
     "ignore": ["aws-sdk", "blue-tape", "sinon", "tape"]

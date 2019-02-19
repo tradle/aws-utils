@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk'
 import { Logger } from './logger'
 
 export type FirstArgument<T> = T extends (arg1: infer U, ...args: any[]) => any ? U : any
@@ -32,4 +33,22 @@ export interface CachifyOpts extends KeyValueStore {
   cache: Cache
   logger?: Logger
   cloneOnGet?: boolean
+}
+
+export interface AWSConfig extends FirstArgument<AWS.Config['update']> {
+  region: string
+}
+
+// IAM
+
+export interface IAMPrincipalObj {
+  AWS: string | string[]
+}
+export type IAMPrincipal = string | IAMPrincipalObj
+
+export interface IAMStatement {
+  Principal: IAMPrincipal
+  Action: string | string[]
+  Resource: string | string[]
+  [x: string]: any
 }

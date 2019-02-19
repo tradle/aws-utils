@@ -181,4 +181,6 @@ const getFolderPath = (parent: string, folder: string): string => {
   return fPath.replace(/[/]+$/, '') + '/'
 }
 
-export const createBucket = (opts: BucketOpts) => new Bucket(opts)
+export { Bucket as Folder }
+export const wrapBucket = (opts: BucketOpts) => new Bucket(opts)
+export const wrapFolder = wrapBucket

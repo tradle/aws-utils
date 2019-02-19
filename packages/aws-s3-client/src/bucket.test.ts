@@ -4,7 +4,7 @@ import Cache from 'lru-cache'
 import { createClientFactory } from '@tradle/aws-client-factory'
 import { initTest, testKV } from '@tradle/aws-common-utils/lib/test'
 import { randomString } from '@tradle/aws-common-utils'
-import { createBucket, createMemoizedBucket, createClient } from './'
+import { wrapBucket, wrapBucketMemoized, createClient } from './'
 import { createJsonKVStore } from './kv'
 
 initTest()
@@ -19,7 +19,7 @@ const client = createClient({ client: s3 })
 test('getCacheable', async t => {
   const sandbox = sinon.createSandbox()
   const bucketName = `test-${randomString(10)}`
-  const bucket = createBucket({ bucket: bucketName, client })
+  const bucket = wrapBucket({ bucket: bucketName, client })
   await bucket.create()
 
   const key = 'a'
@@ -62,7 +62,7 @@ test('getCacheable', async t => {
 
 test('Bucket', async t => {
   const bucketName = `test-${Date.now()}-${randomString(10)}`
-  const bucket = createBucket({ bucket: bucketName, client })
+  const bucket = wrapBucket({ bucket: bucketName, client })
   await bucket.create()
 
   const ops: any[] = [
@@ -106,7 +106,7 @@ test('Bucket', async t => {
 test('Bucket with cache', async t => {
   const sandbox = sinon.createSandbox()
   const bucketName = `test-${Date.now()}-${randomString(10)}`
-  const bucket = createMemoizedBucket({
+  const bucket = wrapBucketMemoized({
     bucket: bucketName,
     client,
     cache: new Cache({ maxAge: 500 })
@@ -159,7 +159,7 @@ test('Bucket with cache', async t => {
   sandbox.restore()
 })
 ;(async () => {
-  const bucket = createBucket({
+  const bucket = wrapBucket({
     bucket: `test-${randomString(10)}`,
     client
   })

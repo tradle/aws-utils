@@ -69,6 +69,7 @@ const FACTORY_DEFAULTS = {
 export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) => {
   const { defaults = FACTORY_DEFAULTS } = clientsOpts
 
+  // hm...it's kind of crazy to modify a global config here
   mergeIntoAWSConfig(defaults)
 
   const memoized = transform(
