@@ -1,22 +1,24 @@
-import AWS from 'aws-sdk'
 import getLocalIP from 'localip'
 import { localstack } from './localstack'
 import { mergeIntoAWSConfig } from './config'
+import { AWSConfig } from './types'
 
 const localIP = getLocalIP()
 const getLocalstackEndpointWithLocalIP = (service: string) => localstack[service].replace(/localhost/, localIP)
 
-type FirstArgument<T> = T extends (arg1: infer U, ...args: any[]) => any ? U : any
+export const getLocalstackConfig = () => {
+  const config: AWSConfig = { region: 'us-east-1' }
 
-export const targetLocalstack = () => {
-  const config: FirstArgument<AWS.Config['update']> = {}
   for (const service in localstack) {
     const lowercase = service.toLowerCase()
     config[lowercase] = {
-      endpoint: getLocalstackEndpointWithLocalIP(service)
+      endpoint: getLocalstackEndpointWithLocalIP(service),
+      region: config.region
     }
   }
 
   config.s3ForcePathStyle = config.s3.s3ForcePathStyle = true
-  mergeIntoAWSConfig(config)
+  return config
 }
+
+export const targetLocalstack = () => mergeIntoAWSConfig(getLocalstackConfig())

@@ -1,8 +1,8 @@
 import AWS from 'aws-sdk'
-import memoize from 'lodash/memoize'
-import transform from 'lodash/transform'
+import _ from 'lodash'
 import stableStringify from 'json-stable-stringify'
 import { mergeIntoAWSConfig } from '@tradle/aws-common-utils'
+import { EventEmitter } from 'events'
 
 export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientConfiguration {
   region: string
@@ -13,7 +13,7 @@ export interface CreateClientsFactoryOpts {
   useGlobalConfigClock?: boolean
 }
 
-const factories = {
+const baseFactories = {
   s3: (opts: AWS.S3.Types.ClientConfiguration = {}) => new AWS.S3(opts),
   dynamodb: (opts: AWS.DynamoDB.Types.ClientConfiguration = {}) => new AWS.DynamoDB(opts),
   documentclient: (
@@ -36,7 +36,9 @@ const factories = {
   cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts)
 }
 
-export interface ClientCache {
+const factories = Object.assign(new EventEmitter(), baseFactories)
+
+export interface ClientCache extends EventEmitter {
   s3: AWS.S3
   dynamodb: AWS.DynamoDB
   documentclient: AWS.DynamoDB.DocumentClient
@@ -72,39 +74,40 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) 
   // hm...it's kind of crazy to modify a global config here
   mergeIntoAWSConfig(defaults)
 
-  const memoized = transform(
-    factories,
-    (memFactories, value, serviceName) => {
-      memFactories[serviceName] = memoize(
-        opts => {
-          const serviceDefaults = defaults[serviceName] || {}
-          const client = factories[serviceName]({ ...serviceDefaults, ...opts })
-          if (clientsOpts.useGlobalConfigClock) {
-            useGlobalConfigClock(client)
-          }
+  const memoized = new EventEmitter() as ClientFactory
+  _.functions(baseFactories).forEach(serviceName => {
+    memoized[serviceName] = _.memoize(
+      opts => {
+        const serviceDefaults = defaults[serviceName] || {}
+        const client = factories[serviceName]({ ...serviceDefaults, ...opts })
+        if (clientsOpts.useGlobalConfigClock) {
+          useGlobalConfigClock(client)
+        }
 
-          return client
-        },
-        opts => stableStringify(opts)
-      )
-    },
-    {}
-  ) as typeof factories
+        memoized.emit('new', { name: serviceName, recordable: client })
+        return client
+      },
+      opts => stableStringify(opts)
+    )
+  })
 
   return memoized
 }
 
 export const createClientCache = (clientOpts: CreateClientsFactoryOpts = {}) => {
   const factory = createClientFactory(clientOpts)
-  const cache = {} as ClientCache
+  // @ts-ignore
+  const cache = new EventEmitter() as ClientCache
+  factory.on('new', e => cache.emit('new', e))
+
   const instantiated = {} as Partial<ClientCache>
-  Object.keys(factory).forEach(method =>
+  Object.keys(baseFactories).forEach(method => {
     Object.defineProperty(cache, method, {
       get() {
         return (instantiated[method] = factory[method]())
       }
     })
-  )
+  })
 
   cache.factory = factory
   cache.instantiated = instantiated
