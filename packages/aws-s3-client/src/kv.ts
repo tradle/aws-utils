@@ -1,33 +1,48 @@
 import { KeyValueStoreExtended } from '@tradle/aws-common-utils'
 import { Folder } from './types'
 
-export interface CreateGzippedStoreOpts {
+const noParse = str => str
+const parseJSON = str => JSON.parse(str)
+
+export interface CreateStoreOpts {
   folder: Folder
+  parse?: (raw: string) => any
 }
-export const createJsonKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
+
+export const createKVStore = ({ folder, parse = noParse }: CreateStoreOpts): KeyValueStoreExtended => {
   return {
     has: folder.has.bind(folder),
-    get: folder.getJSON.bind(folder),
+    get: (key: string) => folder.get(key).then(({ Body }) => parse(Body.toString())),
     del: folder.del.bind(folder),
     put: folder.put.bind(folder),
     sub: (prefix: string) =>
-      createJsonKVStore({
-        folder: folder.sub(prefix)
+      createKVStore({
+        folder: folder.sub(prefix),
+        parse
       })
   }
 }
-export const createGzippedJsonKVStore = ({ folder }: CreateGzippedStoreOpts): KeyValueStoreExtended => {
+
+export const createJsonKVStore = (opts: CreateStoreOpts) => createKVStore({ parse: parseJSON, ...opts })
+
+export const createGzippedKVStore = (opts: CreateStoreOpts): KeyValueStoreExtended => {
+  const { folder } = opts
   return {
-    has: folder.has.bind(folder),
-    get: folder.getJSON.bind(folder),
-    del: folder.del.bind(folder),
+    ...createKVStore(opts),
     put: folder.gzipAndPut.bind(folder),
     sub: (prefix: string) =>
-      createGzippedJsonKVStore({
+      createGzippedKVStore({
+        ...opts,
         folder: folder.sub(prefix)
       })
   }
 }
+
+export const createGzippedJsonKVStore = (opts: CreateStoreOpts): KeyValueStoreExtended =>
+  createGzippedKVStore({
+    ...opts,
+    parse: parseJSON
+  })
 
 // export interface CreateStoreOpts {
 //   client: S3Client

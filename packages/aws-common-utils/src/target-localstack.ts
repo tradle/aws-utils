@@ -7,8 +7,7 @@ const localIP = getLocalIP()
 const getLocalstackEndpointWithLocalIP = (service: string) => localstack[service].replace(/localhost/, localIP)
 
 export const getLocalstackConfig = () => {
-  const config: AWSConfig = { region: 'us-east-1' }
-
+  const config: AWSConfig = { region: process.env.AWS_REGION || 'us-east-1' }
   for (const service in localstack) {
     const lowercase = service.toLowerCase()
     config[lowercase] = {
