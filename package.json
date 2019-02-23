@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tswatch": "tsc -b packages -w",
-    "tsbuild": "tsc -b packages",
+    "tsbuild": "lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
     "bootstrap": "lerna bootstrap",
     "postbootstrap": "npm run link",

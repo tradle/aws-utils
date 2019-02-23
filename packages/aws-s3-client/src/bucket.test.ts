@@ -1,3 +1,4 @@
+import AWS from 'aws-sdk'
 import test from 'blue-tape'
 import sinon from 'sinon'
 import Cache from 'lru-cache'
@@ -7,9 +8,10 @@ import { randomString } from '@tradle/aws-common-utils'
 import { wrapBucket, wrapBucketMemoized, createClient } from './'
 import { createJsonKVStore } from './kv'
 
-initTest()
+initTest(AWS)
 
 const clients = createClientFactory({
+  AWS,
   defaults: { region: 'us-east-1' }
 })
 

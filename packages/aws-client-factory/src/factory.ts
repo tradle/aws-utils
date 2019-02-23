@@ -1,7 +1,6 @@
-import AWS from 'aws-sdk'
 import _ from 'lodash'
 import stableStringify from 'json-stable-stringify'
-import { mergeIntoAWSConfig } from '@tradle/aws-common-utils'
+import { mergeIntoAWSConfig, AWSSDK } from '@tradle/aws-common-utils'
 import { EventEmitter } from 'events'
 
 export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientConfiguration {
@@ -9,11 +8,12 @@ export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientCon
 }
 
 export interface CreateClientsFactoryOpts {
+  AWS: AWSSDK
   defaults?: CreateClientFactoryDefaults
   useGlobalConfigClock?: boolean
 }
 
-const baseFactories = {
+const createBaseFactory = (AWS: AWSSDK) => ({
   s3: (opts: AWS.S3.Types.ClientConfiguration = {}) => new AWS.S3(opts),
   dynamodb: (opts: AWS.DynamoDB.Types.ClientConfiguration = {}) => new AWS.DynamoDB(opts),
   documentclient: (
@@ -33,10 +33,9 @@ const baseFactories = {
   apigateway: (opts: AWS.APIGateway.Types.ClientConfiguration = {}) => new AWS.APIGateway(opts),
   cloudwatch: (opts: AWS.CloudWatch.Types.ClientConfiguration = {}) => new AWS.CloudWatch(opts),
   cloudwatchlogs: (opts: AWS.CloudWatchLogs.Types.ClientConfiguration = {}) => new AWS.CloudWatchLogs(opts),
-  cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts)
-}
-
-const factories = Object.assign(new EventEmitter(), baseFactories)
+  cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts),
+  events: new EventEmitter()
+})
 
 export interface ClientCache extends EventEmitter {
   s3: AWS.S3
@@ -59,32 +58,35 @@ export interface ClientCache extends EventEmitter {
   cloudformation: AWS.CloudFormation
   factory: ClientFactory
   instantiated: Partial<ClientCache>
+  events: EventEmitter
 }
 
-export type ClientFactory = typeof factories
+export interface ClientFactory extends ReturnType<typeof createBaseFactory>, EventEmitter {}
+
 type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any
 
 const FACTORY_DEFAULTS = {
   region: process.env.AWS_REGION
 }
 
-export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) => {
-  const { defaults = FACTORY_DEFAULTS } = clientsOpts
+export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
+  const { AWS, defaults = FACTORY_DEFAULTS } = clientsOpts
 
   // hm...it's kind of crazy to modify a global config here
-  mergeIntoAWSConfig(defaults)
+  mergeIntoAWSConfig(AWS, defaults)
 
-  const memoized = new EventEmitter() as ClientFactory
-  _.functions(baseFactories).forEach(serviceName => {
+  const factory = createBaseFactory(AWS)
+  const memoized = { events: factory.events } as ClientFactory
+  _.functions(factory).forEach(serviceName => {
     memoized[serviceName] = _.memoize(
       opts => {
         const serviceDefaults = defaults[serviceName] || {}
-        const client = factories[serviceName]({ ...serviceDefaults, ...opts })
+        const client = factory[serviceName]({ ...serviceDefaults, ...opts })
         if (clientsOpts.useGlobalConfigClock) {
-          useGlobalConfigClock(client)
+          useGlobalConfigClock(AWS, client)
         }
 
-        memoized.emit('new', { name: serviceName, recordable: client })
+        memoized.events.emit('new', { name: serviceName, recordable: client })
         return client
       },
       opts => stableStringify(opts)
@@ -94,14 +96,13 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts = {}) 
   return memoized
 }
 
-export const createClientCache = (clientOpts: CreateClientsFactoryOpts = {}) => {
+export const createClientCache = (clientOpts: CreateClientsFactoryOpts) => {
   const factory = createClientFactory(clientOpts)
   // @ts-ignore
-  const cache = new EventEmitter() as ClientCache
-  factory.on('new', e => cache.emit('new', e))
+  const cache = { events: factory.events } as ClientCache
 
   const instantiated = {} as Partial<ClientCache>
-  Object.keys(baseFactories).forEach(method => {
+  _.functions(factory).forEach(method => {
     Object.defineProperty(cache, method, {
       get() {
         return (instantiated[method] = factory[method]())
@@ -114,7 +115,7 @@ export const createClientCache = (clientOpts: CreateClientsFactoryOpts = {}) => 
   return cache
 }
 
-export const useGlobalConfigClock = (service: AWS.Service) => {
+export const useGlobalConfigClock = (AWS, service: AWS.Service) => {
   if (service instanceof AWS.DynamoDB.DocumentClient) {
     // @ts-ignore
     service = (service as AWS.DynamoDB.DocumentClient).service as AWS.DynamoDB

@@ -1,7 +1,7 @@
 import getLocalIP from 'localip'
 import { localstack } from './localstack'
 import { mergeIntoAWSConfig } from './config'
-import { AWSConfig } from './types'
+import { AWSConfig, AWSSDK } from './types'
 
 const localIP = getLocalIP()
 const getLocalstackEndpointWithLocalIP = (service: string) => localstack[service].replace(/localhost/, localIP)
@@ -20,4 +20,4 @@ export const getLocalstackConfig = () => {
   return config
 }
 
-export const targetLocalstack = () => mergeIntoAWSConfig(getLocalstackConfig())
+export const targetLocalstack = (AWS: AWSSDK) => mergeIntoAWSConfig(AWS, getLocalstackConfig())
