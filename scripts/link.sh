@@ -12,21 +12,21 @@ MODULES=(
   "aws-combo"
 )
 
-for item in ${MODULES[*]}
-do
-  cd "packages/$item" && npm link && cd $OLDPWD
-done
+# for item in ${MODULES[*]}
+# do
+#   cd "packages/$item" && npm link && cd $OLDPWD
+# done
 
 for item in ${MODULES[*]}
 do
   cd "packages/$item"
-
   for otherItem in ${MODULES[*]}
   do
-    if [[ $item != $otherItem ]]
+    DEPENDS=$(grep $otherItem package.json)
+    if [[ $DEPENDS && $item != $otherItem ]]
     then
       echo "linking @tradle/$item in $otherItem"
-      npm link @tradle/$item
+      npm link @tradle/$otherItem
     fi
   done
 
