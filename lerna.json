@@ -1,8 +1,15 @@
 {
-  "packages": ["packages/*"],
+  "packages": [
+    "packages/*"
+  ],
   "npmClient": "npm",
-  "version": "1.0.1-alpha.10",
+  "version": "1.0.1-alpha.11",
   "bootstrap": {
-    "ignore": ["aws-sdk", "blue-tape", "sinon", "tape"]
+    "ignore": [
+      "aws-sdk",
+      "blue-tape",
+      "sinon",
+      "tape"
+    ]
   }
 }
