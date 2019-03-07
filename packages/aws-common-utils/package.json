@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@types/pino": "~5.8.4",
-    "aws-sdk": "~2.382.0",
+    "aws-sdk": "~2.290.0",
     "blue-tape": "~1.0.0"
   }
 }
