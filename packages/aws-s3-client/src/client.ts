@@ -175,7 +175,10 @@ export class S3Client {
     }
   }
 
-  public listBuckets = async () => this.s3.listBuckets().promise()
+  public listBuckets = async () => {
+    const { Buckets } = await this.s3.listBuckets().promise()
+    return Buckets.map(({ Name }) => Name)
+  }
 
   public listObjects = async (opts: Types.ListBucketOpts): Promise<Types.S3ObjWithBody[]> => {
     return (await this.listBucket({ ...opts, getBody: true })) as Types.S3ObjWithBody[]
@@ -187,11 +190,10 @@ export class S3Client {
     return (await this.listBucketWithPrefix({ ...opts, getBody: true })) as Types.S3ObjWithBody[]
   }
 
-  public listBucket = async ({ bucket, s3Opts }: Types.ListBucketOpts): Promise<S3.Object[]> => {
+  public listBucket = async (opts: Types.ListBucketOpts): Promise<S3.Object[]> => {
     const all = []
     await this.forEachItemInBucket({
-      s3Opts,
-      bucket,
+      ...opts,
       map: item => all.push(item)
     })
 
@@ -505,8 +507,8 @@ export class S3Client {
     return emptyBucket({ s3, bucket })
   }
 
-  public listBucketWithPrefix = async ({ bucket, prefix, s3Opts: s3Opts }: Types.ForEachItemInBucketWithPrefixOpts) => {
-    return await this.listBucket({ bucket, s3Opts: { ...s3Opts, Prefix: prefix } })
+  public listBucketWithPrefix = async ({ s3Opts, prefix, ...listOpts }: Types.ForEachItemInBucketWithPrefixOpts) => {
+    return await this.listBucket({ s3Opts: { ...s3Opts, Prefix: prefix }, ...listOpts,  })
   }
 
   public copyFilesBetweenBuckets = async ({ source, target, keys, prefix, acl }: Types.BucketCopyOpts) => {

@@ -12,10 +12,13 @@ export interface BucketOpts {
 
 export type ListOptsMinusBucket = Omit<AWS.S3.ListObjectsV2Request, 'Bucket'>
 
-export interface ForEachItemInBucketOpts extends BaseBucketOpts {
-  map: (item: any, index: number) => any
+export interface ListBucketOpts extends BaseBucketOpts {
   getBody?: boolean
   s3Opts?: ListOptsMinusBucket
+}
+
+export interface ForEachItemInBucketOpts extends ListBucketOpts {
+  map: (item: any, index: number) => any
   // [x: string]: any
 }
 
@@ -24,7 +27,6 @@ export interface ForEachItemInBucketWithPrefixOpts extends BaseBucketOpts {
   getBody?: boolean
   s3Opts?: ListOptsMinusBucket
 }
-export type ListBucketOpts = OmitFromFirstArg<ForEachItemInBucketOpts, 'map'>
 export interface GetCacheableOpts extends GetOpts {
   ttl: number
   parse?: (any) => any
