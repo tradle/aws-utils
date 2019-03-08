@@ -37,7 +37,7 @@ const createBaseFactory = (AWS: AWSSDK) => ({
   events: new EventEmitter()
 })
 
-export interface ClientCache extends EventEmitter {
+interface BareClientCache {
   s3: AWS.S3
   dynamodb: AWS.DynamoDB
   documentclient: AWS.DynamoDB.DocumentClient
@@ -56,9 +56,18 @@ export interface ClientCache extends EventEmitter {
   cloudwatch: AWS.CloudWatch
   cloudwatchlogs: AWS.CloudWatchLogs
   cloudformation: AWS.CloudFormation
+}
+
+type ForEachClientCallback = <K extends keyof BareClientCache, V = BareClientCache[K]>(
+  client: V,
+  serviceName: K
+) => void
+
+export interface ClientCache extends BareClientCache {
   factory: ClientFactory
   instantiated: Partial<ClientCache>
   events: EventEmitter
+  forEach: (fn: ForEachClientCallback) => void
 }
 
 export interface ClientFactory extends ReturnType<typeof createBaseFactory>, EventEmitter {}
@@ -102,16 +111,26 @@ export const createClientCache = (clientOpts: CreateClientsFactoryOpts) => {
   const cache = { events: factory.events } as ClientCache
 
   const instantiated = {} as Partial<ClientCache>
-  _.functions(factory).forEach(method => {
+  const clientNames = _.functions(factory) as [keyof BareClientCache]
+  clientNames.forEach(method => {
     Object.defineProperty(cache, method, {
+      set(value) {
+        instantiated[method] = value
+      },
       get() {
-        return (instantiated[method] = factory[method]())
+        if (!instantiated[method]) {
+          // @ts-ignore
+          instantiated[method] = factory[method]()
+        }
+
+        return instantiated[method]
       }
     })
   })
 
   cache.factory = factory
   cache.instantiated = instantiated
+  cache.forEach = fn => clientNames.forEach(key => fn(cache[key], key))
   return cache
 }
 
