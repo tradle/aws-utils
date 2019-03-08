@@ -40,6 +40,6 @@
     "typescript": "~3.2.4"
   },
   "peerDependencies": {
-    "aws-sdk": "~2.382.0"
+    "aws-sdk": "~2.290.0"
   }
 }
