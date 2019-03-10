@@ -16,3 +16,11 @@ export const parseArn = (arn: string) => {
 export const getRegionFromArn = (arn: string) => parseArn(arn).region
 
 export const getFunctionNameFromArn = (arn: string) => arn.slice(arn.lastIndexOf('function:') + 9)
+
+export const buildArn = ({ service, region='', accountId='', serviceSpecificResourceName }) => `arn:aws:${service}:${region}:${accountId}:${serviceSpecificResourceName}`
+
+export const buildLambdaFunctionArn = opts => buildArn({ 
+  ...opts, 
+  service: 'lambda', 
+  serviceSpecificResourceName: `function:${opts.name}` 
+})
