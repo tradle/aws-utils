@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-lambda-client",
-  "version": "1.0.1-alpha.14",
+  "version": "1.0.1-alpha.15",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/mvayngrib/aws-utils#readme",
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@tradle/aws-client-factory": "^1.0.1-alpha.14",
-    "@tradle/aws-common-utils": "^1.0.1-alpha.12",
+    "@tradle/aws-common-utils": "^1.0.1-alpha.15",
     "@tradle/errors": "~2.0.0"
   },
   "devDependencies": {
