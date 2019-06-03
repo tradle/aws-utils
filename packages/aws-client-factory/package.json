@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-client-factory",
-  "version": "1.0.1-alpha.16",
+  "version": "1.0.1-alpha.17",
   "description": "caching layer over AWS SDK constructors",
   "keywords": [
     "aws",
