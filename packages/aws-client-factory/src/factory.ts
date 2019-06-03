@@ -34,6 +34,7 @@ const createBaseFactory = (AWS: AWSSDK) => ({
   cloudwatch: (opts: AWS.CloudWatch.Types.ClientConfiguration = {}) => new AWS.CloudWatch(opts),
   cloudwatchlogs: (opts: AWS.CloudWatchLogs.Types.ClientConfiguration = {}) => new AWS.CloudWatchLogs(opts),
   cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts),
+  textract: (opts: AWS.Textract.Types.ClientConfiguration = {}) => new AWS.Textract(opts),
   events: new EventEmitter()
 })
 
@@ -56,6 +57,7 @@ interface BareClientCache {
   cloudwatch: AWS.CloudWatch
   cloudwatchlogs: AWS.CloudWatchLogs
   cloudformation: AWS.CloudFormation
+  textract: AWS.Textract
 }
 
 type ForEachClientCallback = <K extends keyof BareClientCache, V = BareClientCache[K]>(
