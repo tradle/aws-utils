@@ -34,8 +34,15 @@ export const regions = [
   'eu-west-1',
   'eu-west-2',
   'eu-west-3',
-  'sa-east-1'
+  'eu-north-1',
+  'eu-south-1',
+  'af-south-1',
+  'ap-east-1',
+  'sa-east-1',
+  'me-south-1'
 ]
+
+
 
 // see name restrictions: https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
 const MAX_BUCKET_NAME_LENGTH = 63
