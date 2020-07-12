@@ -41,7 +41,6 @@ export const regions = [
 ]
 
 
-
 // see name restrictions: https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
 const MAX_BUCKET_NAME_LENGTH = 63
 const PUBLIC_BUCKET_RULE_ID = 'MakeItPublic'
