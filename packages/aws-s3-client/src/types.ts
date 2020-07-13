@@ -37,7 +37,8 @@ export interface BaseBucketOpts {
 }
 
 export interface BaseObjectOpts extends BaseBucketOpts {
-  key: string
+  key: string,
+  region?: string
 }
 
 export interface EnableEncryptionOpts extends BaseBucketOpts {

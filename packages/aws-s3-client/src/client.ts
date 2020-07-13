@@ -389,14 +389,16 @@ export class S3Client {
     }
   }
 
-  public getUrlForKey = ({ bucket, key }: Types.BaseObjectOpts) => {
+  public getUrlForKey = ({ bucket, key, region }: Types.BaseObjectOpts) => {
     const { host } = this.s3.endpoint
     const encodedKey = uriEscapePath(key)
     if (isLocalHost(host)) {
       return `http://${host}/${bucket}${encodedKey}`
     }
-
-    return `https://${bucket}.s3.amazonaws.com/${encodedKey}`
+    if (region)
+      return `https://${bucket}.s3.${region}.amazonaws.com/${encodedKey}`
+    else
+      return `https://${bucket}.s3.amazonaws.com/${encodedKey}`
   }
 
   public disableEncryption = async ({ bucket }: Types.BaseBucketOpts) => {
