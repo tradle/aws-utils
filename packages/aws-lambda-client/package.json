@@ -9,7 +9,7 @@
   "types": "lib/index.d.js",
   "directories": {
     "lib": "lib",
-    "test": "__tests__"
+    "test": "src/__tests__"
   },
   "files": [
     "lib"
@@ -19,22 +19,16 @@
     "url": "git+https://github.com/mvayngrib/aws-utils.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "ts-node ./src/__tests__/index.ts",
+    "test:ci": "node ./lib/__tests__/index.js",
     "tsc": "tsc"
   },
   "bugs": {
     "url": "https://github.com/mvayngrib/aws-utils/issues"
   },
   "dependencies": {
-    "@tradle/aws-client-factory": "^1.0.1-alpha.17",
-    "@tradle/aws-common-utils": "^1.0.1-alpha.17",
+    "@tradle/aws-client-factory": "file:../aws-client-factory",
+    "@tradle/aws-common-utils": "file:../aws-common-utils",
     "@tradle/errors": "~2.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "~10.12.18",
-    "aws-sdk": ">=2.290.0 <3",
-    "tslint": "~5.12.1",
-    "tslint-config-prettier": "~1.17.0",
-    "typescript": "~3.2.4"
   }
 }
