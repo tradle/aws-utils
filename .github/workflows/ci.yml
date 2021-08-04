@@ -1,0 +1,39 @@
+name: Tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      NODE_NO_WARNINGS: 1
+      AWS_ACCESS_KEY_ID: mykey
+      AWS_SECRET_ACCESS_KEY: mysecret
+    services:
+      localstack: 
+        image: localstack/localstack:0.9.0
+        ports:
+          - "4567-4584:4567-4584"
+          - "8080:8080"
+        env:
+          SERVICES: s3,sns,apigateway,iam,sts
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        # Same version as used by the AWS Lambda in MyCloud
+        node-version: 10.16.3
+    - name: Installing dependencies
+      run: |
+        npm i npm@7.2 -g
+        npm -v
+        npm i
+        for pkg in $(find packages -maxdepth 1 -mindepth 1 -type d); do (echo $pkg; cd "$pkg"; npm i); done;
+    - name: Building typescript code
+      run: npm run tsbuild
+      env:
+        NODE_OPTIONS: --max-old-space-size=8192
+    - name: Running unit tests
+      run: npm run test:ci
+      env:
+        NODE_OPTIONS: --max-old-space-size=8192
