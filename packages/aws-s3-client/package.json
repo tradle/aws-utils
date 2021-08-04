@@ -42,7 +42,6 @@
     "@types/lru-cache": "~4.1.1",
     "@types/node": "~10.12.18",
     "aws-sdk": ">=2.290.0 <3",
-    "blue-tape": "~1.0.0",
     "lru-cache": "~5.1.1",
     "sinon": "~7.2.3",
     "ts-node": "~8.0.2",
