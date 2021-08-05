@@ -7,7 +7,7 @@
     "test": "env NODE_ENV=test lerna run test",
     "test:ci": "env NODE_ENV=test lerna run test:ci",
     "tswatch": "tsc -b packages -w",
-    "tsbuild": "lerna run tsc",
+    "tsbuild": "tsc -v; lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
     "bootstrap": "lerna bootstrap",
     "postbootstrap": "npm run link",
