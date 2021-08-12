@@ -1,21 +1,26 @@
-export const localstack = {
-  APIGateway: 'http://localhost:4567',
-  Kinesis: 'http://localhost:4568',
-  DynamoDB: 'http://localhost:4569',
-  DynamoDBStreams: 'http://localhost:4570',
-  S3: 'http://localhost:4572',
-  Firehose: 'http://localhost:4573',
-  Lambda: 'http://localhost:4574',
-  SNS: 'http://localhost:4575',
-  SQS: 'http://localhost:4576',
-  Redshift: 'http://localhost:4577',
-  ES: 'http://localhost:4578',
-  SES: 'http://localhost:4579',
-  Route53: 'http://localhost:4580',
-  CloudFormation: 'http://localhost:4581',
-  CloudWatch: 'http://localhost:4582',
-  CloudWatchLogs: 'http://localhost:4582',
-  SSM: 'http://localhost:4583',
-  IotData: 'http://localhost:1884',
-  Iot: 'http://localhost:1884'
+import { getLocalIp } from './local-ip'
+
+export function getLocalStack () {
+  const ip = getLocalIp()
+  return {
+    APIGateway: `http://${ip}:4567`,
+    Kinesis: `http://${ip}:4568`,
+    DynamoDB: `http://${ip}:4569`,
+    DynamoDBStreams: `http://${ip}:4570`,
+    S3: `http://${ip}:4572`,
+    Firehose: `http://${ip}:4573`,
+    Lambda: `http://${ip}:4574`,
+    SNS: `http://${ip}:4575`,
+    SQS: `http://${ip}:4576`,
+    Redshift: `http://${ip}:4577`,
+    ES: `http://${ip}:4578`,
+    SES: `http://${ip}:4579`,
+    Route53: `http://${ip}:4580`,
+    CloudFormation: `http://${ip}:4581`,
+    CloudWatch: `http://${ip}:4582`,
+    CloudWatchLogs: `http://${ip}:4582`,
+    SSM: `http://${ip}:4583`,
+    IotData: `http://${ip}:1884`,
+    Iot: `http://${ip}:1884`
+  }
 }

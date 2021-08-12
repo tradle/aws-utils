@@ -358,19 +358,13 @@ export class S3Client {
   }
 
   public destroyBucket = async ({ bucket }) => {
-    const tasks = [
-      () => this.disableReplication({ bucket }),
-      () => this.emptyBucket({ bucket }),
-      () => this.deleteBucket({ bucket })
-    ]
-
     // this.logger.info('emptying and deleting bucket', { bucket })
-    for (const task of tasks) {
-      try {
-        await task()
-      } catch (err) {
-        Errors.ignore(err, { code: 'NoSuchBucket' })
-      }
+    try {
+      await this.emptyBucket({ bucket })
+      await this.disableReplication({ bucket })
+      await this.deleteBucket({ bucket })
+    } catch (err) {
+      Errors.ignore(err, { code: 'NoSuchBucket' })
     }
   }
 

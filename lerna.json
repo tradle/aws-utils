@@ -7,7 +7,7 @@
   "bootstrap": {
     "ignore": [
       "aws-sdk",
-      "blue-tape",
+      "tape",
       "sinon",
       "tape"
     ]

@@ -1,12 +1,12 @@
 import AWS from 'aws-sdk'
-import test from 'blue-tape'
+import test from 'tape'
 import sinon from 'sinon'
 import Cache from 'lru-cache'
 import { createClientFactory } from '@tradle/aws-client-factory'
 import { initTest, testKV } from '@tradle/aws-common-utils/lib/test'
 import { randomString } from '@tradle/aws-common-utils'
-import { wrapBucket, wrapBucketMemoized, createClient } from './'
-import { createJsonKVStore } from './kv'
+import { wrapBucket, wrapBucketMemoized, createClient } from '..'
+import { createJsonKVStore } from '../kv'
 
 initTest(AWS)
 
@@ -22,7 +22,13 @@ test('getCacheable', async t => {
   const sandbox = sinon.createSandbox()
   const bucketName = `test-${randomString(10)}`
   const bucket = wrapBucket({ bucket: bucketName, client })
-  await bucket.create()
+  try {
+    await bucket.create()
+  } catch (e) {
+    console.log(e)
+    console.warn('Did you maybe not start a local test server?')
+    return
+  }
 
   const key = 'a'
   const cacheable = bucket.getCacheable({
@@ -90,12 +96,13 @@ test('Bucket', async t => {
     const { method, args, result, body, error } = op
     try {
       const actualResult = await bucket[method](...args)
+      const msg = `${method}(${args})`
       if (error) {
-        t.fail(`expected error: ${error}`)
+        t.fail(`${msg} expected error: ${error}`)
       } else if (typeof result !== 'undefined') {
-        t.same(actualResult, result)
+        t.same(actualResult, result, `${msg} ${actualResult} != ${result}`)
       } else if (typeof body !== 'undefined') {
-        t.same(actualResult.Body, body)
+        t.same(actualResult.Body, body, `${msg} ${actualResult.Body} != ${body}`)
       }
     } catch (err) {
       t.equal(err.name, error)
@@ -141,12 +148,13 @@ test('Bucket with cache', async t => {
 
     try {
       const actualResult = await bucket[method](...args)
+      const msg = `${method}(${args})`
       if (error) {
-        t.fail(`expected error: ${error}`)
+        t.fail(`${msg} expected error: ${error}`)
       } else if (typeof result !== 'undefined') {
-        t.same(actualResult, result)
+        t.same(actualResult, result, `${msg} ${actualResult} != ${result}`)
       } else if (typeof body !== 'undefined') {
-        t.same(actualResult.Body, body)
+        t.same(actualResult.Body, body, `${msg} ${actualResult.Body} != ${body}`)
       }
     } catch (err) {
       t.equal(err.name, error)

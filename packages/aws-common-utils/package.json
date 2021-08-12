@@ -9,7 +9,7 @@
   "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
-    "test": "__tests__"
+    "test": "src/__tests__"
   },
   "files": [
     "lib"
@@ -19,7 +19,8 @@
     "url": "git+https://github.com/mvayngrib/aws-utils.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "ts-node ./src/__tests__/index.ts",
+    "test:ci": "node ./lib/__tests__/index.js",
     "tsc": "tsc"
   },
   "bugs": {
@@ -30,13 +31,7 @@
     "@tradle/promise-utils": "~1.3.0",
     "ip": "^1.1.5",
     "json-stable-stringify": "~1.0.1",
-    "localip": "~1.0.0",
     "lodash": "~4.17.11",
     "pino": "~5.11.1"
-  },
-  "devDependencies": {
-    "@types/pino": "~5.8.4",
-    "aws-sdk": ">=2.290.0 <3",
-    "blue-tape": "~1.0.0"
   }
 }

@@ -9,7 +9,7 @@
   "types": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
-    "test": "__tests__"
+    "test": "src/__tests__"
   },
   "files": [
     "lib"
@@ -22,28 +22,22 @@
     "url": "git+https://github.com/mvayngrib/aws-utils.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1",
+    "test": "ts-node ./src/__tests__/index.ts",
+    "test:ci": "node ./lib/__tests__/index.js",
     "tsc": "tsc"
   },
   "bugs": {
     "url": "https://github.com/mvayngrib/aws-utils/issues"
   },
   "dependencies": {
-    "@tradle/aws-client-factory": "^1.0.1-alpha.17",
-    "@tradle/aws-cloudformation-client": "^1.0.1-alpha.17",
-    "@tradle/aws-cloudwatch-client": "^1.0.1-alpha.17",
-    "@tradle/aws-common-utils": "^1.0.1-alpha.17",
-    "@tradle/aws-iam-client": "^1.0.1-alpha.17",
-    "@tradle/aws-lambda-client": "^1.0.1-alpha.17",
-    "@tradle/aws-s3-client": "^1.0.1-alpha.17",
-    "@tradle/aws-sns-client": "^1.0.1-alpha.17",
+    "@tradle/aws-client-factory": "file:../aws-client-factory",
+    "@tradle/aws-cloudformation-client": "file:../aws-cloudformation-client",
+    "@tradle/aws-cloudwatch-client": "file:../aws-cloudwatch-client",
+    "@tradle/aws-common-utils": "file:../aws-common-utils",
+    "@tradle/aws-iam-client": "file:../aws-iam-client",
+    "@tradle/aws-lambda-client": "file:../aws-lambda-client",
+    "@tradle/aws-s3-client": "file:../aws-s3-client",
+    "@tradle/aws-sns-client": "file:../aws-sns-client",
     "@tradle/errors": "~2.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "~10.12.18",
-    "aws-sdk": ">=2.290.0 <3",
-    "tslint": "~5.12.1",
-    "tslint-config-prettier": "~1.17.0",
-    "typescript": "~3.2.4"
   }
 }
