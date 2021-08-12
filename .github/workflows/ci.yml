@@ -28,7 +28,6 @@ jobs:
         npm i npm@7.2 -g
         npm -v
         npm i
-        for pkg in $(find packages -maxdepth 1 -mindepth 1 -type d); do (echo $pkg; cd "$pkg"; npm i); done;
     - name: Building typescript code
       run: npm run tsbuild
       env:
