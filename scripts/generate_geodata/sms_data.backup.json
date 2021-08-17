@@ -1,0 +1,847 @@
+{
+  "smsRegions": [
+    "us-east-2",
+    "us-east-1",
+    "us-west-1",
+    "us-west-2",
+    "ap-south-1",
+    "ap-southeast-1",
+    "ap-southeast-2",
+    "ap-northeast-1",
+    "ca-central-1",
+    "eu-central-1",
+    "eu-west-1",
+    "eu-west-2",
+    "eu-west-3",
+    "eu-north-1",
+    "me-south-1",
+    "sa-east-1",
+    "us-gov-west-1"
+  ],
+  "idToService": {
+    "AF": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "AL": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "DZ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "AD": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AI": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AR": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "AM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "AU": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "AT": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "AZ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "BS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BH": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "BD": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "BB": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BY": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "BE": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "BZ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BJ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BT": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BA": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BR": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "BN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BF": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "BI": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "KH": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CA": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "CV": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "KY": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "CF": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TD": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CL": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "CN": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "CO": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "KM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CK": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CR": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "HR": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "CY": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "CZ": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "CD": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "DK": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "DJ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "DM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "DO": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "EC": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "EG": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "SV": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "GQ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "EE": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "ET": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "FO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "FJ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "FI": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "FR": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "GF": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "GA": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GE": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "DE": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "GH": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "GI": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GR": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GL": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GD": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GP": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GU": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "GT": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "GN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "GY": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "HT": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "HN": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "HK": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "HU": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "IS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "IN": {
+      "senderID": 2,
+      "twoWaySMS": true
+    },
+    "ID": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "IQ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "IE": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "IL": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "IT": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "CI": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "JM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "JP": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "JO": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "KZ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "KE": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "KI": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "KW": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "KG": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "LA": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "LV": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "LB": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "LS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "LR": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "LY": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "LI": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "LT": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "LU": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MY": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "MV": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ML": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "MT": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MQ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MR": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MU": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MX": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "MD": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MC": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "MN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ME": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MA": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "MZ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "MM": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "NA": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "NP": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "NL": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "AN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "NC": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "NZ": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "NI": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "NE": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "NG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "MK": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "NO": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "OM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "PK": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "PW": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "PS": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "PA": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "PG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "PY": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "PE": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "PH": {
+      "senderID": 2,
+      "twoWaySMS": true
+    },
+    "PL": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "PT": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "PR": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "QA": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "CG": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "RE": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "RO": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "RU": {
+      "senderID": 2,
+      "twoWaySMS": true
+    },
+    "RW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "KN": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "LC": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "VC": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "WS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ST": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SA": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "SN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "RS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SC": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SL": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SG": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "SK": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "SI": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "SB": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ZA": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "KR": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "SS": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ES": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "LK": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "SR": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SZ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "SE": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "CH": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "TW": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "TJ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TZ": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "TH": {
+      "senderID": 2,
+      "twoWaySMS": true
+    },
+    "TL": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "TG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TO": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TT": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TN": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TR": {
+      "senderID": 2,
+      "twoWaySMS": true
+    },
+    "TM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "TC": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "UG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "UA": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "AE": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "GB": {
+      "senderID": 1,
+      "twoWaySMS": true
+    },
+    "US": {
+      "senderID": 0,
+      "twoWaySMS": true
+    },
+    "UY": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "UZ": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "VU": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "VE": {
+      "senderID": 0,
+      "twoWaySMS": false
+    },
+    "VN": {
+      "senderID": 2,
+      "twoWaySMS": false
+    },
+    "VG": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "VI": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "YE": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ZM": {
+      "senderID": 1,
+      "twoWaySMS": false
+    },
+    "ZW": {
+      "senderID": 1,
+      "twoWaySMS": false
+    }
+  }
+}

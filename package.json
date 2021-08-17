@@ -13,7 +13,8 @@
     "postbootstrap": "npm run link",
     "link": "./scripts/link.sh",
     "postlink": "npm run dedupe",
-    "dedupe": "./scripts/dedupe.sh"
+    "dedupe": "./scripts/dedupe.sh",
+    "generate_geodata": "./scripts/generate_geodata/cli.js"
   },
   "keywords": [],
   "author": "",
@@ -25,14 +26,18 @@
     "@types/node": "~10.12.18",
     "@types/pino": "~5.8.4",
     "aws-sdk": ">=2.290.0 <3",
+    "haversine": "^1.1.1",
+    "javascript-stringify": "^2.1.0",
     "lerna": "^3.10.7",
     "lru-cache": "~5.1.1",
+    "markdown-it": "^12.2.0",
     "sinon": "~7.2.3",
     "tape": "~5.3.0",
     "ts-node": "~8.0.2",
     "tslint": "~5.12.1",
     "tslint-config-prettier": "~1.17.0",
-    "typescript": "~3.3.3333"
+    "typescript": "~3.3.3333",
+    "world-countries": "^4.0.0"
   },
   "dependencies": {
     "@tradle/aws-client-factory": "file:packages/aws-client-factory",

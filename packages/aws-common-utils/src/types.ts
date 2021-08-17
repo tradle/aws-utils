@@ -52,3 +52,17 @@ export interface IAMStatement {
   Resource: string | string[]
   [x: string]: any
 }
+
+export interface Country {
+  id: string
+  cca3: string
+  callingCodes: string[]
+  title: string
+  awsRegion: string
+  sms?: {
+    region: string
+    // 0=Unavailable, 1=Available, 2=Available, but requisites required
+    senderID: 0 | 1 | 2
+    twoWaySMS: boolean
+  }
+}

@@ -1,12 +1,5 @@
 import { ClientFactory } from '@tradle/aws-client-factory'
 
-export interface Country {
-  cca3: string
-  title: string
-  awsRegion?: string
-  callingCodes?: string[]
-}
-
 export interface SendSMSOpts {
   phoneNumber: string
   message: string

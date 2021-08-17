@@ -15,6 +15,7 @@ export * from './localstack'
 export * from './types'
 export * from './config'
 export * from './local-ip'
+export * from './countries'
 // interface BatchProcessOpts {
 //   data: any[]
 //   batchSize: number
