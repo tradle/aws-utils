@@ -40,6 +40,6 @@
     "lodash": "~4.17.11"
   },
   "peerDependencies": {
-    "aws-sdk": ">=2.290.0 <3"
+    "aws-sdk": "2.631.0"
   }
 }

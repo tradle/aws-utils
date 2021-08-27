@@ -35,6 +35,6 @@
     "@tradle/errors": "~2.0.0"
   },
   "peerDependencies": {
-    "aws-sdk": ">=2.290.0 <3"
+    "aws-sdk": "2.631.0"
   }
 }
