@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk'
 import { S3 } from 'aws-sdk'
-import { Omit, OmitFromFirstArg, IAMStatement } from '@tradle/aws-common-utils'
+import { Omit, IAMStatement } from '@tradle/aws-common-utils'
 import { S3Client } from './client'
 export { Bucket, Folder } from './bucket'
 

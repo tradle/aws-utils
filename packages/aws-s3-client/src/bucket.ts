@@ -1,6 +1,6 @@
 import path from 'path'
 import _ from 'lodash'
-import { Errors, OmitFromFirstArg, KeyValueStoreExtended } from '@tradle/aws-common-utils'
+import { Errors, KeyValueStoreExtended } from '@tradle/aws-common-utils'
 // import { cachify } from './utils'
 import {
   PutOpts,
