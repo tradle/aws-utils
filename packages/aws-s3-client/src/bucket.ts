@@ -68,9 +68,9 @@ export class Bucket implements KeyValueStoreExtended {
   public getJSON = (key: string) => this.get(key).then(({ Body }) => JSON.parse(Body.toString()))
   public maybeGetJSON = (key: string) => this.getJSON(key).catch(Errors.ignoreNotFound)
 
-  public list = (opts: OmitFromFirstArg<ListBucketOpts, 'bucket'>) =>
+  public list = (opts: Omit<ListBucketOpts, 'bucket'>) =>
     this.client.listBucket({ bucket: this.bucket, ...opts })
-  public listObjects = (opts: OmitFromFirstArg<ListBucketOpts, 'bucket'>) =>
+  public listObjects = (opts: Omit<ListBucketOpts, 'bucket'>) =>
     this.client.listObjects({ bucket: this.bucket, ...opts })
   public listWithPrefix = (prefix: string, listOpts?: ListOptsMinusBucket) => {
     this.client.listBucketWithPrefix({
@@ -128,7 +128,7 @@ export class Bucket implements KeyValueStoreExtended {
     })
 
   public forEach = opts => this.client.forEachItemInBucket({ bucket: this.bucket, ...opts })
-  public enableEncryption = (opts: OmitFromFirstArg<EnableEncryptionOpts, 'bucket'>) =>
+  public enableEncryption = (opts: Omit<EnableEncryptionOpts, 'bucket'>) =>
     this.client.enableEncryption({ bucket: this.bucket, ...opts })
   public disableEncryption = () => this.client.disableEncryption({ bucket: this.bucket })
   public getEncryption = () => this.client.getEncryption({ bucket: this.bucket })
