@@ -22,10 +22,9 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         # Same version as used by the AWS Lambda in MyCloud
-        node-version: 10.16.3
+        node-version: 14.17.3
     - name: Installing dependencies
       run: |
-        npm i npm@7.2 -g
         npm -v
         npm i
     - name: Building typescript code
