@@ -3,7 +3,7 @@
     "packages/*"
   ],
   "npmClient": "npm",
-  "version": "2.0.0",
+  "version": "independent",
   "bootstrap": {
     "ignore": [
       "aws-sdk",
