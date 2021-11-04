@@ -1,24 +1,25 @@
 import _ from 'lodash'
 import stableStringify from 'json-stable-stringify'
-import { mergeIntoAWSConfig, AWSSDK } from '@tradle/aws-common-utils'
+import { mergeIntoAWSConfig, AWSSDK, AWSConfig, FirstArgument } from '@tradle/aws-common-utils'
 import { EventEmitter } from 'events'
 
-export interface CreateClientFactoryDefaults extends AWS.ConfigService.ClientConfiguration {
-  region: string
-}
+export type DocumentClientOptions = AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration
+
+type BaseFactory = ReturnType<typeof createBaseFactory>
+type CreateClientFactoryDefaults = {
+  [key in keyof BaseFactory]: FirstArgument<BaseFactory[key]>
+} & { region: string }
 
 export interface CreateClientsFactoryOpts {
   AWS: AWSSDK
-  defaults?: CreateClientFactoryDefaults
+  defaults?: Partial<CreateClientFactoryDefaults>
   useGlobalConfigClock?: boolean
 }
 
 const createBaseFactory = (AWS: AWSSDK) => ({
   s3: (opts: AWS.S3.Types.ClientConfiguration = {}) => new AWS.S3(opts),
   dynamodb: (opts: AWS.DynamoDB.Types.ClientConfiguration = {}) => new AWS.DynamoDB(opts),
-  documentclient: (
-    opts: AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration = {}
-  ) => new AWS.DynamoDB.DocumentClient(opts),
+  documentclient: (opts: DocumentClientOptions = {}) => new AWS.DynamoDB.DocumentClient(opts),
   dynamodbstreams: (opts: AWS.DynamoDBStreams.Types.ClientConfiguration = {}) => new AWS.DynamoDBStreams(opts),
   iam: (opts: AWS.IAM.Types.ClientConfiguration = {}) => new AWS.IAM(opts),
   iot: (opts: AWS.Iot.Types.ClientConfiguration = {}) => new AWS.Iot(opts),
@@ -34,30 +35,11 @@ const createBaseFactory = (AWS: AWSSDK) => ({
   cloudwatch: (opts: AWS.CloudWatch.Types.ClientConfiguration = {}) => new AWS.CloudWatch(opts),
   cloudwatchlogs: (opts: AWS.CloudWatchLogs.Types.ClientConfiguration = {}) => new AWS.CloudWatchLogs(opts),
   cloudformation: (opts: AWS.CloudFormation.Types.ClientConfiguration = {}) => new AWS.CloudFormation(opts),
-  textract: (opts: AWS.Textract.Types.ClientConfiguration = {}) => new AWS.Textract(opts),
-  events: new EventEmitter()
+  textract: (opts: AWS.Textract.Types.ClientConfiguration = {}) => new AWS.Textract(opts)
 })
 
-interface BareClientCache {
-  s3: AWS.S3
-  dynamodb: AWS.DynamoDB
-  documentclient: AWS.DynamoDB.DocumentClient
-  dynamodbstreams: AWS.DynamoDBStreams
-  iam: AWS.IAM
-  iot: AWS.Iot
-  sts: AWS.STS
-  sns: AWS.SNS
-  sqs: AWS.SQS
-  ses: AWS.SES
-  kms: AWS.KMS
-  lambda: AWS.Lambda
-  iotdata: AWS.IotData
-  xray: AWS.XRay
-  apigateway: AWS.APIGateway
-  cloudwatch: AWS.CloudWatch
-  cloudwatchlogs: AWS.CloudWatchLogs
-  cloudformation: AWS.CloudFormation
-  textract: AWS.Textract
+type BareClientCache = {
+  [key in keyof BaseFactory]: ReturnType<BaseFactory[key]>
 }
 
 type ForEachClientCallback = <K extends keyof BareClientCache, V = BareClientCache[K]>(
@@ -72,7 +54,9 @@ export interface ClientCache extends BareClientCache {
   forEach: (fn: ForEachClientCallback) => void
 }
 
-export interface ClientFactory extends ReturnType<typeof createBaseFactory>, EventEmitter {}
+export interface ClientFactory extends ReturnType<typeof createBaseFactory> {
+  events: EventEmitter
+}
 
 type ReturnType<T> = T extends (...args: any[]) => infer R ? R : any
 
@@ -81,27 +65,34 @@ const FACTORY_DEFAULTS = {
 }
 
 export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
-  const { AWS, defaults = FACTORY_DEFAULTS } = clientsOpts
+  let { AWS, defaults:def = FACTORY_DEFAULTS } = clientsOpts
+
+  const defaults = def as CreateClientFactoryDefaults
 
   // hm...it's kind of crazy to modify a global config here
   mergeIntoAWSConfig(AWS, defaults)
 
   const factory = createBaseFactory(AWS)
-  const memoized = { events: factory.events } as ClientFactory
-  _.functions(factory).forEach(serviceName => {
-    memoized[serviceName] = _.memoize(
-      opts => {
-        const serviceDefaults = defaults[serviceName] || {}
-        const client = factory[serviceName]({ ...serviceDefaults, ...opts })
+  const events = new EventEmitter()
+  const memoized = {
+    events: new EventEmitter()
+  } as ClientFactory
+  _.functions(factory).forEach((serviceName) => {
+    const name = serviceName as keyof typeof factory
+    memoized[name] = _.memoize(
+      (opts: any) => {
+        let serviceDefaults: any = defaults[name] ?? {}
+        const finalOpts = { ...serviceDefaults, ...opts }
+        const client = factory[name](finalOpts)
         if (clientsOpts.useGlobalConfigClock) {
           useGlobalConfigClock(AWS, client)
         }
 
-        memoized.events.emit('new', { name: serviceName, recordable: client })
+        events.emit('new', { name, recordable: client })
         return client
       },
-      opts => stableStringify(opts)
-    )
+      (opts: any) => stableStringify(opts)
+    ) as any
   })
 
   return memoized
@@ -136,7 +127,7 @@ export const createClientCache = (clientOpts: CreateClientsFactoryOpts) => {
   return cache
 }
 
-export const useGlobalConfigClock = (AWS, service: AWS.Service) => {
+export const useGlobalConfigClock = (AWS: AWSSDK, service: AWS.Service | AWS.DynamoDB.DocumentClient) => {
   if (service instanceof AWS.DynamoDB.DocumentClient) {
     // @ts-ignore
     service = (service as AWS.DynamoDB.DocumentClient).service as AWS.DynamoDB
