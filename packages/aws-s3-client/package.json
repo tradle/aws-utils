@@ -33,7 +33,7 @@
     "@tradle/aws-client-factory": "file:../aws-client-factory",
     "@tradle/aws-common-utils": "file:../aws-common-utils",
     "@tradle/errors": "~2.0.0",
-    "@tradle/promise-utils": "^1.3.0",
+    "@tradle/promise-utils": "2.0.1",
     "amazon-s3-uri": "^0.0.3",
     "caseless": "^0.12.0",
     "empty-aws-bucket": "github:mvayngrib/empty-aws-bucket",
