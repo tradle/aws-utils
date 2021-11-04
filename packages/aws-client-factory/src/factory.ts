@@ -28,6 +28,7 @@ const createBaseFactory = (AWS: AWSSDK) => ({
   sqs: (opts: AWS.SQS.Types.ClientConfiguration = {}) => new AWS.SQS(opts),
   ses: (opts: AWS.SES.Types.ClientConfiguration = {}) => new AWS.SES(opts),
   kms: (opts: AWS.KMS.Types.ClientConfiguration = {}) => new AWS.KMS(opts),
+  organizations: (opts: AWS.Organizations.ClientConfiguration = {}) => new AWS.Organizations(opts),
   lambda: (opts: AWS.Lambda.Types.ClientConfiguration = {}) => new AWS.Lambda(opts),
   iotdata: (opts: AWS.IotData.Types.ClientConfiguration = {}) => new AWS.IotData(opts),
   xray: (opts: AWS.XRay.Types.ClientConfiguration = {}) => new AWS.XRay(opts),
