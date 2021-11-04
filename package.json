@@ -9,11 +9,8 @@
     "tswatch": "tsc -b packages -w",
     "tsbuild": "tsc -v; lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
-    "bootstrap": "lerna bootstrap",
+    "postinstall": "lerna bootstrap",
     "postbootstrap": "npm run link",
-    "link": "./scripts/link.sh",
-    "postlink": "npm run dedupe",
-    "dedupe": "./scripts/dedupe.sh",
     "generate_geodata": "./scripts/generate_geodata/cli.js"
   },
   "keywords": [],
