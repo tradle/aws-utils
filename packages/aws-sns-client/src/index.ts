@@ -7,6 +7,7 @@ import { parseE164, getAWSRegionByCallingCode } from './geo'
 import { ClientFactory } from '@tradle/aws-client-factory'
 import { pickNonNull, getRegionFromArn, randomStatementId, parseArn } from '@tradle/aws-common-utils'
 import * as SNS from './types'
+import { MessageAttributeMap } from 'aws-sdk/clients/sns'
 
 const MESSAGE_ATTRIBUTES = {
   smsType: 'AWS.SNS.SMS.SMSType',
@@ -68,7 +69,11 @@ export class SNSClient {
   public deleteAllSubscriptions = async (topic: string) => {
     // this.logger.debug('deleting all subscriptions', { topic })
     const subs = await this.listSubscriptions({ topic })
-    await Promise.all(subs.map(sub => this.unsubscribe(sub.SubscriptionArn)))
+    await Promise.all(subs.map(({ SubscriptionArn }) => {
+      if (SubscriptionArn !== undefined) {
+        this.unsubscribe(SubscriptionArn)
+      }
+    }))
   }
 
   public getTopicAttributes = async (topic: string): Promise<AWS.SNS.GetTopicAttributesResponse> => {
@@ -119,7 +124,10 @@ export class SNSClient {
     let matches: AWS.SNS.Subscription[] = []
     do {
       batch = await sns.listSubscriptionsByTopic(params).promise()
-      matches = matches.concat(batch.Subscriptions.filter(filter))
+      const { Subscriptions } = batch
+      if (Subscriptions !== undefined) {
+        matches = matches.concat(Subscriptions.filter(filter))
+      }
     } while (batch.NextToken)
 
     return matches
@@ -131,32 +139,36 @@ export class SNSClient {
       filter: subscription => isMatch(subscription, { Protocol: protocol, Endpoint: target })
     })
 
-    let sub: string
+    let sub: string | undefined
     if (existing.length) {
       sub = existing[0].SubscriptionArn
-    } else {
+    }
+
+    if (sub === undefined) {
       // this.logger.debug(`subscribing ${protocol} to topic`, { target, topic })
       sub = await this.subscribe({ topic, target, protocol })
+      if (sub === undefined) {
+        throw new Error('Subscription didnt work')
+      }
     }
 
     return sub
   }
 
   public publish = async ({ topic, subject, message }: SNS.PublishOpts) => {
-    const params: AWS.SNS.PublishInput = {
-      TopicArn: topic,
-      Subject: subject,
-      Message: null
-    }
-
-    if (typeof message === 'string') {
-      params.Message = message
-    } else {
-      params.MessageStructure = 'json'
-      params.Message = JSON.stringify({
+    let messageStructure: 'json' | undefined
+    if (typeof message !== 'string') {
+      messageStructure = 'json'
+      message = JSON.stringify({
         ...message,
         default: typeof message.default === 'string' ? message.default : JSON.stringify(message.default)
       })
+    }
+
+    const params: AWS.SNS.PublishInput = {
+      TopicArn: topic,
+      Subject: subject,
+      Message: message
     }
 
     await this._client(topic)
@@ -168,23 +180,23 @@ export class SNSClient {
     const { callingCode, number } = parseE164(phoneNumber)
     const region = getAWSRegionByCallingCode(callingCode)
     const client = this._client(region)
+
     // this.logger.silly('sending SMS', { region, callingCode, number })
-    const params: AWS.SNS.PublishInput = {
-      PhoneNumber: callingCode + number,
-      Message: message,
-      MessageAttributes: {}
-    }
-
+    const attributes: MessageAttributeMap = {}
     if (senderId) {
-      params.MessageAttributes[MESSAGE_ATTRIBUTES.senderId] = { DataType: 'String', StringValue: 'Tradle' }
+      attributes[MESSAGE_ATTRIBUTES.senderId] = { DataType: 'String', StringValue: 'Tradle' }
     }
 
-    params.MessageAttributes[MESSAGE_ATTRIBUTES.smsType] = {
+    attributes[MESSAGE_ATTRIBUTES.smsType] = {
       DataType: 'String',
       StringValue: highPriority ? SMS_PRIORITY.high : SMS_PRIORITY.low
     }
 
-    await client.publish(params).promise()
+    await client.publish({
+      PhoneNumber: callingCode + number,
+      Message: message,
+      MessageAttributes: attributes
+    }).promise()
   }
 
   public allowCrossAccountPublish = async (topic: string, accounts: string[]) => {

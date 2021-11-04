@@ -2,9 +2,9 @@ import test from 'tape'
 import { KeyValueStoreExtended } from '../types'
 
 const noop = () => {}
-export const testKV = ({ name, create, done = noop }) =>
+export const testKV = ({ name, create, done = noop }: { name: string, create: () => KeyValueStoreExtended, done: () => void }) =>
   test(`key-value table (${name})`, async t => {
-    const kv = create() as KeyValueStoreExtended
+    const kv = create()
     t.equal(await kv.has('a'), false)
     await kv.put('a', {
       b: 'c',

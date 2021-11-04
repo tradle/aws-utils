@@ -7,10 +7,10 @@ const NOT_FOUND_MATCH = [
   { code: 'NoSuchBucketPolicy' }
 ]
 
-const ignoreNotFound = err => Errors.ignore(err, NOT_FOUND_MATCH)
+const ignoreNotFound = (err: any) => Errors.ignore(err, NOT_FOUND_MATCH)
 
 class BatchOpError extends Error {
-  constructor(message, public errors: Error[] = []) {
+  constructor(message: string, public errors: Error[] = []) {
     super(message)
   }
 }

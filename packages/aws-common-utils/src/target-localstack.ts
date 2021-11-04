@@ -6,14 +6,16 @@ export const getLocalstackConfig = () => {
   const config: AWSConfig = { region: process.env.AWS_REGION || 'us-east-1' }
   const localstack = getLocalStack()
   for (const service in localstack) {
-    const lowercase = service.toLowerCase()
+    const lowercase = service.toLowerCase() as keyof AWSConfig
     config[lowercase] = {
-      endpoint: localstack[service],
+      endpoint: localstack[service as keyof typeof localstack],
       region: config.region
-    }
+    } as unknown as never // We are certain that these properties exist
   }
 
-  config.s3ForcePathStyle = config.s3.s3ForcePathStyle = true
+  if (config.s3) {
+    config.s3ForcePathStyle = config.s3.s3ForcePathStyle = true
+  }
   return config
 }
 

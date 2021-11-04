@@ -1,6 +1,7 @@
 import AWS from 'aws-sdk'
 import Errors from '@tradle/errors'
 import { alphabetical, sha256Hex } from '@tradle/aws-common-utils'
+import { arnType } from 'aws-sdk/clients/iam'
 
 const CRR_NAME = 'cross-region-replication-role'
 const CRR_POLICY = 'cross-region-replication-policy'
@@ -55,16 +56,18 @@ export class IAMClient {
       PolicyDocument: JSON.stringify(permissionsPolicy)
     })
 
+    const policyArn = (policy as AWS.IAM.Policy).Arn as arnType
+
     await this.iam
       .attachRolePolicy({
         RoleName: roleName,
-        PolicyArn: policy.Arn
+        PolicyArn: policyArn
       })
       .promise()
 
     return {
       role: role.Arn,
-      policy: policy.Arn
+      policy: policyArn
     }
   }
   public createPolicy = async (opts: AWS.IAM.CreatePolicyRequest) => {

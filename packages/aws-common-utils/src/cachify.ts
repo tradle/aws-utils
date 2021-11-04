@@ -5,7 +5,7 @@ import { isPromise } from '@tradle/promise-utils'
 import { Logger } from './logger'
 import { KeyValueStore, CachifyOpts } from './types'
 export const cachify = ({ get, put, del, logger, cache, cloneOnGet }: CachifyOpts) => {
-  const maybeClone = cloneOnGet ? cloneDeep : obj => obj
+  const maybeClone = cloneOnGet ? cloneDeep : (obj: any) => obj
   const cachified = {} as KeyValueStore
   cachified.get = async key => {
     const keyStr = stableStringify(key)

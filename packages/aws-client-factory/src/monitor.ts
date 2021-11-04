@@ -6,13 +6,13 @@ const IGNORE_METHODS = ['makeRequest']
 const LENGTH_THRESHOLD_MS = 1000
 
 const getCurrentCallStack = (lineOffset: number = 2) =>
-  new Error().stack
+  (new Error().stack as string)
     .split('\n')
     .slice(lineOffset)
     .join('\n')
 
 // Object.keys misses inherited keys
-const getKeys = obj => {
+const getKeys = (obj: any) => {
   const keys = []
   for (const p in obj) {
     keys.push(p)
@@ -36,11 +36,19 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
     $stopRecording: recorder.stop,
     $dumpRecording: recorder.dump,
     $getPending: recorder.pending
+  } as {
+    [key in keyof typeof client]: typeof client[key]
+  } & {
+    $startRecording: typeof recorder.start,
+    $restartRecording: typeof recorder.restart,
+    $stopRecording: typeof recorder.stop,
+    $dumpRecording: typeof recorder.dump,
+    $getPending: typeof recorder.pending,
   }
 
-  const keys = getKeys(client)
+  const keys = getKeys(client) as Array<keyof typeof client>
   keys.forEach(key => {
-    const orig = client[key]
+    const orig: Function = client[key] as Function
     if (typeof orig !== 'function' || IGNORE_METHODS.includes(key)) {
       Object.defineProperty(wrapper, key, {
         get() {
@@ -54,7 +62,7 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
       return
     }
 
-    wrapper[key] = function(...args) {
+    wrapper[key] = function(...args: any[]) {
       const start = Date.now()
       const end = recorder.startCall({
         client: clientName,
@@ -64,7 +72,7 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
         stack: getCurrentCallStack(3)
       })
 
-      const onFinished = (error?, opResult?) => {
+      const onFinished = (error?: Error | null, opResult?: any) => {
         const endParams: any = {
           duration: Date.now() - start
         }
@@ -83,17 +91,19 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
         return opResult
       }
 
-      const onSuccess = opResult => onFinished(null, opResult)
+      const onSuccess = (opResult: any) => onFinished(null, opResult)
       const lastArg = args[args.length - 1]
-      let callback
+      let callback: undefined | ((error: Error | undefined | null, opResult: any) => void)
       if (typeof lastArg === 'function') {
         callback = lastArg
         args[args.length - 1] = onFinished
       }
 
-      let result
+      let result: {
+        promise: () => Promise<any>
+      }
       try {
-        result = orig.apply(this, args)
+        result = orig.apply(wrapper, args)
         if (!callback && result && result.promise) {
           const { promise } = result
           if (promise) {
@@ -106,7 +116,7 @@ export const monitor = ({ client, logger }: MonitorOpts) => {
         onFinished(err)
         throw err
       }
-    }
+    } as any
   })
 
   return wrapper

@@ -184,5 +184,5 @@ const getFolderPath = (parent: string, folder: string): string => {
 }
 
 export { Bucket as Folder }
-export const wrapBucket = (opts: BucketOpts) => new Bucket(opts)
+export const wrapBucket = (opts: BucketOpts): Bucket => new Bucket(opts)
 export const wrapFolder = wrapBucket

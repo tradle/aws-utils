@@ -3,7 +3,7 @@ import { parse as parseURL } from 'url'
 
 export const isLocalUrl = (url: string) => {
   const { hostname } = parseURL(url)
-  return isLocalHost(hostname)
+  return isLocalHost(hostname ?? '')
 }
 
 export const isLocalHost = (host: string) => {

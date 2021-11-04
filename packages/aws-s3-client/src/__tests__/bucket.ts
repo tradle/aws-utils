@@ -1,4 +1,4 @@
-import AWS from 'aws-sdk'
+import AWS, { Request, S3, AWSError } from 'aws-sdk'
 import test from 'tape'
 import sinon from 'sinon'
 import Cache from 'lru-cache'
@@ -7,6 +7,7 @@ import { initTest, testKV } from '@tradle/aws-common-utils/lib/test'
 import { randomString } from '@tradle/aws-common-utils'
 import { wrapBucket, wrapBucketMemoized, createClient } from '..'
 import { createJsonKVStore } from '../kv'
+import { Bucket } from '../bucket'
 
 initTest(AWS)
 
@@ -73,7 +74,7 @@ test('Bucket', async t => {
   const bucket = wrapBucket({ bucket: bucketName, client })
   await bucket.create()
 
-  const ops: any[] = [
+  const ops: { method: keyof Bucket, args: any[], result?: any, body?: Buffer, error?: string }[] = [
     { method: 'exists', args: ['abc'], result: false },
     { method: 'get', args: ['abc'], error: 'NotFound' },
     { method: 'getJSON', args: ['abc'], error: 'NotFound' },
@@ -95,7 +96,7 @@ test('Bucket', async t => {
   for (const op of ops) {
     const { method, args, result, body, error } = op
     try {
-      const actualResult = await bucket[method](...args)
+      const actualResult = await (bucket[method] as Function).apply(bucket, args)
       const msg = `${method}(${args})`
       if (error) {
         t.fail(`${msg} expected error: ${error}`)
@@ -123,7 +124,7 @@ test('Bucket with cache', async t => {
 
   await bucket.create()
 
-  const ops: any[] = [
+  const ops: { method: keyof Bucket, args: any[], result?: any, body?: Buffer, error?: string, cached?: boolean }[] = [
     { method: 'exists', args: ['abc'], result: false },
     { method: 'get', args: ['abc'], error: 'NotFound' },
     { method: 'getJSON', args: ['abc'], error: 'NotFound' },
@@ -141,13 +142,14 @@ test('Bucket with cache', async t => {
     const { method, args, result, body, cached, error } = op
     let getObjStub
     if (cached) {
-      getObjStub = sandbox.stub(s3, 'getObject').callsFake(() => {
+      getObjStub = sandbox.stub(s3, 'getObject').callsFake((): Request<S3.Types.GetObjectOutput, AWSError> => {
         t.fail('expected object to be cached')
+        throw new Error()
       })
     }
 
     try {
-      const actualResult = await bucket[method](...args)
+      const actualResult = await (bucket[method] as Function).apply(bucket, args)
       const msg = `${method}(${args})`
       if (error) {
         t.fail(`${msg} expected error: ${error}`)

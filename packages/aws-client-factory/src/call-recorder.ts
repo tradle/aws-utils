@@ -1,6 +1,6 @@
 export const createRecorder = () => {
-  const calls = []
-  let startTime
+  const calls: Array<any> = []
+  let startTime: number = 0
   const dump = () => ({
     start: startTime,
     duration: Date.now() - startTime,
@@ -16,7 +16,7 @@ export const createRecorder = () => {
     const d = dump()
     return {
       ...d,
-      calls: d.calls.filter(c => !('duration' in c))
+      calls: d.calls.filter((c: any) => !('duration' in c))
     }
   }
 
@@ -24,7 +24,7 @@ export const createRecorder = () => {
     try {
       return dump()
     } finally {
-      startTime = null
+      startTime = 0
       calls.length = 0
     }
   }
@@ -36,7 +36,7 @@ export const createRecorder = () => {
     return recordedCalls
   }
 
-  const addCall = event => {
+  const addCall = (event: any) => {
     if (!startTime) start(event.start)
 
     calls.push(event)

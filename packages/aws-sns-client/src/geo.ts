@@ -19,8 +19,12 @@ export function getAWSRegionByCallingCode (callingCode: string) {
 }
 
 export function parseE164 (phoneNumber: string) {
-  const digits = phoneNumber.match(E164_REGEX)[1]
-  let callingCode: string
+  const parts = phoneNumber.match(E164_REGEX)
+  if (parts === null) {
+    throw new InvalidOption(`Phone number without digits: ${phoneNumber}`)
+  }
+  const digits = parts[1]
+  let callingCode: string | undefined
   for (let i = Math.min(longestCallingCode, digits.length); i > 0; i--) {
     const candidate = digits.substr(0, i)
     if (callingCodeMap[candidate]) {
@@ -28,7 +32,7 @@ export function parseE164 (phoneNumber: string) {
       break
     }
   }
-  if (!callingCode) {
+  if (callingCode === undefined) {
     throw new InvalidOption(`No known calling code for: ${phoneNumber}`)
   }
 

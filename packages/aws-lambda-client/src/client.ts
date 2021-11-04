@@ -39,6 +39,9 @@ export class LambdaClient {
   public getPolicy = async (lambda: string) => {
     try {
       const { Policy } = await this.client.getPolicy({ FunctionName: lambda }).promise()
+      if (Policy === undefined) {
+        throw Object.assign(new Error('?'), { code: 'NoSuchKey' })
+      }
       return JSON.parse(Policy)
     } catch (err) {
       Errors.ignoreNotFound(err)
@@ -66,7 +69,7 @@ export class LambdaClient {
     }
 
     if (policy) {
-      return policy.Statement.some(s => s.Principal.Service === service)
+      return policy.Statement.some((s: any) => s.Principal.Service === service)
     }
 
     return false
@@ -95,7 +98,7 @@ export class LambdaClient {
       current = await this.getConfiguration(functionName)
     }
 
-    const updated = {}
+    const updated: Partial<typeof update> = {}
     const { Variables } = current.Environment
     for (const key in update) {
       // allow null == undefined
@@ -128,12 +131,14 @@ export class LambdaClient {
     return true
   }
 
-  public listFunctions = async (): Promise<AWS.Lambda.Types.FunctionConfiguration[]> => {
-    let all = []
+  public listFunctions = async () => {
+    let all: AWS.Lambda.Types.FunctionConfiguration[] = []
     const opts: AWS.Lambda.Types.ListFunctionsRequest = {}
     while (true) {
       const { NextMarker, Functions } = await this.client.listFunctions(opts).promise()
-      all = all.concat(Functions)
+      if (Functions !== undefined) {
+        all = all.concat(Functions)
+      }
       if (!NextMarker) break
 
       opts.Marker = NextMarker

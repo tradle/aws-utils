@@ -1,10 +1,10 @@
-export const alphabetical = (a, b) => {
+export const alphabetical = (a: any, b: any): 0 | 1 | -1 => {
   if (a === b) return 0
   if (a < b) return -1
   return 1
 }
 
-export const toStringOrBuf = value => {
+export const toStringOrBuf = (value: any) => {
   if (typeof value === 'string') return value
   if (Buffer.isBuffer(value)) return value
   if (!value) throw new Error('expected string, Buffer, or stringifiable object')

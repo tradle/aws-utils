@@ -17,10 +17,15 @@ export const getRegionFromArn = (arn: string) => parseArn(arn).region
 
 export const getFunctionNameFromArn = (arn: string) => arn.slice(arn.lastIndexOf('function:') + 9)
 
-export const buildArn = ({ service, region='', accountId='', serviceSpecificResourceName }) => `arn:aws:${service}:${region}:${accountId}:${serviceSpecificResourceName}`
+export interface BuildArnOpts { service: string, region?: string, accountId?: string, serviceSpecificResourceName: string }
 
-export const buildLambdaFunctionArn = opts => buildArn({ 
-  ...opts, 
-  service: 'lambda', 
-  serviceSpecificResourceName: `function:${opts.name}` 
+export const buildArn = ({ service, region, accountId, serviceSpecificResourceName }: BuildArnOpts) =>
+  `arn:aws:${service}:${region ?? ''}:${accountId ?? ''}:${serviceSpecificResourceName}`
+
+export type BuildLambdaFunctionOpts = Omit<BuildArnOpts, 'service' | 'serviceSpecificResourceName'> & { name: string }
+
+export const buildLambdaFunctionArn = (opts: BuildLambdaFunctionOpts) => buildArn({ 
+  ...opts,
+  service: 'lambda',
+  serviceSpecificResourceName: `function:${opts.name}`
 })
