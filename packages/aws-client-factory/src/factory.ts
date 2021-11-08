@@ -3,6 +3,7 @@ import stableStringify from 'json-stable-stringify'
 import { mergeIntoAWSConfig, AWSSDK, AWSConfig, FirstArgument } from '@tradle/aws-common-utils'
 import { EventEmitter } from 'events'
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
+import { constants } from 'fs'
 
 export type DocumentClientOptions = AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration
 
@@ -86,9 +87,10 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
     const name = serviceName as keyof typeof factory
     memoized[name] = _.memoize(
       (opts: any) => {
-        let serviceDefaults: any = defaults[name] ?? {}
+        const commonDefaults: any = defaults.common ?? {}
+        const serviceDefaults: any = defaults[name] ?? {}
         const finalOpts = {
-          ...defaults.common ?? {},
+          ...commonDefaults,
           ...serviceDefaults,
           ...opts
         }
