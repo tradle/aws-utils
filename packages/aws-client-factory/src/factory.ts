@@ -2,13 +2,17 @@ import _ from 'lodash'
 import stableStringify from 'json-stable-stringify'
 import { mergeIntoAWSConfig, AWSSDK, AWSConfig, FirstArgument } from '@tradle/aws-common-utils'
 import { EventEmitter } from 'events'
+import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
 
 export type DocumentClientOptions = AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration
 
 type BaseFactory = ReturnType<typeof createBaseFactory>
 type CreateClientFactoryDefaults = {
   [key in keyof BaseFactory]: FirstArgument<BaseFactory[key]>
-} & { region: string }
+} & {
+  region: string,
+  common: ServiceConfigurationOptions
+}
 
 export interface CreateClientsFactoryOpts {
   AWS: AWSSDK
@@ -83,7 +87,11 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
     memoized[name] = _.memoize(
       (opts: any) => {
         let serviceDefaults: any = defaults[name] ?? {}
-        const finalOpts = { ...serviceDefaults, ...opts }
+        const finalOpts = {
+          ...defaults.common ?? {},
+          ...serviceDefaults,
+          ...opts
+        }
         const client = factory[name](finalOpts)
         if (clientsOpts.useGlobalConfigClock) {
           useGlobalConfigClock(AWS, client)
