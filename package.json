@@ -26,7 +26,7 @@
     "@types/pino": "~5.8.4",
     "@types/sinon": "^10.0.6",
     "@types/tape": "^4.13.2",
-    "aws-sdk": "2.631.0",
+    "aws-sdk": "2.814.0",
     "haversine": "^1.1.1",
     "javascript-stringify": "^2.1.0",
     "lerna": "^4.0.0",
