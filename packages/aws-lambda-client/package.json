@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-lambda-client",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/tradle/aws-utils#readme",
