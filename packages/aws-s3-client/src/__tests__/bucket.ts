@@ -139,6 +139,7 @@ test('Bucket with cache', async t => {
   ]
 
   for (const op of ops) {
+    await new Promise(resolve => setTimeout(resolve, 50))
     const { method, args, result, body, cached, error } = op
     let getObjStub
     if (cached) {
