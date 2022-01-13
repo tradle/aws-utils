@@ -15,8 +15,8 @@
     "generate_geodata": "./scripts/generate_geodata/cli.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Mark Vayngrib <mvayngrib@gmail.com>",
+  "license": "MIT",
   "devDependencies": {
     "@types/ip": "^1.1.0",
     "@types/json-stable-stringify": "~1.0.32",
