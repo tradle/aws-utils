@@ -34,6 +34,6 @@
   "dependencies": {
     "@tradle/aws-common-utils": "file:../aws-common-utils",
     "json-stable-stringify": "~1.0.1",
-    "lodash": "~4.17.11"
+    "lodash": "^4.17.21"
   }
 }
