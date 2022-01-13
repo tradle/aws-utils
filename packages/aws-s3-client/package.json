@@ -38,8 +38,5 @@
     "caseless": "^0.12.0",
     "empty-aws-bucket": "github:mvayngrib/empty-aws-bucket",
     "lodash": "~4.17.11"
-  },
-  "peerDependencies": {
-    "aws-sdk": "2.631.0"
   }
 }

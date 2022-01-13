@@ -33,8 +33,5 @@
     "@tradle/aws-client-factory": "file:../aws-client-factory",
     "@tradle/aws-common-utils": "file:../aws-common-utils",
     "@tradle/errors": "~2.0.0"
-  },
-  "peerDependencies": {
-    "aws-sdk": "2.631.0"
   }
 }

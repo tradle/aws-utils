@@ -31,8 +31,5 @@
     "@tradle/aws-common-utils": "file:../aws-common-utils",
     "@tradle/errors": "~2.0.0",
     "lodash": "~4.17.11"
-  },
-  "peerDependencies": {
-    "aws-sdk": "2.631.0"
   }
 }
