@@ -170,7 +170,8 @@ export class SNSClient {
     const params: AWS.SNS.PublishInput = {
       TopicArn: topic,
       Subject: subject,
-      Message: message
+      Message: message,
+      MessageStructure: messageStructure
     }
 
     await this._client(topic)
