@@ -69,9 +69,9 @@ export class SNSClient {
   public deleteAllSubscriptions = async (topic: string) => {
     // this.logger.debug('deleting all subscriptions', { topic })
     const subs = await this.listSubscriptions({ topic })
-    await Promise.all(subs.map(({ SubscriptionArn }) => {
+    await Promise.all(subs.map(async ({ SubscriptionArn }) => {
       if (SubscriptionArn !== undefined) {
-        this.unsubscribe(SubscriptionArn)
+        await this.unsubscribe(SubscriptionArn)
       }
     }))
   }
