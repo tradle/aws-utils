@@ -2,7 +2,8 @@ import { InvalidOption } from '@tradle/errors'
 import { countries, Country } from '@tradle/aws-common-utils'
 import { E164 } from './types'
 
-const E164_REGEX = /^\+?(\d+)$/
+// https://stackoverflow.com/questions/6478875/regular-expression-matching-e-164-formatted-phone-numbers
+const E164_REGEX = /^\+?([1-9]\d{1,14})$/
 export const DEFAULT_REGION = 'us-east-1'
 
 const callingCodeMap: { [callingCode: string]: Country } = {}
