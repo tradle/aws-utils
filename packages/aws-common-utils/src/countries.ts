@@ -41,7 +41,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   AI: {
@@ -78,7 +78,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   AD: {
@@ -201,7 +201,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   AZ: {
@@ -229,7 +229,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   BE: {
@@ -257,7 +257,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   BF: {
@@ -271,7 +271,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   BD: {
@@ -299,7 +299,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   BH: {
@@ -341,7 +341,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   BL: {
@@ -504,7 +504,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   CF: {
@@ -555,7 +555,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   CL: {
@@ -583,7 +583,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'ap-northeast-1'
+      region: 'ap-east-1'
     }
   },
   CI: {
@@ -597,7 +597,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   CM: {
@@ -611,7 +611,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'eu-south-1'
     }
   },
   CD: {
@@ -625,7 +625,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   CG: {
@@ -639,7 +639,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   CK: {
@@ -681,7 +681,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   CV: {
@@ -864,7 +864,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   EC: {
@@ -1041,7 +1041,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   GB: {
@@ -1092,7 +1092,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   GI: {
@@ -1120,7 +1120,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   GP: {
@@ -1162,7 +1162,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   GQ: {
@@ -1176,7 +1176,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   GR: {
@@ -1190,7 +1190,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   GD: {
@@ -1288,7 +1288,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: true,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   HM: {
@@ -1325,7 +1325,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   HT: {
@@ -1353,7 +1353,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   ID: {
@@ -1365,7 +1365,7 @@ export const countries: { [id: string]: Country } = {
     title: 'Indonesia',
     awsRegion: 'ap-southeast-1',
     sms: {
-      senderID: 0,
+      senderID: 1,
       twoWaySMS: false,
       region: 'ap-southeast-1'
     }
@@ -1478,7 +1478,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   JM: {
@@ -1628,7 +1628,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'ap-northeast-1'
+      region: 'ap-northeast-2'
     }
   },
   XK: {
@@ -1665,7 +1665,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   LB: {
@@ -1693,7 +1693,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   LY: {
@@ -1707,7 +1707,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   LC: {
@@ -1735,7 +1735,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   LK: {
@@ -1763,7 +1763,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   LT: {
@@ -1819,7 +1819,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   MF: {
@@ -1842,7 +1842,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   MC: {
@@ -1856,7 +1856,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   MD: {
@@ -1884,7 +1884,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   MV: {
@@ -1935,7 +1935,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   ML: {
@@ -1949,7 +1949,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   MT: {
@@ -1963,7 +1963,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   MM: {
@@ -1977,7 +1977,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   ME: {
@@ -1991,7 +1991,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   MN: {
@@ -2005,7 +2005,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'ap-northeast-1'
+      region: 'ap-northeast-2'
     }
   },
   MP: {
@@ -2028,7 +2028,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   MR: {
@@ -2084,7 +2084,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'ap-south-1'
+      region: 'af-south-1'
     }
   },
   MW: {
@@ -2098,7 +2098,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   MY: {
@@ -2135,7 +2135,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   NC: {
@@ -2163,7 +2163,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   NF: {
@@ -2186,7 +2186,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   NI: {
@@ -2353,7 +2353,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 2,
       twoWaySMS: true,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   PW: {
@@ -2367,7 +2367,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'ap-northeast-1'
+      region: 'ap-east-1'
     }
   },
   PG: {
@@ -2498,7 +2498,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'ap-south-1'
+      region: 'af-south-1'
     }
   },
   RO: {
@@ -2512,7 +2512,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   RU: {
@@ -2530,7 +2530,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 2,
       twoWaySMS: true,
-      region: 'ap-northeast-1'
+      region: 'ap-northeast-2'
     }
   },
   RW: {
@@ -2544,7 +2544,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   SA: {
@@ -2581,7 +2581,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   SG: {
@@ -2641,7 +2641,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   SV: {
@@ -2701,7 +2701,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   SS: {
@@ -2729,7 +2729,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'af-south-1'
     }
   },
   SR: {
@@ -2771,7 +2771,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: true,
-      region: 'eu-central-1'
+      region: 'eu-south-1'
     }
   },
   SE: {
@@ -2799,7 +2799,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   SX: {
@@ -2873,7 +2873,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   TH: {
@@ -2980,7 +2980,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'eu-west-3'
+      region: 'eu-south-1'
     }
   },
   TR: {
@@ -2993,7 +2993,7 @@ export const countries: { [id: string]: Country } = {
     awsRegion: 'me-south-1',
     sms: {
       senderID: 2,
-      twoWaySMS: true,
+      twoWaySMS: false,
       region: 'me-south-1'
     }
   },
@@ -3017,7 +3017,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: true,
-      region: 'ap-northeast-1'
+      region: 'ap-east-1'
     }
   },
   TZ: {
@@ -3031,7 +3031,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   UG: {
@@ -3506,7 +3506,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 2,
       twoWaySMS: false,
-      region: 'ap-southeast-1'
+      region: 'ap-east-1'
     }
   },
   VU: {
@@ -3571,7 +3571,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 0,
       twoWaySMS: true,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   ZM: {
@@ -3585,7 +3585,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   },
   ZW: {
@@ -3599,7 +3599,7 @@ export const countries: { [id: string]: Country } = {
     sms: {
       senderID: 1,
       twoWaySMS: false,
-      region: 'me-south-1'
+      region: 'af-south-1'
     }
   }
 }
