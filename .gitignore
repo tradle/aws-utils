@@ -3,3 +3,4 @@ lib/
 *.log
 . .. .blah .git .gitignore .vscode
 **/*.tsbuildinfo
+package-lock.json
