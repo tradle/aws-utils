@@ -10,7 +10,7 @@
     "tsbuild": "tsc -v; lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
     "publish": "npm run tsbuild && npm test && lerna publish",
-    "postinstall": "lerna bootstrap",
+    "postinstall": "lerna bootstrap --ci=false",
     "postbootstrap": "npm run link",
     "generate_geodata": "./scripts/generate_geodata/cli.js"
   },
