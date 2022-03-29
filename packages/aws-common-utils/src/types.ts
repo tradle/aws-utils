@@ -51,16 +51,23 @@ export interface IAMStatement {
   [x: string]: any
 }
 
+export enum SenderID {
+  Unavailable = 0,
+  Available = 1,
+  PreRequisitesRequired = 2
+}
+
+export interface CountrySMS {
+  region: string
+  senderID: SenderID
+  twoWaySMS: boolean
+}
+
 export interface Country {
   id: string
   cca3: string
   callingCodes: string[]
   title: string
   awsRegion: string
-  sms?: {
-    region: string
-    // 0=Unavailable, 1=Available, 2=Available, but requisites required
-    senderID: 0 | 1 | 2
-    twoWaySMS: boolean
-  }
+  sms?: CountrySMS
 }
