@@ -70,7 +70,7 @@ export class CloudFormationClient {
 
   public async getStackTemplate (stackArn: string) {
     const { TemplateBody } = await this.client.getTemplate({ StackName: stackArn }).promise()
-    return JSON.parse(TemplateBody ?? '')
+    return TemplateBody ? JSON.parse(TemplateBody) : {}
   }
 
   public async getStackParameterValues (stackArn: string) {
