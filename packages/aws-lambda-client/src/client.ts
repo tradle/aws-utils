@@ -40,7 +40,7 @@ export class LambdaClient {
     try {
       const { Policy } = await this.client.getPolicy({ FunctionName: lambda }).promise()
       if (Policy === undefined) {
-        throw Object.assign(new Error('?'), { code: 'NoSuchKey' })
+        throw Object.assign(new Error('?'), { code: 'NoSuchFunction' })
       }
       return JSON.parse(Policy)
     } catch (err) {
