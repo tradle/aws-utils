@@ -9,6 +9,8 @@ import { pickNonNull, getRegionFromArn, randomStatementId, parseArn } from '@tra
 import * as SNS from './types'
 import { MessageAttributeMap } from 'aws-sdk/clients/sns'
 
+export { parseE164 } from './geo'
+
 const MESSAGE_ATTRIBUTES = {
   smsType: 'AWS.SNS.SMS.SMSType',
   senderId: 'AWS.SNS.SMS.SenderID'
@@ -227,6 +229,8 @@ export class SNSClient {
     const region = arnOrRegion.startsWith('arn:aws') ? getRegionFromArn(arnOrRegion) : arnOrRegion
     return this.clients.sns({ region })
   }
+
+  public parseE164 = parseE164
 }
 
 export const genSetDeliveryPolicyParams = (TopicArn: string, policy: any): AWS.SNS.SetTopicAttributesInput => ({

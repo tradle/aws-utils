@@ -1,5 +1,6 @@
 import { InvalidOption } from '@tradle/errors'
 import { countries, Country } from '@tradle/aws-common-utils'
+import { E164 } from './types'
 
 const E164_REGEX = /^\+?(\d+)$/
 export const DEFAULT_REGION = 'us-east-1'
@@ -18,8 +19,11 @@ export function getAWSRegionByCallingCode (callingCode: string) {
   return country && country.sms && country.sms.region || DEFAULT_REGION
 }
 
-export function parseE164 (phoneNumber: string) {
-  const parts = phoneNumber.match(E164_REGEX)
+export function parseE164 (phoneNumber: string | E164) {
+  if (phoneNumber instanceof E164) {
+    return phoneNumber
+  }
+  const parts = phoneNumber.replace(/\s+/g, '').match(E164_REGEX)
   if (parts === null) {
     throw new InvalidOption(`Phone number without digits: ${phoneNumber}`)
   }
@@ -36,13 +40,10 @@ export function parseE164 (phoneNumber: string) {
     throw new InvalidOption(`No known calling code for: ${phoneNumber}`)
   }
 
-  return {
-    callingCode,
-    number: digits.slice(callingCode.length)
-  }
+  return new E164(callingCode, digits.slice(callingCode.length))
 }
 
-export function getAWSRegionByPhoneNumber (phone: string) {
+export function getAWSRegionByPhoneNumber (phone: string | E164) {
   try {
     const { callingCode } = parseE164(phone)
     return getAWSRegionByCallingCode(callingCode)

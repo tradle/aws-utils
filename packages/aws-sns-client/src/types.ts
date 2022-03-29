@@ -1,7 +1,28 @@
 import { ClientFactory } from '@tradle/aws-client-factory'
 
+export class E164 {
+  callingCode: string
+  number: string
+
+  constructor (callingCode: string, number: string) {
+    this.callingCode = callingCode
+    this.number = number
+  }
+
+  toString () {
+    return `+${this.callingCode}${this.number}`
+  }
+
+  toJSON () {
+    return {
+      callingCode: this.callingCode,
+      number: this.number
+    }
+  }
+}
+
 export interface SendSMSOpts {
-  phoneNumber: string
+  phoneNumber: string | E164
   message: string
   senderId?: string
   highPriority?: boolean
