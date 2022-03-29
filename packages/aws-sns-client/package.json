@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-sns-client",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/tradle/aws-utils#readme",
