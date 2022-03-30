@@ -12,6 +12,7 @@
     "publish": "npm run tsbuild && npm test && lerna publish",
     "postinstall": "lerna bootstrap --ci=false",
     "postbootstrap": "npm run link",
+    "update_aws_sdk": "./scripts/update_aws_sdk/install.sh",
     "generate_geodata": "./scripts/generate_geodata/cli.js"
   },
   "keywords": [],
