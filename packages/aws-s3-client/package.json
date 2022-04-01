@@ -37,6 +37,6 @@
     "amazon-s3-uri": "^0.0.3",
     "caseless": "^0.12.0",
     "empty-aws-bucket": "github:mvayngrib/empty-aws-bucket",
-    "lodash": "~4.17.11"
+    "lodash": "^4.17.21"
   }
 }
