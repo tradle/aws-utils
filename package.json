@@ -13,7 +13,7 @@
     "postinstall": "lerna bootstrap --ci=false",
     "postbootstrap": "npm run link",
     "update_aws_sdk": "./scripts/update_aws_sdk/install.sh",
-    "generate_geodata": "./scripts/generate_geodata/cli.js"
+    "generate_info": "./scripts/generate_info/cli.js"
   },
   "keywords": [],
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
@@ -27,6 +27,7 @@
     "@types/pino": "~5.8.4",
     "@types/sinon": "^10.0.11",
     "@types/tape": "^4.13.2",
+    "aws-region-table-parser": "^1.8.145",
     "aws-sdk": "^2.1001.0",
     "haversine": "^1.1.1",
     "javascript-stringify": "^2.1.0",
@@ -48,6 +49,7 @@
     "@tradle/aws-combo": "file:packages/aws-combo",
     "@tradle/aws-common-utils": "file:packages/aws-common-utils",
     "@tradle/aws-iam-client": "file:packages/aws-iam-client",
+    "@tradle/aws-info": "file:packages/aws-info",
     "@tradle/aws-lambda-client": "file:packages/aws-lambda-client",
     "@tradle/aws-s3-client": "file:packages/aws-s3-client",
     "@tradle/aws-sns-client": "file:packages/aws-sns-client"

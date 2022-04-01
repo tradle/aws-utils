@@ -98,5 +98,25 @@
     "code": "ap-east-1",
     "latitude": 22.2908475,
     "longitude": 114.2723379
+  },
+  {
+    "code": "cn-north-1",
+    "latitude": 39.8094478,
+    "longitude": 116.5783234
+  },
+  {
+    "code": "cn-northwest-1",
+    "latitude": 37.5024418,
+    "longitude": 105.1627193
+  },
+  {
+    "code": "ap-southeast-3",
+    "latitude": -6.2,
+    "longitude": 106.816667
+  },
+  {
+    "code": "ap-northeast-3",
+    "latitude": 34.693889,
+    "longitude": 135.502222
   }
 ]

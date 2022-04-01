@@ -1,0 +1,29 @@
+{
+  "name": "@tradle/aws-info",
+  "version": "0.0.0",
+  "description": "> TODO: description",
+  "author": "Martin Heidegger <martin.heidegger@gmail.com>",
+  "homepage": "https://github.com/tradle/aws-utils#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "src/__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tradle/aws-utils.git"
+  },
+  "scripts": {
+    "test": "echo no-tests",
+    "test:ci": "echo no-tests",
+    "tsc": "tsc"
+  },
+  "bugs": {
+    "url": "https://github.com/tradle/aws-utils/issues"
+  }
+}
