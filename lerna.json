@@ -1,4 +1,9 @@
 {
+  "command": {
+    "publish": {
+      "npmClientArgs": ["--no-package-lock"]
+    }
+  },
   "packages": [
     "packages/*"
   ],
