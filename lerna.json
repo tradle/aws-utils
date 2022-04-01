@@ -2,19 +2,20 @@
   "command": {
     "publish": {
       "npmClientArgs": ["--no-package-lock"]
+    },
+    "bootstrap": {
+      "npmClientArgs": ["--no-package-lock"],
+      "ignore": [
+        "aws-sdk",
+        "tape",
+        "sinon",
+        "tape"
+      ]
     }
   },
   "packages": [
     "packages/*"
   ],
   "npmClient": "npm",
-  "version": "independent",
-  "bootstrap": {
-    "ignore": [
-      "aws-sdk",
-      "tape",
-      "sinon",
-      "tape"
-    ]
-  }
+  "version": "independent"
 }
