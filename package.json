@@ -4,13 +4,14 @@
   "description": "various helpers for the AWS SDK",
   "main": "lib/index.js",
   "scripts": {
-    "install": "lerna bootstrap && lerna link",
+    "install": "lerna bootstrap && lerna link && rm -rf packages/*/node_modules",
     "test": "env NODE_ENV=test lerna run test",
     "test:ci": "env NODE_ENV=test lerna run test:ci",
     "tswatch": "tsc -b packages -w",
     "tsbuild": "tsc -v; lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
-    "publish": "npm run tsbuild && npm test && lerna publish",
+    "clean": "rm -rf node_modules packages/*/node_modules packages/*/lib packages/*/{package-lock.json,tsconfig.tsbuildinfo} package-lock.json",
+    "publish": "npm run clean && npm i && npm run tsbuild && npm test && lerna publish",
     "update_aws_sdk": "./scripts/update_aws_sdk/install.sh",
     "generate_info": "./scripts/generate_info/cli.js"
   },
