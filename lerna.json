@@ -1,21 +1,17 @@
 {
-  "command": {
-    "publish": {
-      "npmClientArgs": ["--no-package-lock"]
-    },
-    "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"],
-      "ignore": [
-        "aws-sdk",
-        "tape",
-        "sinon",
-        "tape"
-      ]
-    }
-  },
+  "ci": false,
   "packages": [
     "packages/*"
   ],
+  "command": {
+    "publish": {
+      "allowBranch": [ "master" ]
+    },
+    "bootstrap": {
+      "hoist": true,
+      "npmClientArgs": ["--no-package-lock"]
+    }
+  },
   "npmClient": "npm",
   "version": "independent"
 }

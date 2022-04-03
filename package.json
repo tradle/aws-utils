@@ -4,14 +4,13 @@
   "description": "various helpers for the AWS SDK",
   "main": "lib/index.js",
   "scripts": {
+    "install": "lerna bootstrap && lerna link",
     "test": "env NODE_ENV=test lerna run test",
     "test:ci": "env NODE_ENV=test lerna run test:ci",
     "tswatch": "tsc -b packages -w",
     "tsbuild": "tsc -v; lerna run tsc",
     "publish:local": "lerna publish --registry http://localhost:4873",
     "publish": "npm run tsbuild && npm test && lerna publish",
-    "postinstall": "lerna bootstrap --ci=false",
-    "postbootstrap": "npm run link",
     "update_aws_sdk": "./scripts/update_aws_sdk/install.sh",
     "generate_info": "./scripts/generate_info/cli.js"
   },
@@ -19,6 +18,16 @@
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@tradle/aws-client-factory": "file:packages/aws-client-factory",
+    "@tradle/aws-cloudformation-client": "file:packages/aws-cloudformation-client",
+    "@tradle/aws-cloudwatch-client": "file:packages/aws-cloudwatch-client",
+    "@tradle/aws-combo": "file:packages/aws-combo",
+    "@tradle/aws-common-utils": "file:packages/aws-common-utils",
+    "@tradle/aws-iam-client": "file:packages/aws-iam-client",
+    "@tradle/aws-info": "file:packages/aws-info",
+    "@tradle/aws-lambda-client": "file:packages/aws-lambda-client",
+    "@tradle/aws-s3-client": "file:packages/aws-s3-client",
+    "@tradle/aws-sns-client": "file:packages/aws-sns-client",
     "@types/ip": "^1.1.0",
     "@types/json-stable-stringify": "^1.0.34",
     "@types/lodash": "^4.14.180",
@@ -42,20 +51,5 @@
     "typescript": "^3.7.7",
     "world-countries": "^4.0.0"
   },
-  "dependencies": {
-    "@tradle/aws-client-factory": "file:packages/aws-client-factory",
-    "@tradle/aws-cloudformation-client": "file:packages/aws-cloudformation-client",
-    "@tradle/aws-cloudwatch-client": "file:packages/aws-cloudwatch-client",
-    "@tradle/aws-combo": "file:packages/aws-combo",
-    "@tradle/aws-common-utils": "file:packages/aws-common-utils",
-    "@tradle/aws-iam-client": "file:packages/aws-iam-client",
-    "@tradle/aws-info": "file:packages/aws-info",
-    "@tradle/aws-lambda-client": "file:packages/aws-lambda-client",
-    "@tradle/aws-s3-client": "file:packages/aws-s3-client",
-    "@tradle/aws-sns-client": "file:packages/aws-sns-client"
-  },
-  "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "private": true
 }
