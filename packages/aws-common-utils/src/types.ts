@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk'
 import { Logger } from './logger'
+export * from '@tradle/aws-info/lib/types'
 export type AWSSDK = typeof AWS
 export type FirstArgument<T> = T extends (arg1: infer U, ...args: any[]) => any ? U : any
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -49,25 +50,4 @@ export interface IAMStatement {
   Action: string | string[]
   Resource: string | string[]
   [x: string]: any
-}
-
-export enum SenderID {
-  Unavailable = 0,
-  Available = 1,
-  PreRequisitesRequired = 2
-}
-
-export interface CountrySMS {
-  region: string
-  senderID: SenderID
-  twoWaySMS: boolean
-}
-
-export interface Country {
-  id: string
-  cca3: string
-  callingCodes: string[]
-  title: string
-  awsRegion: string
-  sms?: CountrySMS
 }

@@ -1,7 +1,6 @@
-import * as constants from './constants'
 import Errors from './errors'
 
-export { constants, Errors }
+export { Errors }
 export * from './url'
 export * from './props'
 export * from './arn'
@@ -15,7 +14,7 @@ export * from './localstack'
 export * from './types'
 export * from './config'
 export * from './local-ip'
-export * from './countries'
+export * from '@tradle/aws-info'
 // interface BatchProcessOpts {
 //   data: any[]
 //   batchSize: number
