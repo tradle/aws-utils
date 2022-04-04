@@ -79,9 +79,7 @@ export const createClientFactory = (clientsOpts: CreateClientsFactoryOpts) => {
 
   const factory = createBaseFactory(AWS)
   const events = new EventEmitter()
-  const memoized = {
-    events: new EventEmitter()
-  } as ClientFactory
+  const memoized = { events } as ClientFactory
   _.functions(factory).forEach((serviceName) => {
     const name = serviceName as keyof typeof factory
     memoized[name] = _.memoize(
