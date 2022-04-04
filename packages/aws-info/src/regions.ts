@@ -5,7 +5,7 @@ import { coord, deepFreeze } from './util'
 /**
  * Known geographical locations of aws regions
  */
-export const regions = deepFreeze([
+export const REGIONS = deepFreeze([
   {
     code: 'us-east-1',
     idx: '0',

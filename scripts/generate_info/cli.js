@@ -144,7 +144,7 @@ import { coord, deepFreeze } from './util'
 /**
  * Known geographical locations of aws regions
  */
-export const regions = deepFreeze(${prettify(regions)} as Region[])
+export const REGIONS = deepFreeze(${prettify(regions)} as Region[])
 `)
 }
 
@@ -175,7 +175,7 @@ import { coord, deepFreeze } from './util'
 /**
  * Information about the world's countries, including aws information
  */
-export const countries = deepFreeze(${prettify(data)} as Country[])
+export const COUNTRIES = deepFreeze(${prettify(data)} as Country[])
 `)
 }
 

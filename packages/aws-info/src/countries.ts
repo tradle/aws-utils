@@ -5,7 +5,7 @@ import { coord, deepFreeze } from './util'
 /**
  * Information about the world's countries, including aws information
  */
-export const countries = deepFreeze([
+export const COUNTRIES = deepFreeze([
   {
     id: 'AW',
     cca3: 'ABW',
