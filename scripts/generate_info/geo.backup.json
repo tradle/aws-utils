@@ -118,5 +118,15 @@
     "code": "ap-northeast-3",
     "latitude": 34.693889,
     "longitude": 135.502222
+  },
+  {
+    "code": "us-gov-east-1",
+    "latitude": 38.9940541,
+    "longitude": -77.4524237
+  },
+  {
+    "code": "us-gov-west-1",
+    "latitude": 37.44368,
+    "longitude": -122.153664
   }
 ]

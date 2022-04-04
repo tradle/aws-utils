@@ -18,6 +18,9 @@ function replacer (value, _space, next, key) {
   if (key === 'senderID') {
     return `SenderID.${((value === 0) ? 'Unavailable' : (value === 1) ? 'Available' : 'PreRequisitesRequired')}`
   }
+  if (key === 'partition') {
+    return `Partition.${((value === 'cn') ? 'China' : (value === 'us-gov') ? 'UsGov' : 'Default')}`
+  }
   if (typeof value === 'object') {
     if (value !== null && typeof value.latitude === 'number' && typeof value.longitude === 'number') {
       return `coord(${twoDigits(value.latitude)}, ${twoDigits(value.longitude)})`
@@ -93,39 +96,49 @@ function findNearest (loc, haystack) {
   return nearest
 }
 
-function collectFallbacks (geoData, region, supports) {
+function collectFallbacks (region, supports) {
   let fallback = null
   for (const [name, regions] of Object.entries(supports)) {
-    if (!regions.includes(region.code)) {
+    if (!regions.includes(region)) {
       if (fallback === null) {
         fallback = {}
       }
-      fallback[name] = region.loc ? findNearest(
+      const lookup = regions
+        .filter(({ code, partition }) => code !== region.code && partition === region.partition)
+        .map(({ loc }) => loc)
+      fallback[name] = region.loc && lookup.length ? findNearest(
         region.loc,
-        geoData.filter(({ code }) => regions.includes(code) && code !== region.code)
+        lookup
       ).code : null
     }
   }
   return fallback
 }
 
-async function updateRegions (geoData) {
+async function getRegions (geoData) {
   const { services } = await awsRegionData.get()
   const { known } = await tradleSupportedRegions()
   const regions = []
+  const regionByCode = {}
 
   for (const code of known) {
     const region = {
       code,
+      partition: code.startsWith('cn-') ? 'cn' : code.startsWith('us-gov') ? 'us-gov' : '*',
       idx: known.indexOf(code).toString(36),
       loc: geoData.find(entry => entry.code === code) || null
     }
+    regionByCode[code] = region
+    regions.push(region)
+  }
 
-    const fallback = collectFallbacks(geoData, region, {
-      ses: services.ses.regions,
-      sns: services.sns.regions
-    })
+  const fallbackRegions = {
+    ses: services.ses.regions.map(code => regionByCode[code]),
+    sns: services.sns.regions.map(code => regionByCode[code])
+  }
 
+  for (const region of regions) {
+    const fallback = collectFallbacks(region, fallbackRegions)
     if (fallback) {
       if (!region.loc) {
         console.log(`Ignoring AWS region "${region.code}" as we do not know it's location and it doesn't support: ${Object.keys(fallback)}`)
@@ -133,23 +146,18 @@ async function updateRegions (geoData) {
       }
       region.fallback = fallback
     }
-
-    regions.push(region)
   }
 
-  await writeTs('regions', `
-import { Region } from './types'
-import { coord, deepFreeze } from './util'
-
-/**
+  return `/**
  * Known geographical locations of aws regions
  */
-export const REGIONS = deepFreeze(${prettify(regions)} as Region[])
-`)
+export const getRegions = () => ${prettify(regions)} as Region[]
+`
 }
 
-async function updateCountries (smsData) {
+async function getCountries (smsData) {
   const data = []
+  let longestCallingCode = 0
   for (const country of countries) {
     const id = country.cca2
     const sms = smsData.idToService[id]
@@ -166,23 +174,37 @@ async function updateCountries (smsData) {
     if (sms) {
       miniCountry.sms = sms
     }
+    for (const callingCode of miniCountry.callingCodes) {
+      longestCallingCode = Math.max(longestCallingCode, callingCode.length)
+    }
     data.push(miniCountry)
   }
-  await writeTs('countries', `
-import { Country, SenderID } from './types'
-import { coord, deepFreeze } from './util'
-
-/**
+  return `/**
  * Information about the world's countries, including aws information
  */
-export const COUNTRIES = deepFreeze(${prettify(data)} as Country[])
+export const getCountries = () => ${prettify(data)} as Country[]
+export const LONGEST_CALLING_CODE = ${longestCallingCode}
+`
+}
+
+async function updateData (geoData, smsData) {
+  await writeTs('data', `
+import { SenderID, Partition } from './types'
+import type { Country, Region, Coordinates } from './types'
+
+const coord = (latitude: number, longitude: number): Coordinates => ({
+  latitude,
+  longitude
+})
+
+${await getCountries(smsData)}
+${await getRegions(geoData)}
 `)
 }
 
 async function updateTypes () {
   const { known } = await tradleSupportedRegions()
   await writeTs('types', `
-
 export type RegionCode = ${known.map(name => `'${name}'`).join(' | ')}
 export type RegionIdx = ${known.map((_name, id) => `'${id.toString(36)}'`).join(' | ')}
 
@@ -193,6 +215,12 @@ export interface Coordinates {
 
 export interface OnMap {
   loc: Coordinates
+}
+
+export enum Partition {
+  Default = '*',
+  UsGov = 'us-gov',
+  China = 'cn'
 }
 
 export interface Region extends Partial<OnMap> {
@@ -206,6 +234,11 @@ export interface Region extends Partial<OnMap> {
     * Fixed to never change
     */
   idx: RegionIdx
+
+  /**
+   * An AWS Region is always part of a group aka. partition
+   */
+  partition: Partition
 
   /**
    * Nearest fallback regions
@@ -242,8 +275,7 @@ async function main () {
     fetchCached(`${__dirname}/sms_data.backup.json`, fetchSMSData)
   ])
   await Promise.all([
-    updateCountries(smsData),
-    updateRegions(geoData),
+    updateData(geoData, smsData),
     updateTypes()
   ])
   return
