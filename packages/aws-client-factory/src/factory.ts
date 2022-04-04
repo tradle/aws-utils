@@ -1,9 +1,8 @@
 import _ from 'lodash'
 import stableStringify from 'json-stable-stringify'
-import { mergeIntoAWSConfig, AWSSDK, AWSConfig, FirstArgument } from '@tradle/aws-common-utils'
+import { mergeIntoAWSConfig, AWSSDK, FirstArgument } from '@tradle/aws-common-utils'
 import { EventEmitter } from 'events'
 import { ServiceConfigurationOptions } from 'aws-sdk/lib/service'
-import { constants } from 'fs'
 
 export type DocumentClientOptions = AWS.DynamoDB.DocumentClient.DocumentClientOptions & AWS.DynamoDB.Types.ClientConfiguration
 

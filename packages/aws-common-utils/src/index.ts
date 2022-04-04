@@ -15,10 +15,3 @@ export * from './types'
 export * from './config'
 export * from './local-ip'
 export * from '@tradle/aws-info'
-// interface BatchProcessOpts {
-//   data: any[]
-//   batchSize: number
-//   processOne?: (item: any, index: number) => Promise<any>
-//   processBatch?: (batch: any[], index: number) => Promise<any>
-//   settle?: boolean
-// }

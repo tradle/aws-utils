@@ -2,7 +2,6 @@ import omit from 'lodash/omit'
 import cloneDeep from 'lodash/cloneDeep'
 import flatten from 'lodash/flatten'
 import AWS from 'aws-sdk'
-import { ClientFactory } from '@tradle/aws-client-factory'
 import { metrics as METRICS } from './metrics'
 
 export type AlarmTransform = (alarm: AWS.CloudWatch.PutMetricAlarmInput) => AWS.CloudWatch.PutMetricAlarmInput
@@ -28,38 +27,6 @@ export class CloudWatchClient {
   constructor({ client }: CloudWatchClientOpts) {
     this.client = client
   }
-
-  // public getMetricAlarmWithName = async (alarmName: string) => {
-  //   const req = {
-  //     AlarmNames: [alarmName],
-  //     MaxRecords: 1
-  //   }
-
-  //   const resp = await this.client.describeAlarms(req).promise()
-  //   return resp.MetricAlarms[0]
-  // }
-
-  // public updateMetricAlarmWithName = async ({ alarmName, transform }: {
-  //   alarmName: string
-  //   transform: AlarmTransform
-  // }) => {
-  //   const alarm = await this.getMetricAlarmWithName(alarmName)
-  //   const update = transform(cloneDeep(toPutFormat(alarm))
-  //   await this.putMetricAlarm(update)
-  // }
-
-  // public setEvaluationPeriodsForAlarmWithName = async ({ alarmName, value }: {
-  //   alarmName: string
-  //   value: number
-  // }) => {
-  //   await this.updateMetricAlarmWithName({
-  //     alarmName,
-  //     transform: metric => ({
-  //       ...metric,
-  //       EvaluationPeriods: value,
-  //     })
-  //   })
-  // }
 
   public updateDynamodbConsumptionAlarms = async ({ tables, transform }: UpdateDynamoDBConsumptionAlarmsOpts) => {
     const alarms = await this.listDynamoDBConsumptionAlarms({ tables })

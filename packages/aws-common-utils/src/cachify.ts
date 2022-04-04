@@ -2,7 +2,6 @@ import cloneDeep from 'lodash/cloneDeep'
 import isEqual from 'lodash/isEqual'
 import stableStringify from 'json-stable-stringify'
 import { isPromise } from '@tradle/promise-utils'
-import { Logger } from './logger'
 import { KeyValueStore, CachifyOpts } from './types'
 export const cachify = ({ get, put, del, logger, cache, cloneOnGet }: CachifyOpts) => {
   const maybeClone = cloneOnGet ? cloneDeep : (obj: any) => obj
@@ -29,9 +28,8 @@ export const cachify = ({ get, put, del, logger, cache, cloneOnGet }: CachifyOpt
 
     if (logger) logger.silly(`cache miss`, { key })
     const promise = get(key)
-    promise.catch(err => cache.del(keyStr))
+    promise.catch(() => cache.del(keyStr))
     cache.set(keyStr, promise)
-    // promise.then(result => cache.set(keyStr, result))
     return promise.then(maybeClone)
   }
 
