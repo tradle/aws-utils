@@ -1,6 +1,8 @@
-import crypto, { HexBase64Latin1Encoding } from 'crypto'
+import crypto from 'crypto'
 
-export const sha256 = (data: string | Buffer, enc: HexBase64Latin1Encoding) =>
+export type ShaEncoding = 'latin1' | 'hex' | 'base64'
+
+export const sha256 = (data: string | Buffer, enc: ShaEncoding) =>
   crypto
     .createHash('sha256')
     .update(data)
