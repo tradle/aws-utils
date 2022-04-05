@@ -3,9 +3,9 @@ import acceptAll from 'lodash/stubTrue'
 import isMatch from 'lodash/isMatch'
 import getPropAtPath from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import { parseE164, getAWSRegionByCallingCode } from './geo'
+import { parseE164 } from './geo'
 import { ClientFactory } from '@tradle/aws-client-factory'
-import { pickNonNull, getRegionFromArn, randomStatementId, parseArn } from '@tradle/aws-common-utils'
+import { pickNonNull, getRegionFromArn, randomStatementId, parseArn, currentRegion } from '@tradle/aws-common-utils'
 import * as SNS from './types'
 import { MessageAttributeMap } from 'aws-sdk/clients/sns'
 
@@ -181,8 +181,12 @@ export class SNSClient {
 
   public sendSMS = async ({ phoneNumber, message, senderId, highPriority }: SNS.SendSMSOpts) => {
     const { callingCode, number } = parseE164(phoneNumber)
-    const region = getAWSRegionByCallingCode(callingCode)
-    const client = this._client(region)
+    const region = currentRegion.info
+    if (region.fallback?.sns === null) {
+      // === null indicates that there is no fallback for sms. (different from === undefined!)
+      throw new Error(`Sending of sms is not supported in the entire region partition: ${region.partition}`)
+    }
+    const client = this._client(region.fallback?.sns ?? region.code)
 
     // this.logger.silly('sending SMS', { region, callingCode, number })
     const attributes: MessageAttributeMap = {}

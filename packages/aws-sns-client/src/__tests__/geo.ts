@@ -1,5 +1,5 @@
 import test from 'tape'
-import { getAWSRegionByCallingCode, parseE164 } from '../geo'
+import { parseE164 } from '../geo'
 import { E164 } from '../types'
 import { InvalidOption } from '@tradle/errors'
 
@@ -20,10 +20,4 @@ test('E164 serializtion', async t => {
   t.equals(e164.number, number)
   t.equals(e164.toString(), `+${callingCode}${number}`)
   t.deepEquals(e164.toJSON(), { callingCode, number })
-})
-
-test('get aws region for calling code', async t => {
-  t.deepEquals(getAWSRegionByCallingCode('385'), 'eu-south-1')
-  t.deepEquals(getAWSRegionByCallingCode('1201'), 'us-east-2')
-  t.deepEquals(getAWSRegionByCallingCode('9999'), 'us-east-1')
 })

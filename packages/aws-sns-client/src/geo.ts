@@ -6,11 +6,6 @@ import { E164 } from './types'
 const E164_REGEX = /^\+?([1-9]\d{1,14})$/
 export const DEFAULT_REGION = 'us-east-1'
 
-export function getAWSRegionByCallingCode (_callingCode: string) {
-  // Temporary
-  return DEFAULT_REGION
-}
-
 export function parseE164 (phoneNumber: string | E164) {
   if (phoneNumber instanceof E164) {
     return phoneNumber
