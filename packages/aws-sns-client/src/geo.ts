@@ -17,7 +17,7 @@ export function parseE164 (phoneNumber: string | E164) {
   const digits = parts[1]
   let callingCode: string | undefined
   for (let i = Math.min(info.longestCallingCode, digits.length); i > 0; i--) {
-    const candidate = digits.substr(0, i)
+    const candidate = digits.substring(0, i)
     if (info.countryByCallingCode[candidate]) {
       callingCode = candidate
       break
