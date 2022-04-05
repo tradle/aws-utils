@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-iam-client",
-  "version": "2.1.1",
+  "version": "3.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/tradle/aws-utils#readme",

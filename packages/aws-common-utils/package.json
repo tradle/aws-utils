@@ -1,6 +1,6 @@
 {
   "name": "@tradle/aws-common-utils",
-  "version": "2.1.1",
+  "version": "3.0.0-alpha.0",
   "description": "> TODO: description",
   "author": "Mark Vayngrib <mvayngrib@gmail.com>",
   "homepage": "https://github.com/tradle/aws-utils#readme",
@@ -27,9 +27,9 @@
     "url": "https://github.com/tradle/aws-utils/issues"
   },
   "dependencies": {
+    "@tradle/aws-info": "^2.0.0-alpha.0",
     "@tradle/errors": "~2.0.0",
     "@tradle/promise-utils": "2.0.1",
-    "@tradle/aws-info": "^1.0.0",
     "ip": "^1.1.5",
     "json-stable-stringify": "~1.0.1",
     "lodash": "^4.17.21",
