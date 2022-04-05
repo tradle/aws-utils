@@ -14,33 +14,6 @@ import * as Types from './types'
 const gzip = promisify(zlib.gzip.bind(zlib))
 const gunzip = promisify(zlib.gunzip.bind(zlib))
 
-// https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region
-// IMPORTANT: DON'T CHANGE THE ORDER, ONLY APPEND TO THIS LIST!
-export const regions = [
-  'us-east-1',
-  'us-east-2',
-  'us-west-1',
-  'us-west-2',
-  'ca-central-1',
-  'ap-south-1',
-  'ap-northeast-1',
-  'ap-northeast-2',
-  'ap-northeast-3',
-  'ap-southeast-1',
-  'ap-southeast-2',
-  'cn-north-1',
-  'cn-northwest-1',
-  'eu-central-1',
-  'eu-west-1',
-  'eu-west-2',
-  'eu-west-3',
-  'eu-north-1',
-  'ap-east-1',
-  'sa-east-1',
-  'me-south-1'
-]
-
-
 // see name restrictions: https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html
 const MAX_BUCKET_NAME_LENGTH = 63
 const PUBLIC_BUCKET_RULE_ID = 'MakeItPublic'

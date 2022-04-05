@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk'
-import { Errors, randomStatementId, constants } from '@tradle/aws-common-utils'
+import { Errors, randomStatementId, info } from '@tradle/aws-common-utils'
 import * as Types from './types'
 
 export class LambdaClient {
@@ -55,7 +55,7 @@ export class LambdaClient {
 
   public canSNSInvokeLambda = async (lambda: string): Promise<boolean> => {
     return this.canServiceInvokeLambda({
-      service: constants.SERVICE_PRINCIPALS.sns,
+      service: info.servicePrincipals.sns,
       lambda
     })
   }
