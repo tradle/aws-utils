@@ -1,4 +1,4 @@
-import type { Country, RegionIdx, Region, RegionCode } from './types'
+import { Country, RegionIdx, Region, RegionCode } from './types'
 export * from './types'
 
 let countries: readonly Country[]

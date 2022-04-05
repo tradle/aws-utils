@@ -1,5 +1,5 @@
 import { info } from '@tradle/aws-info'
-import type { RegionCode, Region } from '@tradle/aws-info'
+import { RegionCode, Region } from '@tradle/aws-info'
 import aws from 'aws-sdk'
 
 const DEFAULT_REGION = info.regionByCode['us-east-1']
