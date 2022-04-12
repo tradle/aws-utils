@@ -304,7 +304,7 @@ export const info = Object.freeze({
   },
   get regions () {
     if (regions === undefined) {
-      regions = deepFreeze(require('./data').getCountries())
+      regions = deepFreeze(require('./data').getRegions())
     }
     return regions
   },
